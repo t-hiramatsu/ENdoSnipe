@@ -402,7 +402,8 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 					updateOption = {
 						valueRange : [ 0,
 								this.maxValue * this.yValueMagnification ],
-						'file' : dataList
+						'file' : dataList,
+						labels: this.labelNames
 					};
 				}
 
