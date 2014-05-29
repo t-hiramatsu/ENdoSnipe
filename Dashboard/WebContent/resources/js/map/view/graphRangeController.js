@@ -15,7 +15,6 @@ ENS.graphRangeController = function(id) {
 
 	this.searchListener = null;
 	this.isPlaying = true;
-	this.timerId = null;
 
 	this._create(id);
 };
@@ -31,6 +30,11 @@ ENS.graphRangeController.prototype.setSearchListener = function(func) {
  * UIを作成する
  */
 ENS.graphRangeController.prototype._create = function(id) {
+	// 子要素が既に構築されている場合は何もしない
+	if($("#"+ENS.graphRange.ID_RANGE).length !== 0){
+		return;
+	}
+	
 	// 時間の範囲
 	var $rangeLabel = $("<span/>").html("Range: ");
 	var $range = this._createRange();
@@ -124,7 +128,8 @@ ENS.graphRangeController.prototype._createRange = function() {
 	var instance = this;
 	$range.change(function() {
 		var rangeMs = instance._getRangeMs();
-		instance._updateGraph(rangeMs, 0);
+		var time = (new Date()).getTime() - instance._getDate().getTime();
+		instance._updateGraph(time + rangeMs, time);
 		instance._updateTooltip();
 
 		if (instance.isPlaying) {
@@ -434,10 +439,6 @@ ENS.graphRangeController.prototype._play = function() {
 	var instance = this;
 	var date = new Date();
 	this.setDate(date);
-	this.timerId = setInterval(function() {
-		var date = new Date();
-		instance._updateSpan(date);
-	}, ENS.graphRange.TIMER_INTERVAL);
 };
 
 /**
@@ -450,7 +451,6 @@ ENS.graphRangeController.prototype._stop = function() {
 		}
 	});
 	this.isPlaying = false;
-	clearInterval(this.timerId);
 };
 
 /**

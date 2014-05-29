@@ -53,18 +53,18 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				// クラスタ名
 				this.CLUSTER_NAME = '${ClusterName}';
 				
-				var appView = new ENS.AppView();
+				this.appView = new ENS.AppView();
 
 				// measurementItemNameのキー文字列を生成する。
 				this.graphIds = this.createGraphIds(argument.graphId);
 
-				appView.addView(this, this.graphIds);
+				this.appView.addView(this, this.graphIds);
 
 				this.registerCollectionEvent();
 
 				if (!this.noTermData) {
 
-					appView.getTermData([ this.graphIds ], this.timeStart,
+					this.appView.getTermData([ this.graphIds ], this.timeStart,
 							this.timeEnd);
 
 				}
@@ -402,7 +402,8 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 					updateOption = {
 						valueRange : [ 0,
 								this.maxValue * this.yValueMagnification ],
-						'file' : dataList
+						'file' : dataList,
+						labels: this.labelNames
 					};
 				}
 
@@ -413,8 +414,9 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 					}
 				}
 
-				var tmpAppView = new ENS.AppView();
-				tmpAppView.syncData([ this.graphIds ]);
+				if(this.isRealTime){
+					this.appView.syncData([ this.graphIds ]);
+				}
 			},
 			onComplete : function(syncType) {
 
@@ -466,9 +468,9 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 			},
 			updateGraphData : function(graphId, from, to) {
 				if (to === 0) {
-					this.isRealTime = true;
+					this._startRealtime();
 				} else {
-					this.isRealTime = false;
+					this._stopRealtime();
 				}
 
 				var startTime = new Date(new Date().getTime() - from);
@@ -477,7 +479,7 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				this.timeEnd = endTime;
 				this.timeFrom = from;
 				var graphIds = this.createGraphIds(graphId);
-				appView.getTermData([ graphIds ], startTime, endTime);
+				this.appView.getTermData([ graphIds ], startTime, endTime);
 			},
 			getData : function() {
 
@@ -825,5 +827,13 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 					array.splice(i, 0, data);
 					return;
 				}
+			},
+			_startRealtime : function(){
+				this.isRealTime = true;
+				this.appView.syncData([ this.graphIds ]);
+			},
+			_stopRealtime : function(){
+				this.isRealTime = false;
+				this.appView.stopSyncData([ this.graphIds ]);
 			}
 		});

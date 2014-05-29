@@ -51,6 +51,9 @@ wgp.AppView = Backbone.View
 				view.collection = null;
 			},
 			syncData : function(syncIdList) {
+				if(syncIdList === undefined){
+					return;
+				}
 				var ins = this;
 				var startSyncIdList = [];
 				_.each(syncIdList, function(id) {
@@ -118,7 +121,9 @@ wgp.AppView = Backbone.View
 					if (type == wgp.constants.CHANGE_TYPE.ADD) {
 						ins._add(updateCollection, updateData);
 						if(!initFlag && window.rangeAreaView){
-							window.rangeAreaView.graphRangeController.setDate(new Date());
+							if(ENS.graphRangeControllerView.isPlaying){
+								ENS.graphRangeControllerView.setDate(new Date());
+							}
 							initFlag = true;
 						}
 					} else if (type == wgp.constants.CHANGE_TYPE.UPDATE) {

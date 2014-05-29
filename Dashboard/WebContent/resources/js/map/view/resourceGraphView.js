@@ -142,11 +142,40 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 				this.dateWindow = argument["dateWindow"];
 				this.maxId = 0;
 				// 15秒に一度の更新なので、1時間だと4×60のデータがグラフ内に入る
-				this.graphMaxNumber = 4 * 60;
+				if(ENS.graphRangeControllerView === undefined){
+					ENS.graphRangeControllerView = new ENS.graphRangeController("sliderArea");
+					ENS.graphRangeControllerView.setSearchListener(function(from,
+							to) {
+						var viewList = ENS.nodeinfo.viewList;
+						for ( var key in viewList) {
+							var fromHour = from / 60 / 60 / 1000;
+							var ins = viewList[key];
+							// 15秒毎にグラフが更新されるので、グラフ内に収まるデータ数は、4 × 60 × 表示期間(h) となる
+							ins.graphMaxNumber = 4 * 60 * fromHour;
+							// グラフの表示期間の幅を更新する
+							ins.updateDisplaySpan(from, to);
+							// グラフの表示データを更新する
+							ins.updateGraphData(key, from, to);
+
+							if ($("#tempDiv").length > 0) {
+								$(".dygraph-title").width(
+										($("#tempDiv").width() * 0.977) - 67);
+							} else {
+								$(".dygraph-title").width(
+										($("#" + ins.$el.attr("id") + "_ensgraph")
+												.width() - 87));
+							}
+						}
+					});
+				}
+				
+				var controller = ENS.graphRangeControllerView;
+				
+				this.isRealTime = controller.isPlaying;
+				this.graphMaxNumber = controller._getRangeHour() * 60 * 4;
 				this.maxValue = 1;// argument.maxValue;
-				this.timeStart = new Date(new Date().getTime() - this.term
-						* 1000);
-				this.timeEnd = new Date();
+				this.timeStart = new Date(controller._getDate().getTime() - controller._getRangeMs());
+				this.timeEnd = controller._getDate();
 				this.timeFrom = 0;
 				this.siblingNode = argument["siblingNode"];
 				this.fromScale = undefined;
@@ -435,7 +464,9 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 				}
 
 				var tmpAppView = new ENS.AppView();
-				tmpAppView.syncData([ this.graphId ]);
+				if(this.isRealTime){
+					tmpAppView.syncData([ this.graphId ]);
+				}
 			},
 			onComplete : function(syncType) {
 				if (syncType == wgp.constants.syncType.SEARCH) {
