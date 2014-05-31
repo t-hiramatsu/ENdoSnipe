@@ -57,7 +57,7 @@ ENS.treeManager = wgp.AbstractView
 					}
 				});
 
-				this.getTopNodes();
+				var topNodes = this.getTopNodes();
 				this.finishOpenOrClose = false;
 
 				var instance = this;
@@ -98,6 +98,8 @@ ENS.treeManager = wgp.AbstractView
 						function(e) {
 							instance.finishOpenOrClose = true;
 						});
+				
+				this.callbackGetTopNodes(topNodes);
 			},
 			setTreeCooperation : function() {
 				this.ensTreeView.setClickEvent("contents_area");
@@ -157,12 +159,12 @@ ENS.treeManager = wgp.AbstractView
 				var settings = {
 					url : ENS.tree.GET_TOP_NODES
 				};
-
-				// 非同期通信でデータを送信する
+				
+				// 同期通信でデータを送信する
 				var ajaxHandler = new wgp.AjaxHandler();
 				settings[wgp.ConnectionConstants.SUCCESS_CALL_OBJECT_KEY] = this;
-				settings[wgp.ConnectionConstants.SUCCESS_CALL_FUNCTION_KEY] = "callbackGetTopNodes";
-				ajaxHandler.requestServerAsync(settings);
+				var result = ajaxHandler.requestServerSync(settings);
+				return $.parseJSON(result);
 			},
 			callbackGetTopNodes : function(topNodes) {
 				this.ensTreeView.collection.add(topNodes);

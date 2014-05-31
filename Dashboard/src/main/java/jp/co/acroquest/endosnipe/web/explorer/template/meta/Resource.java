@@ -34,7 +34,7 @@ public class Resource
     /** 複数リソースグラフのオブジェクト名 */
     public static final String OBJ_NAME_MULTIPLE_GRAPH = "ENS.MultipleResourceGraphElementView";
 
-    /** グラフのオブジェクト名 */
+    /** リソースグラフのオブジェクト名 */
     public static final String OBJ_NAME_GRAPH = "ENS.ResourceGraphElementView";
 
     /** 背景のオブジェクト名 */
