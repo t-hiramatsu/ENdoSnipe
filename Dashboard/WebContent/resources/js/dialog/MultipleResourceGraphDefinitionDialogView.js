@@ -228,12 +228,6 @@ ENS.MultipleResourceGraphDefinitionDialogView = ENS.DialogView
 				});
 				instance.pagingGraph(measurementDefinitionList);
 
-				$(".tooltipDialogValue option").each(function(i){
-					var text = $(this).html();
-					$(this).html(text + "<br><span>" + text + "</span>");
-					$(this).addClass("tooltip");
-				});
-
 			},
 			inputMulResGraphDialog_ : function() {
 
@@ -306,6 +300,12 @@ ENS.MultipleResourceGraphDefinitionDialogView = ENS.DialogView
 						$(newContentOption).hide();
 					}
 					$('#multipleResourceGraphLstBox1').append(newContentOption);
+				});
+				
+				$(".tooltipDialogValue option").each(function(i){
+					var text = $(this).html();
+					$(this).html(text + "<br><span>" + text + "</span>");
+					$(this).addClass("tooltip");
 				});
 
 				return false;

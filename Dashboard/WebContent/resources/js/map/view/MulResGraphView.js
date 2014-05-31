@@ -402,7 +402,8 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 					updateOption = {
 						valueRange : [ 0,
 								this.maxValue * this.yValueMagnification ],
-						'file' : dataList
+						'file' : dataList,
+						labels: this.labelNames
 					};
 				}
 
@@ -819,10 +820,10 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				//時系列になるようにデータを挿入する
 				for(var i=0; i<len; i++){
 					var targetDate = array[i][0];
-					if(targetDate > data[0]){
+					if(targetDate < data[0]){
 						continue;
 					}
-					array.splice(i+1, 0, data);
+					array.splice(i, 0, data);
 					return;
 				}
 			}
