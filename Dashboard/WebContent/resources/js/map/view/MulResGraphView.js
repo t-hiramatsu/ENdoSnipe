@@ -413,9 +413,11 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 						this.tempEntity.updateOptions(updateOption);
 					}
 				}
-
-				var tmpAppView = new ENS.AppView();
-				tmpAppView.syncData([ this.graphIds ]);
+				
+				if(this.isRealTime){
+					var tmpAppView = new ENS.AppView();
+					tmpAppView.syncData([ this.graphIds ]);
+				}
 			},
 			onComplete : function(syncType) {
 
@@ -467,9 +469,9 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 			},
 			updateGraphData : function(graphId, from, to) {
 				if (to === 0) {
-					this.isRealTime = true;
+					this._startRealtime();
 				} else {
-					this.isRealTime = false;
+					this._stopRealtime();
 				}
 
 				var startTime = new Date(new Date().getTime() - from);
@@ -826,5 +828,15 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 					array.splice(i, 0, data);
 					return;
 				}
+			},
+			_startRealtime : function(){
+				this.isRealTime = true;
+				var tmpAppView = new ENS.AppView();
+				tmpAppView.syncData([ this.graphIds ]);
+			},
+			_stopRealtime : function(){
+				this.isRealTime = false;
+				var tmpAppView = new ENS.AppView();
+				tmpAppView.stopSyncData([ this.graphIds ]);
 			}
 		});
