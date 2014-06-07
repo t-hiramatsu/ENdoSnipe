@@ -143,10 +143,17 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 				this.maxId = 0;
 				// 15秒に一度の更新なので、1時間だと4×60のデータがグラフ内に入る
 				this.graphMaxNumber = 4 * 60;
-				this.maxValue = 1;// argument.maxValue;
-				this.timeStart = new Date(new Date().getTime() - this.term
-						* 1000);
+				this.timeStart = new Date(new Date().getTime() - this.term * 1000);
 				this.timeEnd = new Date();
+				// Dashboardの場合は画面の値を引き継ぐ
+				if(window.rangeAreaView != null){
+					var controller = window.rangeAreaView.graphRangeController;
+					this.isRealTime = controller.isPlaying;
+					this.graphMaxNumber = controller._getRangeHour() * 60 * 4;
+					this.timeStart = new Date(controller._getDate().getTime() - controller._getRangeMs());
+					this.timeEnd = controller._getDate();
+				}
+				this.maxValue = 1;// argument.maxValue;
 				this.timeFrom = 0;
 				this.siblingNode = argument["siblingNode"];
 				this.fromScale = undefined;
@@ -434,8 +441,10 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 					}
 				}
 
-				var tmpAppView = new ENS.AppView();
-				tmpAppView.syncData([ this.graphId ]);
+				if(this.isRealTime){
+					var tmpAppView = new ENS.AppView();
+					tmpAppView.syncData([ this.graphId ]);
+				}
 			},
 			onComplete : function(syncType) {
 				if (syncType == wgp.constants.syncType.SEARCH) {
