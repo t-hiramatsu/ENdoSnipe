@@ -145,7 +145,8 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 				this.graphMaxNumber = 4 * 60;
 				this.timeStart = new Date(new Date().getTime() - this.term * 1000);
 				this.timeEnd = new Date();
-				if(window.rangeAreaView !== undefined){
+				// Dashboardの場合は画面の値を引き継ぐ
+				if(window.rangeAreaView != null){
 					var controller = window.rangeAreaView.graphRangeController;
 					this.isRealTime = controller.isPlaying;
 					this.graphMaxNumber = controller._getRangeHour() * 60 * 4;
