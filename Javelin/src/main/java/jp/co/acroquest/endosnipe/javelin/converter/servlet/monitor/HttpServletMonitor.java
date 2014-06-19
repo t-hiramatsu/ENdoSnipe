@@ -25,6 +25,11 @@
  ******************************************************************************/
 package jp.co.acroquest.endosnipe.javelin.converter.servlet.monitor;
 
+import java.util.Collections;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
 import jp.co.acroquest.endosnipe.javelin.CallTree;
 import jp.co.acroquest.endosnipe.javelin.CallTreeNode;
@@ -32,6 +37,7 @@ import jp.co.acroquest.endosnipe.javelin.CallTreeRecorder;
 import jp.co.acroquest.endosnipe.javelin.StatsJavelinRecorder;
 import jp.co.acroquest.endosnipe.javelin.bean.Invocation;
 import jp.co.acroquest.endosnipe.javelin.event.HttpStatusEvent;
+import jp.co.acroquest.endosnipe.javelin.util.LruCache;
 import jp.co.acroquest.endosnipe.javelin.util.ThreadUtil;
 
 /**
@@ -71,9 +77,6 @@ public class HttpServletMonitor
     /** パラメータのマップを入力する引数番号 */
     private static final int ARGS_PARAMETER_MAP_NUM = 6;
 
-    /** セッションを入力する引数番号 */
-    private static final int ARGS_SESSION_NUM = 7;
-    
     /** エラーステータス400番台を表す整数 */
     private static final int ERROR_STATUS_FOUR_HUNDRED = 400;
 
@@ -82,6 +85,11 @@ public class HttpServletMonitor
 
     /** Javelinの設定 */
     private static JavelinConfig config__ = new JavelinConfig();
+    
+    /** 実行時除外対象のURLかどうかを保存する。 */
+    private static Map<String, Boolean> excludeCache__ =
+        Collections.synchronizedMap(new LruCache<String, Boolean>(config__
+            .getServletExcludePatternCacheSize()));
 
     /**
      * 前処理
@@ -113,6 +121,12 @@ public class HttpServletMonitor
                     return;
                 }
             }
+            
+            // 除外対象の場合は何もしない。
+            if (isRuntimeExcludeTarget(config__, contextPath, servletPath))
+            {
+                return;
+            }                    
             
             Object[] args = null;
 
@@ -189,6 +203,12 @@ public class HttpServletMonitor
             }
         }
         
+        // 除外対象の場合は何もしない。
+        if (isRuntimeExcludeTarget(config__, contextPath, servletPath))
+        {
+            return;
+        }                    
+
         try
         {
             int status = response.getStatus();
@@ -248,6 +268,12 @@ public class HttpServletMonitor
             }
         }
         
+        // 除外対象の場合は何もしない。
+        if (isRuntimeExcludeTarget(config__, contextPath, servletPath))
+        {
+            return;
+        }                    
+
         CallTree callTree = callTreeRecorder.getCallTree();
         if (node != null && callTree != null)
         {
@@ -303,5 +329,35 @@ public class HttpServletMonitor
         
         String[] paths = {contextPath, servletPath};
         return paths;
+    }
+
+    /**
+     * 実行時除外対象であるかどうかの判定を行う。
+     * 
+     * @param invocation 実行時除外対象であるかどうかの判定対象。
+     * @return 実行時除外対象であるかどうか。
+     */
+    private static boolean isRuntimeExcludeTarget(JavelinConfig config, String contextpath,
+        String servletPath)
+    {
+        Pattern pattern = config.getServletExcludePattern();
+        Boolean isExclude;
+        if (pattern != null)
+        {
+            String classMethodName = contextpath + "/" + servletPath;
+            isExclude = excludeCache__.get(classMethodName);
+            if (isExclude == null)
+            {
+                Matcher matcher = pattern.matcher(classMethodName);
+                isExclude = Boolean.valueOf(matcher.matches());
+                excludeCache__.put(classMethodName, isExclude);
+            }
+        }
+        else
+        {
+        	isExclude = Boolean.FALSE;
+        }
+
+        return isExclude.booleanValue();
     }
 }

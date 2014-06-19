@@ -34,6 +34,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
 import java.util.Set;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
 
@@ -299,6 +301,20 @@ public class JavelinConfigBase
 
     /** JDBCJavelinをlightweightモードで動作させるかどうかのデフォルト値。 */
     private static final boolean DEFAULT_JDBCJAVELIN_LIGHTWEIGHT = false;
+
+    /** ServletJavelinで実行時に除外するパターン。  */
+    private static final String SERVLET_EXCLUDE_PATTERN = JAVELIN_PREFIX
+        + "servlet.exclude.pattern";
+
+    /** ServletJavelinで実行時に除外するパターン のデフォルト値。 */
+    private static final String DEF_SERVLET_EXCLUDE_PATTERN = null;
+
+    /** ServletJavelinで実行時に除外するパターンの判定結果キャッシュのサイズ。  */
+    private static final String SERVLET_EXCLUDE_PATTERN_CACH_SIZE = JAVELIN_PREFIX
+        + "servlet.exclude.pattern";
+
+    /** ServletJavelinで実行時に除外するパターン の判定結果キャッシュのサイズのデフォルト値。 */
+    private static final int DEF_SERVLET_EXCLUDE_PATTERN_CACH_SIZE = 10000;
 
     /**
      * ConcurrentAccessMonitorやCollectionMonitor動作中にクラスロードが起ったときに、
@@ -3520,5 +3536,60 @@ public class JavelinConfigBase
     public void setJdbcjavelinLightweightMode(final boolean jdbcjavelinLightweightMode)
     {
         CONFIGUTIL.setBoolean(JDBCJAVELIN_LIGHTWEIGHT_MODE, jdbcjavelinLightweightMode);
+    }
+
+    /**
+     * 実行時に除外するパターンを取得する。
+     * @return 実行時に除外するパターン。
+     */
+    public Pattern getServletExcludePattern()
+    {
+        String patternStr =
+            CONFIGUTIL.getString(SERVLET_EXCLUDE_PATTERN, DEF_SERVLET_EXCLUDE_PATTERN);
+
+        try
+        {
+            if (patternStr != null)
+            {
+                return Pattern.compile(patternStr);
+            }
+        }
+        catch (PatternSyntaxException pse)
+        {
+            System.out.println(SERVLET_EXCLUDE_PATTERN + "に不正な値が入力されました。デフォルト値("
+                + DEF_SERVLET_EXCLUDE_PATTERN + ")を使用します。");
+            CONFIGUTIL.setString(SERVLET_EXCLUDE_PATTERN, DEF_SERVLET_EXCLUDE_PATTERN);
+        }
+        return null;
+    }
+
+    /**
+     * 実行時に除外するパターンを設定する。
+     * @param runtimeExcludePattern 実行時に除外するパターン。
+     */
+    public void setServletExcludePattern(final Pattern runtimeExcludePattern)
+    {
+        CONFIGUTIL.setString(SERVLET_EXCLUDE_PATTERN, runtimeExcludePattern.toString());
+    }
+
+    /**
+     * ServletJavelinで実行時に除外するパターンの判定結果キャッシュのサイズを返します。<br />
+     * 
+     * @return ServletJavelinで実行時に除外するパターンの判定結果キャッシュのサイズ。
+     */
+    public int getServletExcludePatternCacheSize()
+    {
+        return CONFIGUTIL.getInteger(SERVLET_EXCLUDE_PATTERN_CACH_SIZE,
+                                     DEF_SERVLET_EXCLUDE_PATTERN_CACH_SIZE);
+    }
+
+    /**
+     * ServletJavelinで実行時に除外するパターンの判定結果キャッシュのサイズを設定します。<br />
+     * 
+     * @param servletExcludePatternCacheSize ServletJavelinで実行時に除外するパターンの判定結果キャッシュのサイズ。
+     */
+    public void setServletExcludePatternCacheSize(final int servletExcludePatternCacheSize)
+    {
+        CONFIGUTIL.setInteger(SERVLET_EXCLUDE_PATTERN_CACH_SIZE, servletExcludePatternCacheSize);
     }
 }

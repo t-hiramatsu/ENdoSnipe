@@ -26,6 +26,7 @@
 package jp.co.acroquest.endosnipe.common.config;
 
 import java.util.Properties;
+import java.util.regex.Pattern;
 
 /**
  * Javelinの設定を保持するためのクラスです。<br />
@@ -297,6 +298,10 @@ public class JavelinConfig extends JavelinConfigBase
 
     private static boolean jdbcjavelinLightweightMode__;
 
+    private static Pattern servletExcludePattern__;
+
+    private static int servletExcludePatternCacheSize__;
+
     /**
      * {@link JavelinConfig} を構築します。<br />
      *
@@ -459,7 +464,8 @@ public class JavelinConfig extends JavelinConfigBase
         collectHBaseAgentResources__ = super.isCollectHBaseAgentResources();
         invocationNameLimitLength__ = super.getInvocationNameLimitLength();
         jdbcjavelinLightweightMode__ = super.isJdbcjavelinLightweightMode();
-
+        servletExcludePattern__ = super.getServletExcludePattern();
+        servletExcludePatternCacheSize__ = super.getServletExcludePatternCacheSize();
     }
 
     /**
@@ -2959,5 +2965,29 @@ public class JavelinConfig extends JavelinConfigBase
     public void setJdbcjavelinLightweightMode(final boolean jdbcjavelinLightweightMode)
     {
         jdbcjavelinLightweightMode__ = jdbcjavelinLightweightMode;
+    }
+
+    @Override
+    public Pattern getServletExcludePattern()
+    {
+        return servletExcludePattern__;
+    }
+
+    @Override
+    public void setServletExcludePattern(final Pattern runtimeExcludePattern)
+    {
+        servletExcludePattern__ = runtimeExcludePattern;
+    }
+
+    @Override
+    public int getServletExcludePatternCacheSize()
+    {
+        return servletExcludePatternCacheSize__;
+    }
+
+    @Override
+    public void setServletExcludePatternCacheSize(final int servletExcludePatternCacheSize)
+    {
+        servletExcludePatternCacheSize__ = servletExcludePatternCacheSize;
     }
 }

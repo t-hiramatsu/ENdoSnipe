@@ -47,6 +47,7 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.WeakHashMap;
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.regex.Pattern;
 
 import jp.co.acroquest.endosnipe.common.config.ConfigPreprocessor;
 import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
@@ -716,6 +717,7 @@ public class JavelinTransformer implements ClassFileTransformer
         String license = config.getLicensePath();
         String include = config.getInclude();
         String exclude = config.getExclude();
+        Pattern servletExcludePattern = config.getServletExcludePattern();
         boolean skipClass = config.isSkipClassOnProcessing();
         int inheritanceDepth = config.getInheritanceDepth();
         int intervalMax = config.getIntervalMax();
@@ -914,6 +916,7 @@ public class JavelinTransformer implements ClassFileTransformer
         System.out.println("\tjavelin.tat.keepTime                 : " + tatKeepTime);
         System.out.println("\tjavelin.tat.zeroKeepTime             : " + tatZeroKeepTime);
         System.out.println("\tjavelin.finalizationCount.monitor    : " + finalizationCount);
+        System.out.println("\tjavelin.servlet.exclude.pattern      : " + servletExcludePattern);
         System.out.println("\tjavelin.httpSessionCount.monitor     : " + httpSessionCount);
         System.out.println("\tjavelin.httpSessionSize.monitor      : " + httpSessionSize);
         System.out.println("\tjavelin.concurrent.monitor           : " + concurrentAccessMonitored);
