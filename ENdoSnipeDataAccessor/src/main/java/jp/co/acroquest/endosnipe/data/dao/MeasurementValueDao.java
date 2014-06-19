@@ -175,11 +175,12 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
         "    AND (mv.measurement_time BETWEEN ? and ?)" +
         "    AND replace(replace(replace(jmi.measurement_item_name,chr(13)"
                     + "||chr(10),' '),chr(13),' '),chr(10),' ')  LIKE ?" +
-        "  ORDER BY mv.measurement_time, measurement_item_name";
+        "  ORDER BY mv.measurement_time, measurement_item_name ";
 
     /** 期間と項目名を指定して計測値の系列を取得するSQL(前半部）。 */
     private static final String SQL_SELECT_BY_TERM_AND_MEASUREMENT_ITEM_NAME_LIST_PREFIX
     =
+        "SELECT * FROM (" +
         "SELECT jmi.measurement_item_name," +
         "       mv.measurement_item_id," +
         "       mv.measurement_time," +
@@ -188,12 +189,15 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
         "  WHERE mv.measurement_item_id = jmi.measurement_item_id" +
         "    AND (mv.measurement_time BETWEEN ? and ?)" +
         "    AND replace(replace(replace(jmi.measurement_item_name,chr(13)" + 
-        "||chr(10),' '),chr(13),' '),chr(10),' ')  ~* ? ORDER BY cast(mv.measurement_value as float8) desc, mv.measurement_time, mv.measurement_item_id"
-        + " limit ?";
+        "||chr(10),' '),chr(13),' '),chr(10),' ')  ~* ? " +
+        " ORDER BY cast(mv.measurement_value as float8) desc, " + 
+        " mv.measurement_time, mv.measurement_item_id" +
+        " limit ? ) sorted_mv ORDER BY sorted_mv.measurement_time";
 
     /** 期間と項目名を指定して計測値の系列を取得するSQL(前半部）。 */
     private static final String SQL_SELECT_BY_TERM_AND_LIKE_MEASUREMENT_ITEM_NAME
     =
+        "SELECT * FROM (" +
         "SELECT jmi.measurement_item_name," +
         "       mv.measurement_item_id," +
         "       mv.measurement_time," +
@@ -202,8 +206,10 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
         "  WHERE mv.measurement_item_id = jmi.measurement_item_id" +
         "    AND (mv.measurement_time BETWEEN ? and ?)" +
         "    AND replace(replace(replace(jmi.measurement_item_name,chr(13)" + 
-        "||chr(10),' '),chr(13),' '),chr(10),' ')  like ? ORDER BY cast(mv.measurement_value as float8) desc, mv.measurement_time, mv.measurement_item_id"
-        + " limit ?";
+        "||chr(10),' '),chr(13),' '),chr(10),' ')  like ? " + 
+        " ORDER BY cast(mv.measurement_value as float8) desc, " + 
+        " mv.measurement_time, mv.measurement_item_id" +
+        " limit ? ) sorted_mv ORDER BY sorted_mv.measurement_time";
     
     /**
      * データを挿入するテーブルの名前を返します。
