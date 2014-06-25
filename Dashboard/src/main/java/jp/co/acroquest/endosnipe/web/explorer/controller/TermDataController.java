@@ -35,9 +35,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import jp.co.acroquest.endosnipe.data.dao.JavelinLogDao;
-import jp.co.acroquest.endosnipe.data.dao.JavelinMeasurementItemDao;
 import jp.co.acroquest.endosnipe.data.entity.JavelinLog;
-import jp.co.acroquest.endosnipe.data.entity.JavelinMeasurementItem;
 import jp.co.acroquest.endosnipe.perfdoctor.WarningUnit;
 import jp.co.acroquest.endosnipe.web.explorer.dto.MeasurementValueDto;
 import jp.co.acroquest.endosnipe.web.explorer.dto.PerfDoctorTableDto;
@@ -92,11 +90,9 @@ public class TermDataController
     public Map<String, List<Map<String, String>>> getTermData(
             @RequestParam(value = "data") final String data)
     {
-
-        Map<String, List<Map<String, String>>> responceDataList =
+        Map<String, List<Map<String, String>>> responseDataList =
                 new HashMap<String, List<Map<String, String>>>();
         TermDataForm termDataForm = JSON.decode(data, TermDataForm.class);
-        List<String> graphDataList = new ArrayList<String>();
         List<String> dataGroupIdList = termDataForm.getDataGroupIdList();
         if (dataGroupIdList == null)
         {
@@ -104,76 +100,98 @@ public class TermDataController
             return new HashMap<String, List<Map<String, String>>>();
         }
 
-        // あらかじめ全measurementItemを取得しておく。
-        List<JavelinMeasurementItem> measurementItemList = null;
-        try
+        StringBuilder patternStr = new StringBuilder();
+        Map<String, List<MeasurementValueDto>> measurementValueMap;
+        if (isLikeSearch(dataGroupIdList))
         {
-            measurementItemList = this.getMeasurementItemList();
-        }
-        catch (SQLException ex)
-        {
-            ex.printStackTrace();
-            return new HashMap<String, List<Map<String, String>>>();
-        }
-
-        for (String dataId : dataGroupIdList)
-        {
-            // measurementItemのいずれかと一致する場合は単一リソースとみなす。
-            // そうでない場合は正規表現による指定とみなし、合致するリソースを検索して取得する。
-            for (JavelinMeasurementItem measurementItem : measurementItemList)
+            // 検索用のlikeパターンを作成する。
+            for (String dataId : dataGroupIdList)
             {
-                if (measurementItem.itemName.matches(dataId)
-                        || measurementItem.itemName.equals(dataId))
-                {
-                    graphDataList.add(measurementItem.itemName);
-                }
+                patternStr.append(dataId.replace(".*", "%"));
             }
 
-        }
-        if (graphDataList.size() != 0)
-        {
             long startTime = Long.valueOf(termDataForm.getStartTime());
             long endTime = Long.valueOf(termDataForm.getEndTime());
             Date startDate = new Date(startTime);
             Date endDate = new Date(endTime);
-            Map<String, List<MeasurementValueDto>> measurementValueMap =
-                    measurementValueService.getMeasurementValueList(startDate, endDate,
-                                                                    graphDataList);
-
-            if (measurementValueMap.size() > 1)
+            measurementValueMap =
+                    measurementValueService.getMeasurementValueListLike(startDate, endDate,
+                                                                        patternStr.toString());
+        }
+        else
+        {
+            // 検索用の正規表現パターンを作成する。
+            for (String dataId : dataGroupIdList)
             {
-                // 各のキーのmeasurementValueListを一つのListに結合する
-                List<MeasurementValueDto> combinedMeasurementValueList =
-                        new ArrayList<MeasurementValueDto>();
-                for (Entry<String, List<MeasurementValueDto>> measurementValueEntry : measurementValueMap.entrySet())
+                if (patternStr.length() > 0)
                 {
-                    for (MeasurementValueDto measurementValueDto : measurementValueEntry.getValue())
-                    {
-                        combinedMeasurementValueList.add(measurementValueDto);
-                    }
+                    patternStr.append('|');
                 }
-                List<Map<String, String>> measurementValueList =
-                        createTreeMenuData(combinedMeasurementValueList);
-                responceDataList.put(dataGroupIdList.get(0), measurementValueList);
+                patternStr.append(dataId);
+                patternStr.append('|');
+                patternStr.append(dataId.replaceAll("([\\[\\](){}.+*^$|\\\\?-])", "\\\\$1"));
             }
-            else
+
+            long startTime = Long.valueOf(termDataForm.getStartTime());
+            long endTime = Long.valueOf(termDataForm.getEndTime());
+            Date startDate = new Date(startTime);
+            Date endDate = new Date(endTime);
+            measurementValueMap =
+                    measurementValueService.getMeasurementValueList(startDate, endDate,
+                                                                    patternStr.toString());
+        }
+
+        if (measurementValueMap.size() > 1)
+        {
+            // 各のキーのmeasurementValueListを一つのListに結合する
+            List<MeasurementValueDto> combinedMeasurementValueList =
+                    new ArrayList<MeasurementValueDto>();
+            for (Entry<String, List<MeasurementValueDto>> measurementValueEntry : measurementValueMap.entrySet())
             {
-                for (Entry<String, List<MeasurementValueDto>> measurementValueEntry : measurementValueMap.entrySet())
+                for (MeasurementValueDto measurementValueDto : measurementValueEntry.getValue())
                 {
-                    List<Map<String, String>> measurementValueList =
-                            createTreeMenuData(measurementValueEntry.getValue());
-                    responceDataList.put(dataGroupIdList.get(0), measurementValueList);
+                    combinedMeasurementValueList.add(measurementValueDto);
                 }
+            }
+            List<Map<String, String>> measurementValueList =
+                    createTreeMenuData(combinedMeasurementValueList);
+            responseDataList.put(dataGroupIdList.get(0), measurementValueList);
+        }
+        else
+        {
+            for (Entry<String, List<MeasurementValueDto>> measurementValueEntry : measurementValueMap.entrySet())
+            {
+                List<Map<String, String>> measurementValueList =
+                        createTreeMenuData(measurementValueEntry.getValue());
+                responseDataList.put(dataGroupIdList.get(0), measurementValueList);
             }
         }
-        if (responceDataList.size() == 0 && dataGroupIdList.size() > 0)
+        if (responseDataList.size() == 0 && dataGroupIdList.size() > 0)
         {
             for (String dataGroupId : dataGroupIdList)
             {
-                responceDataList.put(dataGroupId, new ArrayList<Map<String, String>>());
+                responseDataList.put(dataGroupId, new ArrayList<Map<String, String>>());
             }
         }
-        return responceDataList;
+
+        return responseDataList;
+    }
+
+    /**
+     * LIKE検索が行えるかを判定する。
+     * 
+     * @param dataGroupIdList 検索条件
+     * @return LIKE検索が行えるかどうか。
+     */
+    private boolean isLikeSearch(final List<String> dataGroupIdList)
+    {
+        if (dataGroupIdList == null || dataGroupIdList.size() > 1)
+        {
+            return false;
+        }
+
+        String str = dataGroupIdList.get(0).replace(".*", "");
+        return str.replaceAll("[\\[\\]{}.+*^$|\\\\?-]", "").length() == str.length();
     }
 
     /**
@@ -245,18 +263,5 @@ public class TermDataController
             bufferDtoList.add(DataConvertUtil.getPropertyList(treeMenuData));
         }
         return bufferDtoList;
-    }
-
-    /**
-     * javelin_measurement_itemから全てのmeasurement_itemを取得する。
-     * @return javelin_measurement_itemのリスト
-     * @throws SQLException SQL 実行時に例外が発生した場合
-     */
-    private List<JavelinMeasurementItem> getMeasurementItemList()
-        throws SQLException
-    {
-        DatabaseManager dbMmanager = DatabaseManager.getInstance();
-        String dbName = dbMmanager.getDataBaseName(1);
-        return JavelinMeasurementItemDao.selectAll(dbName);
     }
 }

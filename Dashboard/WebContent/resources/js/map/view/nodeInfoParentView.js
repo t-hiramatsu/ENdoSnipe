@@ -31,12 +31,6 @@ ENS.NodeInfoParentView = wgp.AbstractView
 				this.viewtype = wgp.constants.VIEW_TYPE.VIEW;
 				this.graphIds = [];
 				this.treeSettings = treeSettings;
-				var treeListView = new wgp.TreeView({
-					id : "tree",
-					rootView : this
-				});
-				var appView = new ENS.AppView();
-				appView.addView(treeListView, "tree");
 
 				this.divId = this.$el.attr("id");
 				this.maxId = 0;

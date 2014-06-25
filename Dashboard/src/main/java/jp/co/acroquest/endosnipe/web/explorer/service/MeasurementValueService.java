@@ -52,6 +52,9 @@ public class MeasurementValueService
     private static final ENdoSnipeLogger LOGGER =
             ENdoSnipeLogger.getLogger(MeasurementValueService.class);
 
+    /** 検索の最大要素数 */
+    private static final int ITEM_LIMIT = 10000;
+
     /**
      * コンストラクタ
      */
@@ -65,11 +68,47 @@ public class MeasurementValueService
      * 
      * @param starttime  範囲開始時刻
      * @param endtime    範囲終了時刻
-     * @param itemNameList 項目名のリスト
+     * @param searchPattern LIKE検索パターン
+     * @return MeasurementValueのリスト。
+     */
+    public Map<String, List<MeasurementValueDto>> getMeasurementValueListLike(final Date starttime,
+            final Date endtime, final String searchPattern)
+    {
+        // TODO データベース名が固定
+        // →以下のコードは、collector.propertiesからデータベース名を取得するもの(clientモード想定)
+        // →DataCollectorをserverモードで動かす場合は、Database名はあらかじめAgentから
+        //   通知されているものを使用する。
+        DatabaseManager dbMmanager = DatabaseManager.getInstance();
+        String dbName = dbMmanager.getDataBaseName(1);
+
+        Map<String, List<MeasurementValueDto>> valueMap = null;
+        try
+        {
+            List<jp.co.acroquest.endosnipe.data.dto.MeasurementValueDto> queryResultList =
+                    MeasurementValueDao.selectByTermAndLikeMeasurementItemName(dbName, starttime,
+                                                                               endtime,
+                                                                               searchPattern,
+                                                                               ITEM_LIMIT);
+            valueMap = createMeasurementValueMap(queryResultList);
+        }
+        catch (SQLException ex)
+        {
+            LOGGER.log(LogMessageCodes.SQL_EXCEPTION, ex, ex.getMessage());
+        }
+
+        return valueMap;
+    }
+
+    /**
+     * 条件を指定してMeasurementValueのリストを取得する。
+     * 
+     * @param starttime  範囲開始時刻
+     * @param endtime    範囲終了時刻
+     * @param regExp 項目のリスト
      * @return MeasurementValueのリスト。
      */
     public Map<String, List<MeasurementValueDto>> getMeasurementValueList(final Date starttime,
-            final Date endtime, final List<String> itemNameList)
+            final Date endtime, final String regExp)
     {
         // TODO データベース名が固定
         // →以下のコードは、collector.propertiesからデータベース名を取得するもの(clientモード想定)
@@ -83,13 +122,13 @@ public class MeasurementValueService
         {
             List<jp.co.acroquest.endosnipe.data.dto.MeasurementValueDto> queryResultList =
                     MeasurementValueDao.selectByTermAndMeasurementItemNameList(dbName, starttime,
-                                                                               endtime,
-                                                                               itemNameList);
+                                                                               endtime, regExp,
+                                                                               ITEM_LIMIT);
             valueMap = createMeasurementValueMap(queryResultList);
         }
         catch (SQLException ex)
         {
-            LOGGER.log(LogMessageCodes.SQL_EXCEPTION);
+            LOGGER.log(LogMessageCodes.SQL_EXCEPTION, ex, ex.getMessage());
         }
 
         return valueMap;

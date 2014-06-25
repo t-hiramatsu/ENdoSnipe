@@ -396,7 +396,8 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				if (this.labelY == "%") {
 					updateOption = {
 						valueRange : [ 0, this.percentGraphMaxYValue ],
-						'file' : dataList
+						'file' : dataList,
+						labels: this.labelNames
 					};
 				} else {
 					updateOption = {
