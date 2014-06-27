@@ -233,7 +233,7 @@ public class Reporter
 	private void rotateReport(File outputDir, String dbName) throws SQLException
 	{
 		File[] filesInDir = outputDir.listFiles();
-		if (filesInDir.length == 0) 
+		if (filesInDir == null || filesInDir.length == 0) 
 		{
 			return;
 		}

@@ -47,6 +47,7 @@ import jp.co.acroquest.endosnipe.web.explorer.dao.SummarySignalInfoDao;
 import jp.co.acroquest.endosnipe.web.explorer.dto.TreeMenuDto;
 import jp.co.acroquest.endosnipe.web.explorer.entity.ChildResourceInfo;
 import jp.co.acroquest.endosnipe.web.explorer.manager.DatabaseManager;
+import jp.co.acroquest.endosnipe.web.explorer.util.TreeMenuUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -195,7 +196,7 @@ public class TreeMenuService
             return;
         }
         menuDto = new TreeMenuDto();
-        menuDto.setId(currentId);
+        menuDto.setId(TreeMenuUtil.getCannonicalId(currentId));
         menuDto.setTreeId(currentId);
         menuDto.setData(currentItemName);
         menuDto.setMeasurementUnit(unitName);
@@ -251,7 +252,7 @@ public class TreeMenuService
                 }
                 String treeId = stringBuilder.toString();
 
-                treeMenuDto.setId(treeId);
+                treeMenuDto.setId(TreeMenuUtil.getCannonicalId(treeId));
                 treeMenuDto.setTreeId(treeId);
                 treeMenuDto.setData(childNodeName);
                 treeMenuDto.setParentTreeId(parentTreeId);

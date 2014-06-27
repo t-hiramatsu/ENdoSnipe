@@ -143,7 +143,8 @@ ENS.treeManager = wgp.AbstractView
 					/* 展開 */
 					if (treeTagModel !== undefined) {
 						var parentNodeId = treeTagModel.getAttribute("id");
-						this.getDirectChildNode(parentNodeId);
+						var node = this.ensTreeView.collection.where({ id : parentNodeId });
+						this.getDirectChildNode(node[0].attributes.treeId);
 					}
 				}
 			},

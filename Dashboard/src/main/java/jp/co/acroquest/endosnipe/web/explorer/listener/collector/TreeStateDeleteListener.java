@@ -22,6 +22,7 @@ import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import jp.co.acroquest.endosnipe.web.explorer.dto.TreeMenuDto;
 import jp.co.acroquest.endosnipe.web.explorer.manager.EventManager;
 import jp.co.acroquest.endosnipe.web.explorer.manager.ResourceSender;
+import jp.co.acroquest.endosnipe.web.explorer.util.TreeMenuUtil;
 
 import org.wgp.manager.WgpDataManager;
 
@@ -63,7 +64,7 @@ public class TreeStateDeleteListener extends AbstractTelegramListener
                     String measurementItemName = (String)itemValues;
 
                     String id = measurementItemName;
-                    treeMenuDto.setId(id);
+                    treeMenuDto.setId(TreeMenuUtil.getCannonicalId(id));
 
                     treeMenuDtoList.add(treeMenuDto);
                 }

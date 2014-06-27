@@ -177,7 +177,7 @@ public class ReportUtil
                 }
                 reportTreeId += nameSplit;
             }
-            treeMenuDto.setId(reportTreeId);
+            treeMenuDto.setId(TreeMenuUtil.getCannonicalId(reportTreeId));
             treeMenuDto.setData(showName);
             treeMenuDto.setParentTreeId(targetTreeId);
             treeMenuDto.setIcon("report");

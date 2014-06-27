@@ -9,7 +9,7 @@ ENS.sqlPlanView = wgp.AbstractView
 
 				var appView = new ENS.AppView();
 				this.treeSettings = treeSettings;
-				var treeId = treeSettings.id;
+				var treeId = treeSettings.treeId;
 				appView.addView(this, treeId);
 
 				this.tableMargin = 20;

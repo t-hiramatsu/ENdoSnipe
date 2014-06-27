@@ -49,7 +49,7 @@ ENS.NodeInfoParentView = wgp.AbstractView
 				this.moveScale = [];
 
 				// 全ての子ノードのパスを取得し、グラフを表示する
-				this.getChildTargetNodes(treeSettings.id);
+				this.getChildTargetNodes(treeSettings.treeId);
 
 				// dual slider area (add div and css, and make slider)
 				$("#" + this.$el.attr("id")).append(

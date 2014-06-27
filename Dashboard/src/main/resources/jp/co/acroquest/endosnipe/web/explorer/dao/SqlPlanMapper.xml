@@ -17,8 +17,7 @@
 		SELECT * FROM
 		SQL_PLAN
 		where
-		replace(replace(replace(MEASUREMENT_ITEM_NAME,chr(13)
-			||chr(10),' '),chr(13),' '),chr(10),' ')
+		MEASUREMENT_ITEM_NAME
 		= #{measurementItemName}
 	</select>
 
