@@ -25,6 +25,7 @@ import jp.co.acroquest.endosnipe.web.explorer.dto.SummarySignalDefinitionDto;
 import jp.co.acroquest.endosnipe.web.explorer.dto.TreeMenuDto;
 import jp.co.acroquest.endosnipe.web.explorer.manager.EventManager;
 import jp.co.acroquest.endosnipe.web.explorer.manager.ResourceSender;
+import jp.co.acroquest.endosnipe.web.explorer.util.TreeMenuUtil;
 
 import org.wgp.manager.WgpDataManager;
 
@@ -104,7 +105,7 @@ public class SummarySignalStateChangeListener extends AbstractTelegramListener
             String parentTreeId = summarySignalName.substring(0, terminateParentTreeIndex);
             String summarySignalDisplayName =
                     summarySignalName.substring(terminateParentTreeIndex + 1);
-            treeMenu.setId(summarySignalName);
+            treeMenu.setId(TreeMenuUtil.getCannonicalId(summarySignalName));
             treeMenu.setTreeId(summarySignalName);
             treeMenu.setParentTreeId(parentTreeId);
             treeMenu.setData(summarySignalDisplayName);

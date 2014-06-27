@@ -5,7 +5,7 @@ ENS.reportView = wgp.AbstractView
 			initialize : function(argument, treeSettings) {
 				var appView = new ENS.AppView();
 				this.treeSettings = treeSettings;
-				var treeId = treeSettings.id;
+				var treeId = treeSettings.treeId;
 				appView.addView(this, treeId + ENS.URL.PERFDOCTOR_POSTFIX_ID);
 
 				this.tableMargin = 20;

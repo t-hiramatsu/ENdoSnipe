@@ -28,6 +28,7 @@ import jp.co.acroquest.endosnipe.web.explorer.manager.DatabaseManager;
 import jp.co.acroquest.endosnipe.web.explorer.manager.EventManager;
 import jp.co.acroquest.endosnipe.web.explorer.manager.ResourceSender;
 import jp.co.acroquest.endosnipe.web.explorer.util.SignalUtil;
+import jp.co.acroquest.endosnipe.web.explorer.util.TreeMenuUtil;
 
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -555,7 +556,7 @@ public class SignalService
         // ※一番右のスラッシュ区切り以降を表示名とする。
         String signalDisplayName = signalName.substring(terminateParentTreeIndex + 1);
 
-        treeMenu.setId(signalName);
+        treeMenu.setId(TreeMenuUtil.getCannonicalId(signalName));
         treeMenu.setTreeId(signalName);
         treeMenu.setParentTreeId(parentTreeId);
         treeMenu.setData(signalDisplayName);

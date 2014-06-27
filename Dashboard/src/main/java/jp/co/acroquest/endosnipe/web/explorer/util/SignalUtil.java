@@ -71,7 +71,7 @@ public class SignalUtil
     {
         SignalTreeMenuDto signalTreeMenu = new SignalTreeMenuDto();
         BeanUtils.copyProperties(signalDefinitionDto, signalTreeMenu);
-        signalTreeMenu.setId(signalDefinitionDto.getSignalName());
+        signalTreeMenu.setId(TreeMenuUtil.getCannonicalId(signalDefinitionDto.getSignalName()));
         signalTreeMenu.setTreeId(signalDefinitionDto.getSignalName());
         signalTreeMenu.setType("signal");
         int level = signalDefinitionDto.getLevel();

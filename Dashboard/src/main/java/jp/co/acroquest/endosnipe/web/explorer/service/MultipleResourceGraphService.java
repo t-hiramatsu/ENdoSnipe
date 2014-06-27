@@ -24,6 +24,7 @@ import jp.co.acroquest.endosnipe.web.explorer.manager.ConnectionClient;
 import jp.co.acroquest.endosnipe.web.explorer.manager.DatabaseManager;
 import jp.co.acroquest.endosnipe.web.explorer.manager.EventManager;
 import jp.co.acroquest.endosnipe.web.explorer.manager.ResourceSender;
+import jp.co.acroquest.endosnipe.web.explorer.util.TreeMenuUtil;
 
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -442,7 +443,7 @@ public class MultipleResourceGraphService
         String multipleResourceGraphDisplayName =
                 multipleResourceGraphName.substring(terminateParentTreeIndex + 1);
 
-        treeMenu.setId(multipleResourceGraphName);
+        treeMenu.setId(TreeMenuUtil.getCannonicalId(multipleResourceGraphName));
         treeMenu.setTreeId(multipleResourceGraphName);
         treeMenu.setParentTreeId(parentTreeId);
         treeMenu.setData(multipleResourceGraphDisplayName);

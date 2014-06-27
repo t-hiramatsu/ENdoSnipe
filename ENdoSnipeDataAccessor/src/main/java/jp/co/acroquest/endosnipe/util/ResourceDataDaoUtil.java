@@ -632,12 +632,6 @@ public class ResourceDataDaoUtil
             {
                 String displayName = itemMapKey;
 
-                // すでに計測項目がテーブルに登録されているか確認する。
-                // 比較する際は、改行を半角スペースに変換した状態で比較する。
-                displayName = displayName.replaceAll("\\r\\n", " ");
-                displayName = displayName.replaceAll("\\r", " ");
-                displayName = displayName.replaceAll("\\n", " ");
-
                 itemId =
                     JavelinMeasurementItemDao.selectMeasurementItemIdFromItemName(database,
                                                                                   displayName);
@@ -900,13 +894,8 @@ public class ResourceDataDaoUtil
         item.lastInserted = lastInserted;
         JavelinMeasurementItemDao.insert(database, item);
 
-        // 挿入したレコードの計測項目 IDを検索する際、計測項目に改行が入っている場合は、
-        // 改行を半角スペースに変更してから検索する
-        String parsedItemName = itemName.replaceAll("\\r\\n", " ");
-        parsedItemName = parsedItemName.replaceAll("\\r", " ");
-        parsedItemName = parsedItemName.replaceAll("\\n", " ");
         int measurementItemId =
-            JavelinMeasurementItemDao.selectMeasurementItemIdFromItemName(database, parsedItemName);
+            JavelinMeasurementItemDao.selectMeasurementItemIdFromItemName(database, itemName);
 
         return measurementItemId;
     }

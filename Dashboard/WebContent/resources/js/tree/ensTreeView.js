@@ -125,8 +125,15 @@ ENS.treeView = wgp.TreeView
 							targetTag = $("#tree_area > ul > li").last();
 						} else {
 							addPlace = "last";
-							targetTag = this.getTreeNode(parentTreeId,
-									idAttribute);
+							var nodes = this.collection.where({ treeId : parentTreeId});
+							if(nodes.length > 0) {
+								targetTag = this.getTreeNode(nodes[0].id,
+										idAttribute);
+							}
+							else {
+								targetTag = this.getTreeNode(parentTreeId,
+										idAttribute);
+							}
 						}
 					}
 
@@ -213,6 +220,9 @@ ENS.treeView = wgp.TreeView
 				var titleData = returnData.data;
 				if (titleData.title.indexOf("&#47;") >= 0) {
 					titleData.title = titleData.title.split("&#47;").join("/");
+				}
+				if (titleData.title.indexOf("\n") >= 0) {
+					titleData.title = titleData.title.split("\n").join(" ");
 				}
 
 				var type = treeModel.get("type");
@@ -1244,6 +1254,7 @@ ENS.treeView = wgp.TreeView
 				}
 				var treeOption = {
 					id : summarySignalName,
+					treeId : summarySignalName,
 					data : showName,
 					parentTreeId : targetTreeId,
 					icon : summaryIcon,
@@ -1281,6 +1292,7 @@ ENS.treeView = wgp.TreeView
 
 				var treeOption = {
 					id : signalName,
+					treeId : signalName,
 					data : showName,
 					parentTreeId : targetTreeId,
 					icon : ENS.tree.SIGNAL_ICON_0,
@@ -1321,6 +1333,7 @@ ENS.treeView = wgp.TreeView
 
 				var treeOption = {
 					id : reportTreeId,
+					treeId : reportTreeId,
 					data : showName,
 					parentTreeId : targetTreeId,
 					icon : ENS.tree.REPORT_ICON,
@@ -1357,6 +1370,7 @@ ENS.treeView = wgp.TreeView
 
 				var treeOption = {
 					id : multipleResourceGraphName,
+					treeId : multipleResourceGraphName,
 					data : showName,
 					parentTreeId : targetTreeId,
 					icon : ENS.tree.MULRECGRAPH_ICON,

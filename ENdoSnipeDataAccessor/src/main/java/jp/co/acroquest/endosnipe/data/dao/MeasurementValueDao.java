@@ -173,8 +173,7 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
         "  FROM measurement_value mv, javelin_measurement_item jmi" +
         "  WHERE mv.measurement_item_id = jmi.measurement_item_id" +
         "    AND (mv.measurement_time BETWEEN ? and ?)" +
-        "    AND replace(replace(replace(jmi.measurement_item_name,chr(13)"
-                    + "||chr(10),' '),chr(13),' '),chr(10),' ')  LIKE ?" +
+        "    AND jmi.measurement_item_name  LIKE ?" +
         "  ORDER BY mv.measurement_time, measurement_item_name ";
 
     /** 期間と項目名を指定して計測値の系列を取得するSQL(前半部）。 */
@@ -188,8 +187,7 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
         "  FROM measurement_value mv, javelin_measurement_item jmi" +
         "  WHERE mv.measurement_item_id = jmi.measurement_item_id" +
         "    AND (mv.measurement_time BETWEEN ? and ?)" +
-        "    AND replace(replace(replace(jmi.measurement_item_name,chr(13)" + 
-        "||chr(10),' '),chr(13),' '),chr(10),' ')  ~* ? " +
+        "    AND jmi.measurement_item_name  ~* ? " +
         " ORDER BY cast(mv.measurement_value as float8) desc, " + 
         " mv.measurement_time, mv.measurement_item_id" +
         " limit ? ) sorted_mv ORDER BY sorted_mv.measurement_time";
@@ -205,8 +203,7 @@ public class MeasurementValueDao extends AbstractDao implements TableNames
         "  FROM measurement_value mv, javelin_measurement_item jmi" +
         "  WHERE mv.measurement_item_id = jmi.measurement_item_id" +
         "    AND (mv.measurement_time BETWEEN ? and ?)" +
-        "    AND replace(replace(replace(jmi.measurement_item_name,chr(13)" + 
-        "||chr(10),' '),chr(13),' '),chr(10),' ')  like ? " + 
+        "    AND jmi.measurement_item_name like ? " + 
         " ORDER BY cast(mv.measurement_value as float8) desc, " + 
         " mv.measurement_time, mv.measurement_item_id" +
         " limit ? ) sorted_mv ORDER BY sorted_mv.measurement_time";

@@ -105,6 +105,8 @@ ENS.AppView = wgp.AppView.extend({
 		
 		var treeId = model.get("treeId");
 		var treeIdSplitList = treeId.split("/");
+		var id = model.get("id");
+		var idSplitList = id.split("/");
 		var splitListLength = treeIdSplitList.length;
 		
 		// 末端ノード以外のノードの親が見つかった時は、そのノードのtypeをgroup、iconをcenterとして追加する。
@@ -133,9 +135,10 @@ ENS.AppView = wgp.AppView.extend({
 					}
 
 					var showName = treeIdSplitList[count];
+					var addId = idSplitList.slice(0, count + 1).join("/");
 					var addTreeId = tmpParentId + "/" + showName;
 					var treeOption = {
-						id : addTreeId,
+						id : addId,
 						data : showName,
 						treeId : addTreeId,
 						parentTreeId : tmpParentId,
