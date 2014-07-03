@@ -390,6 +390,22 @@ public class TelegramReader implements Runnable
      * ログを出力します。<br />
      * 
      * @param messageCode メッセージコード
+     * @param throwable 例外
+     * @param args 引数
+     */
+    private void outputLog(final String messageCode, final Throwable throwable,
+        final Object... args)
+    {
+        if (isOutputLog_)
+        {
+            LOGGER.log(messageCode, throwable, args);
+        }
+    }
+    
+    /**
+     * ログを出力します。<br />
+     * 
+     * @param messageCode メッセージコード
      * @param args 引数
      */
     private void outputLog(final String messageCode, final Object... args)
