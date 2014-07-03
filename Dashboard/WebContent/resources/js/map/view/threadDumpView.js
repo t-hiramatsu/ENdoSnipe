@@ -243,7 +243,7 @@ ENS.threadDump.dialog = function(id) {
 
 	var changed = threadDumpData.threadDumpInfo;
 	$("#threadDump").empty();
-	$("#threadDump").append(changed);
+	$("#threadDump").append('<pre>' + changed + '</pre>');
 	$("#threadDumpDialog").dialog({
 		modal : true,
 		width : 1200,

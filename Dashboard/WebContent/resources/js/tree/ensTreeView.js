@@ -1614,9 +1614,10 @@ ENS.treeView = wgp.TreeView
 					}
 					appView.syncData([ treeModel.get("id") ]);
 				}
-				// 継承元の追加処理を実行して画面に反映する。
-				wgp.TreeView.prototype.onAdd.call(this, treeModel);
-
+				
+				// 画面に反映する。(WGP内の実装では、初期化が正しく判定されないのでここで実装する)
+				this.render(wgp.constants.RENDER_TYPE.ADD, treeModel);
+				
 				// シグナルの場合はリアルタイム更新開始処理を行う。
 				if (ENS.tree.type.SIGNAL == treeType) {
 					appView.syncData([ treeModel.get("id") ]);
