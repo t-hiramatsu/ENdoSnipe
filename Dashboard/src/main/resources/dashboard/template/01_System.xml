@@ -1,0 +1,144 @@
+<?xml version="1.0"?>
+<template>
+	<width>1900</width>
+	<height>1000</height>
+	<background>
+		<objectType>POLYGON</objectType>
+		<fill>#000000</fill>
+	</background>
+	<resources>
+		<resource>
+			<objectName>ENS.TextBoxElementView</objectName>
+			<x>540</x>
+			<y>20</y>
+			<w>400</w>
+			<h>30</h>
+			<property>
+				<border>
+					<fill>#444444</fill>
+					<stroke>#000000</stroke>
+					<strokeWidth>2</strokeWidth>
+					<strokeDasharray></strokeDasharray>
+				</border>
+				<label>
+					<fontSize>24</fontSize>
+					<textAnchor>middle</textAnchor>
+					<fontFamily>Arial</fontFamily>
+					<fill>#ffffff</fill>
+					<text>System</text>
+				</label>
+			</property>
+		</resource>
+		<!-- 1 -->
+		<resource>
+			<objectName>ENS.MultipleResourceGraphElementView</objectName>
+			<x>20</x>
+			<y>65</y>
+			<w>700</w>
+			<h>220</h>
+			<property>
+				<resourceId></resourceId>
+				<name>CPU Usage(OS):%</name>
+				<target>/${ClusterName}/.*/system/cpu/usage/total.*</target>
+			</property>
+		</resource>
+		<resource>
+			<objectName>ENS.MultipleResourceGraphElementView</objectName>
+			<x>740</x>
+			<y>65</y>
+			<w>340</w>
+			<h>220</h>
+			<property>
+				<resourceId></resourceId>
+				<name>File Handle(OS)</name>
+				<target>/${ClusterName}/.*/system/file/handle/number</target>
+			</property>
+		</resource>
+		<resource>
+			<objectName>ENS.MultipleResourceGraphElementView</objectName>
+			<x>1100</x>
+			<y>65</y>
+			<w>340</w>
+			<h>220</h>
+			<property>
+				<resourceId></resourceId>
+				<name>Page In:pages</name>
+				<target>/${ClusterName}/.*/system/memory/pagein(d)</target>
+			</property>
+		</resource>
+		<!-- 2 -->
+		<resource>
+			<objectName>ENS.MultipleResourceGraphElementView</objectName>
+			<x>20</x>
+			<y>305</y>
+			<w>700</w>
+			<h>220</h>
+			<property>
+				<resourceId></resourceId>
+				<name>Physical Memory Free(OS):bytes</name>
+				<target>/${ClusterName}/.*/system/memory/physical/free:bytes</target>
+			</property>
+		</resource>
+		<resource>
+			<objectName>ENS.MultipleResourceGraphElementView</objectName>
+			<x>740</x>
+			<y>305</y>
+			<w>340</w>
+			<h>220</h>
+			<property>
+				<resourceId></resourceId>
+				<name>File Read(OS):bytes</name>
+				<target>/${ClusterName}/.*/system/file/read:bytes(d)</target>
+			</property>
+		</resource>
+		<resource>
+			<objectName>ENS.MultipleResourceGraphElementView</objectName>
+			<x>1100</x>
+			<y>305</y>
+			<w>340</w>
+			<h>220</h>
+			<property>
+				<resourceId></resourceId>
+				<name>Page Out:pages</name>
+				<target>/${ClusterName}/.*/system/memory/pageout(d)</target>
+			</property>
+		</resource>
+		<!-- 3 -->
+		<resource>
+			<objectName>ENS.MultipleResourceGraphElementView</objectName>
+			<x>20</x>
+			<y>545</y>
+			<w>340</w>
+			<h>220</h>
+			<property>
+				<resourceId></resourceId>
+				<name>Virtual Memory Used(OS):bytes</name>
+				<target>/${ClusterName}/.*/system/memory/virtual/used:bytes</target>
+			</property>
+		</resource>
+		<resource>
+			<objectName>ENS.MultipleResourceGraphElementView</objectName>
+			<x>380</x>
+			<y>545</y>
+			<w>340</w>
+			<h>220</h>
+			<property>
+				<resourceId></resourceId>
+				<name>Swap Memory Free(OS):bytes</name>
+				<target>/${ClusterName}/.*/system/memory/swap/free:bytes</target>
+			</property>
+		</resource>
+		<resource>
+			<objectName>ENS.MultipleResourceGraphElementView</objectName>
+			<x>740</x>
+			<y>545</y>
+			<w>340</w>
+			<h>220</h>
+			<property>
+				<resourceId></resourceId>
+				<name>File Write(OS):bytes</name>
+				<target>/${ClusterName}/.*/system/file/write:bytes(d)</target>
+			</property>
+		</resource>
+	</resources>
+</template>

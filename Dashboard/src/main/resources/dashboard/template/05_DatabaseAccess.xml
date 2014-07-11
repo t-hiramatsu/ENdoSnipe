@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<template>
+	<width>1900</width>
+	<height>1000</height>
+	<background>
+		<objectType>POLYGON</objectType>
+		<fill>#000000</fill>
+	</background>
+	<resources>
+		<resource>
+			<objectName>ENS.TextBoxElementView</objectName>
+			<x>540</x>
+			<y>20</y>
+			<w>400</w>
+			<h>30</h>
+			<property>
+				<border>
+					<fill>#444444</fill>
+					<stroke>#000000</stroke>
+					<strokeWidth>2</strokeWidth>
+					<strokeDasharray></strokeDasharray>
+				</border>
+				<label>
+					<fontSize>24</fontSize>
+					<textAnchor>middle</textAnchor>
+					<fontFamily>Arial</fontFamily>
+					<fill>#ffffff</fill>
+					<text>Database Access</text>
+				</label>
+			</property>
+		</resource>
+		<!-- 1 -->
+		<resource>
+			<objectName>ENS.MultipleResourceGraphElementView</objectName>
+			<x>20</x>
+			<y>65</y>
+			<w>700</w>
+			<h>220</h>
+			<property>
+				<resourceId></resourceId>
+				<name>Access Count</name>
+				<target>/${ClusterName}/.*/process/response/jdbc/.*/count</target>
+			</property>
+		</resource>
+		<resource>
+			<objectName>ENS.MultipleResourceGraphElementView</objectName>
+			<x>740</x>
+			<y>65</y>
+			<w>700</w>
+			<h>220</h>
+			<property>
+				<resourceId></resourceId>
+				<name>Response Time(Max):msec</name>
+				<target>/${ClusterName}/.*/process/response/jdbc/.*/max</target>
+			</property>
+		</resource>
+		<!-- 2 -->
+		<resource>
+			<objectName>ENS.MultipleResourceGraphElementView</objectName>
+			<x>20</x>
+			<y>305</y>
+			<w>700</w>
+			<h>220</h>
+			<property>
+				<resourceId></resourceId>
+				<name>Response Time(Average):msec</name>
+				<target>/${ClusterName}/.*/process/response/jdbc/.*/average</target>
+			</property>
+		</resource>
+		<resource>
+			<objectName>ENS.MultipleResourceGraphElementView</objectName>
+			<x>740</x>
+			<y>305</y>
+			<w>700</w>
+			<h>220</h>
+			<property>
+				<resourceId></resourceId>
+				<name>Response Time(Min):msec</name>
+				<target>/${ClusterName}/.*/process/response/jdbc/.*/min</target>
+			</property>
+		</resource>
+		<!-- 3 -->
+		<resource>
+			<objectName>ENS.MultipleResourceGraphElementView</objectName>
+			<x>20</x>
+			<y>545</y>
+			<w>700</w>
+			<h>220</h>
+			<property>
+				<resourceId></resourceId>
+				<name>Stalled Count</name>
+				<target>/${ClusterName}/.*/process/response/jdbc/.*/stalled</target>
+			</property>
+		</resource>
+		<resource>
+			<objectName>ENS.MultipleResourceGraphElementView</objectName>
+			<x>740</x>
+			<y>545</y>
+			<w>700</w>
+			<h>220</h>
+			<property>
+				<resourceId></resourceId>
+				<name>Event</name>
+				<target>/${ClusterName}/.*/process/response/jdbc/.*/event/.*</target>
+			</property>
+		</resource>
+	</resources>
+</template>

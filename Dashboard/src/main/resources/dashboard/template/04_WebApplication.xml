@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <template>
-	<width>1024</width>
-	<height>600</height>
+	<width>1900</width>
+	<height>1000</height>
 	<background>
 		<objectType>POLYGON</objectType>
 		<fill>#000000</fill>
@@ -9,7 +9,7 @@
 	<resources>
 		<resource>
 			<objectName>ENS.TextBoxElementView</objectName>
-			<x>312</x>
+			<x>540</x>
 			<y>20</y>
 			<w>400</w>
 			<h>30</h>
@@ -29,11 +29,12 @@
 				</label>
 			</property>
 		</resource>
+		<!-- 1 -->
 		<resource>
 			<objectName>ENS.MultipleResourceGraphElementView</objectName>
-			<x>50</x>
+			<x>20</x>
 			<y>65</y>
-			<w>850</w>
+			<w>700</w>
 			<h>220</h>
 			<property>
 				<resourceId></resourceId>
@@ -43,25 +44,63 @@
 		</resource>
 		<resource>
 			<objectName>ENS.MultipleResourceGraphElementView</objectName>
-			<x>50</x>
-			<y>320</y>
-			<w>400</w>
+			<x>740</x>
+			<y>65</y>
+			<w>700</w>
 			<h>220</h>
 			<property>
 				<resourceId></resourceId>
-				<name>Response Time</name>
+				<name>Response Time(Max):msec</name>
+				<target>/${ClusterName}/.*/process/response/servlet/.*/max</target>
+			</property>
+		</resource>
+		<!-- 2 -->
+		<resource>
+			<objectName>ENS.MultipleResourceGraphElementView</objectName>
+			<x>20</x>
+			<y>305</y>
+			<w>700</w>
+			<h>220</h>
+			<property>
+				<resourceId></resourceId>
+				<name>Response Time(Average):msec</name>
 				<target>/${ClusterName}/.*/process/response/servlet/.*/average</target>
 			</property>
 		</resource>
 		<resource>
 			<objectName>ENS.MultipleResourceGraphElementView</objectName>
-			<x>500</x>
-			<y>320</y>
-			<w>400</w>
+			<x>740</x>
+			<y>305</y>
+			<w>700</w>
 			<h>220</h>
 			<property>
 				<resourceId></resourceId>
-				<name>Exception</name>
+				<name>Response Time(Min):msec</name>
+				<target>/${ClusterName}/.*/process/response/servlet/.*/min</target>
+			</property>
+		</resource>
+		<!-- 3 -->
+		<resource>
+			<objectName>ENS.MultipleResourceGraphElementView</objectName>
+			<x>20</x>
+			<y>545</y>
+			<w>700</w>
+			<h>220</h>
+			<property>
+				<resourceId></resourceId>
+				<name>Stalled Count</name>
+				<target>/${ClusterName}/.*/process/response/servlet/.*/stalled</target>
+			</property>
+		</resource>
+		<resource>
+			<objectName>ENS.MultipleResourceGraphElementView</objectName>
+			<x>740</x>
+			<y>545</y>
+			<w>700</w>
+			<h>220</h>
+			<property>
+				<resourceId></resourceId>
+				<name>Event</name>
 				<target>/${ClusterName}/.*/process/response/servlet/.*/event/.*</target>
 			</property>
 		</resource>
