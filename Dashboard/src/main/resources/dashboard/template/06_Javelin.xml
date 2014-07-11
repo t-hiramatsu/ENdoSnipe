@@ -1,0 +1,120 @@
+<?xml version="1.0"?>
+<template>
+	<width>1900</width>
+	<height>1000</height>
+	<background>
+		<objectType>POLYGON</objectType>
+		<fill>#000000</fill>
+	</background>
+	<resources>
+		<resource>
+			<objectName>ENS.TextBoxElementView</objectName>
+			<x>710</x>
+			<y>20</y>
+			<w>400</w>
+			<h>30</h>
+			<property>
+				<border>
+					<fill>#444444</fill>
+					<stroke>#000000</stroke>
+					<strokeWidth>2</strokeWidth>
+					<strokeDasharray></strokeDasharray>
+				</border>
+				<label>
+					<fontSize>24</fontSize>
+					<textAnchor>middle</textAnchor>
+					<fontFamily>Arial</fontFamily>
+					<fill>#ffffff</fill>
+					<text>Javelin</text>
+				</label>
+			</property>
+		</resource>
+		<!-- 1 -->
+		<resource>
+			<objectName>ENS.MultipleResourceGraphElementView</objectName>
+			<x>20</x>
+			<y>65</y>
+			<w>700</w>
+			<h>220</h>
+			<property>
+				<resourceId></resourceId>
+				<name>CallTree Count</name>
+				<target>/${ClusterName}/.*/javelin/calltree/generated/current</target>
+			</property>
+		</resource>
+		<resource>
+			<objectName>ENS.MultipleResourceGraphElementView</objectName>
+			<x>740</x>
+			<y>65</y>
+			<w>700</w>
+			<h>220</h>
+			<property>
+				<resourceId></resourceId>
+				<name>Coverage:%</name>
+				<target>/${ClusterName}/.*/javelin/converter/coverage:%</target>
+			</property>
+		</resource>
+		<resource>
+			<objectName>ENS.MultipleResourceGraphElementView</objectName>
+			<x>1460</x>
+			<y>65</y>
+			<w>340</w>
+			<h>220</h>
+			<property>
+				<resourceId></resourceId>
+				<name>Excluded Method</name>
+				<target>/${ClusterName}/.*/javelin/converter/methods/excluded</target>
+			</property>
+		</resource>
+		<!-- 2 -->
+		<resource>
+			<objectName>ENS.MultipleResourceGraphElementView</objectName>
+			<x>20</x>
+			<y>305</y>
+			<w>700</w>
+			<h>220</h>
+			<property>
+				<resourceId></resourceId>
+				<name>CallTreeNode All</name>
+				<target>/${ClusterName}/.*/javelin/calltreenode/generated/all</target>
+			</property>
+		</resource>
+		<resource>
+			<objectName>ENS.MultipleResourceGraphElementView</objectName>
+			<x>740</x>
+			<y>305</y>
+			<w>700</w>
+			<h>220</h>
+			<property>
+				<resourceId></resourceId>
+				<name>Converted Method</name>
+				<target>/${ClusterName}/.*/javelin/converter/methods/converted</target>
+			</property>
+		</resource>
+		<!-- 3 -->
+		<resource>
+			<objectName>ENS.MultipleResourceGraphElementView</objectName>
+			<x>20</x>
+			<y>545</y>
+			<w>700</w>
+			<h>220</h>
+			<property>
+				<resourceId></resourceId>
+				<name>CallTreeNode Max</name>
+				<target>/${ClusterName}/.*/javelin/calltreenode/generated/max</target>
+			</property>
+		</resource>
+		<resource>
+			<objectName>ENS.MultipleResourceGraphElementView</objectName>
+			<x>740</x>
+			<y>545</y>
+			<w>700</w>
+			<h>220</h>
+			<property>
+				<resourceId></resourceId>
+				<name>Executed Method</name>
+				<target>/${ClusterName}/.*/javelin/converter/methods/executed</target>
+			</property>
+		</resource>
+	</resources>
+</template>
