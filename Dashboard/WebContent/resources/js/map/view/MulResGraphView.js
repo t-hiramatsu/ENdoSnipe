@@ -60,8 +60,6 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 
 				appView.addView(this, this.graphIds);
 
-				this.registerCollectionEvent();
-
 				if (!this.noTermData) {
 
 					appView.getTermData([ this.graphIds ], this.timeStart,
@@ -234,34 +232,29 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 					isShort = true;
 				}
 
-				var element = document.getElementById(graphId);
-
-				this.entity = new Dygraph(element, dataFinal, optionSettings);
-				this.entity.resize(this.width, this.graphHeight);
-				$("#" + graphId).height(this.height);
-
 				if (this.labelY == "%") {
-					this.getGraphObject().updateOptions({
-						valueRange : [ 0, this.percentGraphMaxYValue ]
-					});
+					optionSettings.valueRange = [ 0, this.percentGraphMaxYValue ];
 				} else {
-					this.getGraphObject().updateOptions(
-							{
-								valueRange : [
-										0,
-										this.maxValue
-												* this.yValueMagnification ]
-							});
+					optionSettings.valueRange = [
+													0,
+													this.maxValue
+															* this.yValueMagnification ];
 				}
 				if ($("#" + this.maximumButton).length > 0) {
 					$("#" + this.maximumButton).remove();
 				}
 
-				this.getGraphObject().updateOptions({
-					dateWindow : this.dateWindow,
-					axisLabelFontSize : 10,
-					titleHeight : 22
-				});
+				
+				optionSettings.dateWindow = this.dateWindow;
+				optionSettings.axisLabelFontSize = 10;
+				optionSettings.titleHeight = 22;
+				
+				var element = document.getElementById(graphId);
+				optionSettings.width = this.width;
+				optionSettings.height = this.graphHeight;
+				this.entity = new Dygraph(element, dataFinal, optionSettings);
+				
+				$("#" + graphId).height(this.height);
 
 				if (this.viewMaximumButtonFlag) {
 					var childElem = $("#" + graphId + "").children("div");
@@ -425,8 +418,12 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 				if (this.isFirstRender === true) {
 					this.render();
 					this.isFirstRender = false;
-				}
-				if (syncType == wgp.constants.syncType.SEARCH) {
+					
+					if(this.isRealTime){
+						var tmpAppView = new ENS.AppView();
+						tmpAppView.syncData([ this.graphIds ]);
+					}
+				} else if (syncType == wgp.constants.syncType.SEARCH) {
 					this._getTermData();
 				}
 				var graphId = this.$el.attr("id") + "_ensgraph";

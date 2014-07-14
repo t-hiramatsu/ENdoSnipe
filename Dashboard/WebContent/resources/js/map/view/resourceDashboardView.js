@@ -68,6 +68,11 @@ ENS.ResourceDashboardView = wgp.MapView.extend({
 	destroy : function (){
 		this.$el.children().remove();
 		this.undelegateEvents();
+		_.each(this.viewCollection, function(view, index){
+			if(view.destroy) {
+				view.destroy();				
+			}
+		});
 	},
 	// 要素が追加された際に、自身の領域に要素のタイプに応じて描画要素を追加する。
 	onAdd : function(model){
