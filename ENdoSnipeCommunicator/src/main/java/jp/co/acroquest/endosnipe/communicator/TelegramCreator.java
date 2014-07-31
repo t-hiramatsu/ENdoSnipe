@@ -334,11 +334,25 @@ public final class TelegramCreator implements TelegramConstants
      * Invocation を更新するための電文を生成します。<br />
      * 
      * @param invocationParamArray
-     *			Invocation を更新する内容
+     *          Invocation を更新する内容
      * @return 電文オブジェクト
      */
     public static Telegram createUpdateInvocationTelegram(
         final UpdateInvocationParam[] invocationParamArray)
+    {
+        return createUpdateInvocationTelegram(invocationParamArray, null);
+    }
+
+    /**
+     * Invocation を更新するための電文を生成します。<br />
+     * 
+     * @param invocationParamArray
+     *			Invocation を更新する内容
+     * @param agentName 電文送信先Javelinのエージェント名
+     * @return 電文オブジェクト
+     */
+    public static Telegram createUpdateInvocationTelegram(
+        final UpdateInvocationParam[] invocationParamArray, String agentName)
     {
         Header objHeader = new Header();
         objHeader.setByteTelegramKind(BYTE_TELEGRAM_KIND_UPDATE_TARGET);
@@ -411,6 +425,12 @@ public final class TelegramCreator implements TelegramConstants
                     bodies.add(body);
                 }
             }
+        }
+        if (agentName != null)
+        {
+            Body body = new Body();
+            body.setStrItemName(agentName);
+            bodies.add(body);
         }
         objOutputTelegram.setObjBody(bodies.toArray(new Body[bodies.size()]));
         return objOutputTelegram;
@@ -567,15 +587,15 @@ public final class TelegramCreator implements TelegramConstants
         return telegram;
     }
 
-     /**
-         * スレッドダンプ取得要求電文を作成します。
-          * 
-         * @return スレッドダンプ取得要求電文
-         */
-       public static Telegram createThreadDumpRequestTelegram()
-        {
-             return createThreadDumpRequestTelegram(null);
-         }
+    /**
+        * スレッドダンプ取得要求電文を作成します。
+         * 
+        * @return スレッドダンプ取得要求電文
+        */
+    public static Telegram createThreadDumpRequestTelegram()
+    {
+        return createThreadDumpRequestTelegram(null);
+    }
 
     /**
      * ヒープダンプ取得要求電文を作成します。
@@ -659,33 +679,83 @@ public final class TelegramCreator implements TelegramConstants
         return objOutputTelegram;
     }
 
+    /**
+     * スレッドダンプ取得要求電文を作成します。
+     * 
+     * @return スレッドダンプ取得要求電文
+     */
+    public static Telegram createThreadDumpRequestTelegram(String agentName)
+    {
+        Header objHeader = new Header();
+        objHeader.setId(TelegramUtil.generateTelegramId());
+        objHeader.setByteTelegramKind(BYTE_TELEGRAM_KIND_GET_DUMP);
+        objHeader.setByteRequestKind(BYTE_REQUEST_KIND_REQUEST);
+        Body[] bodies = null;
 
-     /**
-      * スレッドダンプ取得要求電文を作成します。
-      * 
-      * @return スレッドダンプ取得要求電文
-      */
-     public static Telegram createThreadDumpRequestTelegram(String agentName)
-     {
-         Header objHeader = new Header();
-         objHeader.setId(TelegramUtil.generateTelegramId());
-         objHeader.setByteTelegramKind(BYTE_TELEGRAM_KIND_GET_DUMP);
-         objHeader.setByteRequestKind(BYTE_REQUEST_KIND_REQUEST);
-         Body[] bodies = null;
-        
-         if(agentName != null)
-         {
-             // bodyに入れる
-            bodies = TelegramUtil.createEmptyRequestBody(OBJECTNAME_DUMP, ITEMNAME_THREADDUMP,agentName);
-         }
-         else {
+        if (agentName != null)
+        {
+            // bodyに入れる
+            bodies =
+                TelegramUtil
+                    .createEmptyRequestBody(OBJECTNAME_DUMP, ITEMNAME_THREADDUMP, agentName);
+        }
+        else
+        {
             bodies = TelegramUtil.createEmptyRequestBody(OBJECTNAME_DUMP, ITEMNAME_THREADDUMP);
         }
-            
-         
-         Telegram requestTelegram = new Telegram();
-         requestTelegram.setObjHeader(objHeader);
-         requestTelegram.setObjBody(bodies);
-         return requestTelegram;
+
+        Telegram requestTelegram = new Telegram();
+        requestTelegram.setObjHeader(objHeader);
+        requestTelegram.setObjBody(bodies);
+        return requestTelegram;
     }
+
+    /**
+     * 状態取得要求電文を作成します。
+     * 
+     * @param agentName 電文送信先Javelinエージェント名
+     * @return 状態取得要求電文
+     */
+    public static Telegram createProfileGetTelegram(String agentName)
+    {
+        Header objHeader = new Header();
+        objHeader.setId(TelegramUtil.generateTelegramId());
+        objHeader.setByteTelegramKind(BYTE_TELEGRAM_KIND_GET);
+        objHeader.setByteRequestKind(BYTE_REQUEST_KIND_REQUEST);
+
+        Body[] bodies = new Body[1];
+        Body body = new Body();
+        body.setStrItemName(agentName);
+        bodies[0] = body;
+
+        Telegram getTelegram = new Telegram();
+        getTelegram.setObjHeader(objHeader);
+        getTelegram.setObjBody(bodies);
+        return getTelegram;
+    }
+
+    /**
+     * リセット要求電文を作成します。
+     * 
+     * @param agentName 電文送信先Javelinエージェント名
+     * @return リセット要求電文
+     */
+    public static Telegram createProfileResetTelegram(String agentName)
+    {
+        Header objHeader = new Header();
+        objHeader.setId(TelegramUtil.generateTelegramId());
+        objHeader.setByteTelegramKind(BYTE_TELEGRAM_KIND_RESET);
+        objHeader.setByteRequestKind(BYTE_REQUEST_KIND_REQUEST);
+
+        Body[] bodies = new Body[1];
+        Body body = new Body();
+        body.setStrItemName(agentName);
+        bodies[0] = body;
+
+        Telegram resetTelegram = new Telegram();
+        resetTelegram.setObjHeader(objHeader);
+        resetTelegram.setObjBody(bodies);
+        return resetTelegram;
+    }
+
 }
