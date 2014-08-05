@@ -124,6 +124,11 @@
 	src="<%=request.getContextPath()%>/resources/js/map/view/perfDoctorView.js">
 	
 </script>
+<%-- Profiler --%>
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/resources/js/map/view/profilerView.js">
+	
+</script>
 
 <%-- ThreadDump --%>
 <script type="text/javascript"

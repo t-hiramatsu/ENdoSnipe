@@ -70,3 +70,44 @@ ENS.Utility.makeAnchor2 = function(cellValue, options, rowObject) {
 			+ '\');">' + linkName + '</a>';
 
 };
+
+ENS.Utility.createFilterParameter = function(value) {
+    var escape = "\\";
+    if (!value) {
+        value = "";
+    }
+    // #$&()*+,./:;=>[]^|~"%'<?@\`{}「SPACE」をエスケープ
+    value = value.replace(/\\/g, escape + "\\");
+    value = value.replace(/#/g, escape + "#");
+    value = value.replace(/\$/g, escape + "$");
+    value = value.replace(/\&/g, escape + "&");
+    value = value.replace(/\(/g, escape + "(");
+    value = value.replace(/\)/g, escape + ")");
+    value = value.replace(/\*/g, escape + "*");
+    value = value.replace(/\+/g, escape + "+");
+    value = value.replace(/,/g, escape + ",");
+    value = value.replace(/\./g, escape + ".");
+    value = value.replace(/\//g, escape + "/");
+    value = value.replace(/:/g, escape + ":");
+    value = value.replace(/;/g, escape + ";");
+    value = value.replace(/=/g, escape + "=");
+    value = value.replace(/>/g, escape + ">");
+    value = value.replace(/\[/g, escape + "[");
+    value = value.replace(/\]/g, escape + "]");
+    value = value.replace(/\^/g, escape + "^");
+    value = value.replace(/\|/g, escape + "|");
+    value = value.replace(/~/g, escape + "~");
+    value = value.replace(/\!/g, escape + "!");
+    value = value.replace(/ /g, escape + " ");
+    value = value.replace(/"/g, escape + "\"");
+    value = value.replace(/%/g, escape + "%");
+    value = value.replace(/'/g, escape + "\'");
+    value = value.replace(/</g, escape + "<");
+    value = value.replace(/\?/g, escape + "?");
+    value = value.replace(/@/g, escape + "@");
+    value = value.replace(/`/g, escape + "`");
+    value = value.replace(/{/g, escape + "{");
+    value = value.replace(/}/g, escape + "}");
+
+    return value;
+};

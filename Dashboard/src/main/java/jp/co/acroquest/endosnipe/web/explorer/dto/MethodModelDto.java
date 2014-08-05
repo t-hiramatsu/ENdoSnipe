@@ -79,6 +79,10 @@ public class MethodModelDto
 
     private boolean transactionGraph_;
 
+    private String profileValueChanged_;
+
+    private String classMethodId_;
+
     public String getPackageName()
     {
         return packageName_;
@@ -287,5 +291,25 @@ public class MethodModelDto
     public void setTransactionGraph(final boolean transactionGraph)
     {
         transactionGraph_ = transactionGraph;
+    }
+
+    public String getProfileValueChanged()
+    {
+        return profileValueChanged_;
+    }
+
+    public void setProfileValueChanged(final String changed)
+    {
+        profileValueChanged_ = changed;
+    }
+
+    public String getClassMethodId()
+    {
+        return classMethodId_;
+    }
+
+    public void setClassMethodId(final String id)
+    {
+        classMethodId_ = id;
     }
 }

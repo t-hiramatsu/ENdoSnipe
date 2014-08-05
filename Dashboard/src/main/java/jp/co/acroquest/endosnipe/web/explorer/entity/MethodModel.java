@@ -681,6 +681,11 @@ public class MethodModel implements Comparable<MethodModel>
         dto.setAlarmThreshold(alarmThreshold_);
         dto.setAlarmCpuThreshold(alarmCpuThreshold_);
         dto.setTransactionGraph(transactionGraph_);
+        dto.setProfileValueChanged("false");
+        String classMethod = className_ + "____" + methodName_;
+        classMethod = classMethod.replaceAll("\r\n", "");
+        classMethod = classMethod.replaceAll("\n", "");
+        dto.setClassMethodId(classMethod);
         return dto;
     }
 
