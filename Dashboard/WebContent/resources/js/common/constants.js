@@ -43,6 +43,7 @@ ENS.URL.THREADDUMP_POSTFIX_ID = "/threadDump";
 ENS.URL.JVN_LOG_NOTIFY_POSTFIX_ID = "/JvnLog_Notify";
 
 ENS.URL.PROFILER_POSTFIX_ID = "/profiler";
+ENS.URL.CONTROLLER_POSTFIX_ID = "/propertyController";
 
 ENS.common = {};
 ENS.common.dualslider = {};
@@ -199,6 +200,9 @@ ENS.tree.THREAD_DUMP_CLICK = wgp.common.getContextPath()+"/threadDump/addThreadD
 ENS.tree.PROFILER_RELOAD = wgp.common.getContextPath()+"/profiler/reload";
 ENS.tree.PROFILER_RESET = wgp.common.getContextPath()+"/profiler/reset";
 ENS.tree.PROFILER_UPDATE = wgp.common.getContextPath()+"/profiler/update";
+
+ENS.tree.CONTROLLER_RELOAD = wgp.common.getContextPath()+"/propertyController/reload";
+ENS.tree.CONTROLLER_UPDATE = wgp.common.getContextPath()+"/propertyController/update";
 
 ENS.tree.type = {};
 ENS.tree.type.GROUP = "group";

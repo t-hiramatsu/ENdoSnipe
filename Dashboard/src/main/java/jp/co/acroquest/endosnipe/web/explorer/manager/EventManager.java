@@ -68,6 +68,9 @@ public final class EventManager
     /** ProfileSender */
     private ProfileSender profileSender_;
 
+    /** ControlSender */
+    private ControlSender controlSender_;
+
     /**
      * インスタンス化を阻止するプライベートコンストラクタです。
      */
@@ -271,4 +274,21 @@ public final class EventManager
         return this.profileSender_;
     }
 
+    /**
+     * controlSenderを設定します。
+     * @param controlSender controlSender
+     */
+    public void setControlSender(final ControlSender controlSender)
+    {
+        this.controlSender_ = controlSender;
+    }
+
+    /**
+     * controlSenderを取得します。
+     * @return controlSender
+     */
+    public ControlSender getControlSender()
+    {
+        return this.controlSender_;
+    }
 }

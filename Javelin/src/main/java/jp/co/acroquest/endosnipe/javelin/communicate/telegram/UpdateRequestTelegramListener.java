@@ -81,6 +81,24 @@ public class UpdateRequestTelegramListener implements TelegramListener, Telegram
             // 応答電文を作成する
             Telegram response = GetPropertyRequestTelegramListener.createPropertyResponse(
                     header.getId(), property);
+            
+            Body[] bodies = telegram.getObjBody();
+            if (bodies.length > 0)
+            {
+                String agentName = bodies[bodies.length - 1].getStrItemName();
+                Body agentNameBody = new Body();
+                agentNameBody.setStrItemName(agentName);
+                agentNameBody.setStrObjName("agentName");
+                
+                Body[] oldBodies = response.getObjBody();
+                Body[] newBodies = new Body[oldBodies.length + 1];
+                for (int index = 0; index < oldBodies.length; index++) {
+                    newBodies[index] = oldBodies[index];
+                }
+                newBodies[newBodies.length - 1] = agentNameBody;
+                response.setObjBody(newBodies);
+            }
+            
             return response;
         }
         return null;

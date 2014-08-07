@@ -35,6 +35,7 @@ import javax.servlet.http.HttpServletRequest;
 import jp.co.acroquest.endosnipe.web.explorer.dto.ResponseDto;
 import jp.co.acroquest.endosnipe.web.explorer.entity.DashboardInfo;
 import jp.co.acroquest.endosnipe.web.explorer.form.DashboardListForm;
+import jp.co.acroquest.endosnipe.web.explorer.manager.ControlSender;
 import jp.co.acroquest.endosnipe.web.explorer.manager.EventManager;
 import jp.co.acroquest.endosnipe.web.explorer.manager.ProfileSender;
 import jp.co.acroquest.endosnipe.web.explorer.manager.ResourceSender;
@@ -70,6 +71,10 @@ public class DashboardController
     /** メソッド情報送信クラスのオブジェクト */
     @Autowired
     protected ProfileSender profileSender;
+
+    /** プロパティ情報送信クラスのオブジェクト */
+    @Autowired
+    protected ControlSender controlSender;
 
     @Autowired
     protected ServletContext servletContext;
@@ -110,6 +115,7 @@ public class DashboardController
         eventManager.setWgpDataManager(wgpDataManager);
         eventManager.setResourceSender(resourceSender);
         eventManager.setProfileSender(profileSender);
+        eventManager.setControlSender(controlSender);
 
         // ダッシュボードモードが設定されていない場合は運用モードを設定する。
         String dashboardMode = dashboardListForm.getDashboardMode();

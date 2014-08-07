@@ -38,6 +38,8 @@ import jp.co.acroquest.endosnipe.collector.DataCollectorServer.ClientNotifyListe
 import jp.co.acroquest.endosnipe.collector.data.JavelinConnectionData;
 import jp.co.acroquest.endosnipe.collector.listener.AllNotifyListener;
 import jp.co.acroquest.endosnipe.collector.listener.CommonResponseListener;
+import jp.co.acroquest.endosnipe.collector.listener.ControlGetNotifyListener;
+import jp.co.acroquest.endosnipe.collector.listener.ControlUpdateNotifyListener;
 import jp.co.acroquest.endosnipe.collector.listener.JavelinClientTelegramListener;
 import jp.co.acroquest.endosnipe.collector.listener.JvnFileNotifyListener;
 import jp.co.acroquest.endosnipe.collector.listener.ProfileNotifyListener;
@@ -413,6 +415,12 @@ public class JavelinServer implements TelegramSender, TelegramConstants
         ProfileNotifyListener profileNotifyListener = new ProfileNotifyListener();
         client.addTelegramListener(profileNotifyListener);
 
+        ControlGetNotifyListener controlGetNotifyListener = new ControlGetNotifyListener();
+        client.addTelegramListener(controlGetNotifyListener);
+
+        ControlUpdateNotifyListener controlUpdateNotifyListener = new ControlUpdateNotifyListener();
+        client.addTelegramListener(controlUpdateNotifyListener);
+
         // 制御クライアントが存在するなら、Javelinクライアントと紐付ける。
         Set<DataCollectorClient> controlClientSet = getControlClient(dbName);
         if (controlClientSet != null)
@@ -522,6 +530,12 @@ public class JavelinServer implements TelegramSender, TelegramConstants
 
         ProfileNotifyListener profileNotifyListener = new ProfileNotifyListener();
         client.addTelegramListener(profileNotifyListener);
+
+        ControlGetNotifyListener controlGetNotifyListener = new ControlGetNotifyListener();
+        client.addTelegramListener(controlGetNotifyListener);
+
+        ControlUpdateNotifyListener controlUpdateNotifyListener = new ControlUpdateNotifyListener();
+        client.addTelegramListener(controlUpdateNotifyListener);
     }
 
     /**
@@ -543,6 +557,14 @@ public class JavelinServer implements TelegramSender, TelegramConstants
                     || objHeader.getByteTelegramKind() == BYTE_TELEGRAM_KIND_SUMMARYSIGNAL_DEFINITION
                     && objHeader.getByteRequestKind() == BYTE_REQUEST_KIND_NOTIFY
                     || objHeader.getByteTelegramKind() == BYTE_TELEGRAM_KIND_GET
+                    && objHeader.getByteRequestKind() == BYTE_REQUEST_KIND_REQUEST
+                    || objHeader.getByteTelegramKind() == BYTE_TELEGRAM_KIND_RESET
+                    && objHeader.getByteRequestKind() == BYTE_REQUEST_KIND_REQUEST
+                    || objHeader.getByteTelegramKind() == BYTE_TELEGRAM_KIND_UPDATE_TARGET
+                    && objHeader.getByteRequestKind() == BYTE_REQUEST_KIND_REQUEST
+                    || objHeader.getByteTelegramKind() == BYTE_TELEGRAM_KIND_GET_PROPERTY
+                    && objHeader.getByteRequestKind() == BYTE_REQUEST_KIND_REQUEST
+                    || objHeader.getByteTelegramKind() == BYTE_TELEGRAM_KIND_UPDATE_PROPERTY
                     && objHeader.getByteRequestKind() == BYTE_REQUEST_KIND_REQUEST)
                 {
                     sendTelegramToAgent(telegram, javelinClient);

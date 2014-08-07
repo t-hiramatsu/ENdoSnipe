@@ -52,10 +52,29 @@ public class GetPropertyRequestTelegramListener implements TelegramListener, Tel
     {
         Header header = telegram.getObjHeader();
         if (header.getByteTelegramKind() == BYTE_TELEGRAM_KIND_GET_PROPERTY
-                && header.getByteRequestKind() == BYTE_REQUEST_KIND_REQUEST)
+            && header.getByteRequestKind() == BYTE_REQUEST_KIND_REQUEST)
         {
             long telegramId = header.getId();
             Telegram response = createPropertyResponse(telegramId, BYTE_TELEGRAM_KIND_GET_PROPERTY);
+
+            Body[] bodies = telegram.getObjBody();
+            if (bodies.length > 0)
+            {
+                String agentName = bodies[0].getStrItemName();
+                Body agentNameBody = new Body();
+                agentNameBody.setStrItemName(agentName);
+                agentNameBody.setStrObjName("agentName");
+
+                Body[] oldBodies = response.getObjBody();
+                Body[] newBodies = new Body[oldBodies.length + 1];
+                for (int index = 0; index < oldBodies.length; index++)
+                {
+                    newBodies[index] = oldBodies[index];
+                }
+                newBodies[newBodies.length - 1] = agentNameBody;
+                response.setObjBody(newBodies);
+            }
+
             return response;
         }
         return null;

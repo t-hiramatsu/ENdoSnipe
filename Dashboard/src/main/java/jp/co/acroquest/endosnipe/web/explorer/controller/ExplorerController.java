@@ -32,6 +32,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import jp.co.acroquest.endosnipe.communicator.CommunicationClient;
 import jp.co.acroquest.endosnipe.web.explorer.manager.ConnectionClient;
+import jp.co.acroquest.endosnipe.web.explorer.manager.ControlSender;
 import jp.co.acroquest.endosnipe.web.explorer.manager.EventManager;
 import jp.co.acroquest.endosnipe.web.explorer.manager.ProfileSender;
 import jp.co.acroquest.endosnipe.web.explorer.manager.ResourceSender;
@@ -70,6 +71,10 @@ public class ExplorerController
     @Autowired
     protected ProfileSender profileSender;
 
+    /** プロパティ情報送信クラスのオブジェクト */
+    @Autowired
+    protected ControlSender controlSender;
+
     /**
      * コンストラクタ。
      */
@@ -95,6 +100,7 @@ public class ExplorerController
         eventManager.setWgpDataManager(wgpDataManager);
         eventManager.setResourceSender(resourceSender);
         eventManager.setProfileSender(profileSender);
+        eventManager.setControlSender(controlSender);
 
         ConnectionClient connectionClient = ConnectionClient.getInstance();
         List<CommunicationClient> clientList = connectionClient.getClientList();
