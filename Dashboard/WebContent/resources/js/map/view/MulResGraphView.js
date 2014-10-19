@@ -212,7 +212,8 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 					},
 					dateWindow : this.dateWindow,
 					axisLabelFontSize : 10,
-					titleHeight : 22
+					titleHeight : 22,
+					connectSeparatedPoints : true
 				};
 
 				this.attributes = undefined;
@@ -783,9 +784,10 @@ ENS.MultipleResourceGraphElementView = ENS.ResourceGraphElementView
 
 							// いずれかの系列にデータが存在しない場合を考慮し、
 							// あらかじめnullで初期化しておく。
-							_.each(dataArray, function(dataTemp, dataTempIndex){
-								dataArray[dataTempIndex] = null;
-							});
+							var cnt;
+							for (cnt = 0; cnt < currentKeys.length + 1; cnt++) {
+								dataArray[cnt] = null;
+							}
 							dataMap[dateData] = dataArray;
 
 						}
