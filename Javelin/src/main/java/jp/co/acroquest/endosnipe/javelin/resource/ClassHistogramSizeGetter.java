@@ -62,7 +62,7 @@ public class ClassHistogramSizeGetter implements MultiResourceGetter
      */
     public ItemType getItemType()
     {
-        return ItemType.ITEMTYPE_INT;
+        return ItemType.ITEMTYPE_STRING;
     }
 
     /**
