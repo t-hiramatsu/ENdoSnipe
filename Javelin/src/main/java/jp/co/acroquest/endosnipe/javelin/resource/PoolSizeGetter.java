@@ -40,6 +40,9 @@ import jp.co.acroquest.endosnipe.javelin.converter.pool.monitor.PoolMonitor;
  */
 public class PoolSizeGetter implements MultiResourceGetter
 {
+    /** リソース名の接尾辞 */
+    private static final String RESOURCE_NAME_PREFIX = "/process/connection/pool/";
+
     /**
      * {@inheritDoc}
      */
@@ -76,7 +79,7 @@ public class PoolSizeGetter implements MultiResourceGetter
             int maxActive = monitoredPool.getDirectMaxActive();
             if (maxActive >= 0)
             {
-                resourceEntry.setName("Max:" + objectId);
+                resourceEntry.setName(RESOURCE_NAME_PREFIX + "Max:" + objectId);
                 resourceEntry.setValue(String.valueOf(maxActive));
                 result.add(resourceEntry);
             }
@@ -85,7 +88,7 @@ public class PoolSizeGetter implements MultiResourceGetter
             int numActive = monitoredPool.getDirectNumActive();
             if (numActive >= 0)
             {
-                numActiveEntry.setName("Num:" + objectId);
+                numActiveEntry.setName(RESOURCE_NAME_PREFIX + "Num:" + objectId);
                 numActiveEntry.setValue(String.valueOf(numActive));
                 result.add(numActiveEntry);
             }
