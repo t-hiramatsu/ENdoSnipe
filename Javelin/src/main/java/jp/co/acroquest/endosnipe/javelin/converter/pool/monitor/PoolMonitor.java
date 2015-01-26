@@ -27,9 +27,13 @@ package jp.co.acroquest.endosnipe.javelin.converter.pool.monitor;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import jp.co.acroquest.endosnipe.common.event.EventConstants;
 import jp.co.acroquest.endosnipe.javelin.StatsJavelinRecorder;
@@ -47,9 +51,15 @@ public class PoolMonitor
 {
     private static ConcurrentHashMap<String, WeakReference<MonitoredPool>> poolMap__;
 
+    private static ConcurrentHashMap<String, AtomicInteger> sequenceMap__;
+
+    private static ConcurrentHashMap<String, String> nameMap__;
+
     static
     {
         poolMap__ = new ConcurrentHashMap<String, WeakReference<MonitoredPool>>();
+        sequenceMap__ = new ConcurrentHashMap<String, AtomicInteger>();
+        nameMap__ = new ConcurrentHashMap<String, String>();
     }
 
     /**
@@ -67,12 +77,24 @@ public class PoolMonitor
     public static void addPool(final MonitoredPool pool)
     {
         String objectID = StatsUtil.createIdentifier(pool);
-        if (poolMap__.containsKey(objectID))
+        String resourceName = nameMap__.get(objectID);
+        if (resourceName != null)
         {
             return;
         }
-        poolMap__.put(objectID, new WeakReference<MonitoredPool>(pool));
-        pool.setObjectId(objectID);
+        String className = pool.getClass().getName();
+        AtomicInteger sequence = sequenceMap__.get(className);
+        if (sequence == null)
+        {
+            sequence = new AtomicInteger(1);
+            sequenceMap__.put(className, sequence);
+        }
+        int next = sequence.addAndGet(1);
+        String key = className + "_" + next;
+
+        poolMap__.put(key, new WeakReference<MonitoredPool>(pool));
+        nameMap__.put(key, objectID);
+        pool.setObjectId(key);
 
         CommonEvent event = createEvent(objectID);
         StatsJavelinRecorder.addEvent(event);
@@ -115,6 +137,26 @@ public class PoolMonitor
         for (String id : gabageIdList)
         {
             poolMap__.remove(id);
+            removeObject(id);
+        }
+    }
+
+    /**
+     * オブジェクトを削除する。
+     * @param id ID
+     */
+    private static void removeObject(String id)
+    {
+        Set<Entry<String, String>> entrySet = nameMap__.entrySet();
+        Iterator<Entry<String, String>> iterator = entrySet.iterator();
+        while (iterator.hasNext())
+        {
+            Entry<String, String> entry = iterator.next();
+            String value = entry.getValue();
+            if (value.equals(id))
+            {
+                iterator.remove();
+            }
         }
     }
 
