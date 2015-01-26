@@ -54,7 +54,8 @@ public class AlarmThreadDumpNotifyListener extends AbstractTelegramListener
         {
             if (dataManager != null)
             {
-                dataManager.setData("JvnLog_Notify", data, wgpData);
+                // #629 使用しないリスナであるため、コメントアウトする。
+                // dataManager.setData("JvnLog_Notify", data, wgpData);
             }
         }
         catch (WGPRuntimeException exception)
