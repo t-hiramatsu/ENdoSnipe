@@ -262,8 +262,7 @@ public class JavelinConfigBase
         + "record.invocation.sendFullEvent";
 
     /** JMXのリソースデータを取得するかどうか。 */
-    public static final String COLLECT_JMX_RESOURCES = JAVELIN_PREFIX
-        + "resource.collectJmxResources";
+    public static final String MONITOR_JMX_RESOURCE = JAVELIN_PREFIX + "jmx.resource.monitor";
 
     /** ストールメソッドを監視するかどうか */
     private static final String METHOD_STALL_MONITOR = JAVELIN_PREFIX + "method.stall.monitor";
@@ -864,7 +863,7 @@ public class JavelinConfigBase
     public static final boolean DEF_SEND_INVOCATION_FULL_EVENT = true;
 
     /** JMXのリソースデータを取得するかどうかのデフォルト値 */
-    public static final boolean DEF_COLLECT_JMX_RESOURCES = true;
+    public static final boolean DEF_MONITOR_JMX_RESOURCE = false;
 
     /** Javelinの設定値を保存するオブジェクト */
     private static final JavelinConfigUtil CONFIGUTIL;
@@ -3204,18 +3203,18 @@ public class JavelinConfigBase
      * JMXのリソースデータを取得するかどうかを返す。
      * @return JMXのリソースデータを取得するかどうか
      */
-    public boolean getCollectJmxResources()
+    public boolean isMonitorJmxResource()
     {
-        return CONFIGUTIL.getBoolean(COLLECT_JMX_RESOURCES, DEF_COLLECT_JMX_RESOURCES);
+        return CONFIGUTIL.getBoolean(MONITOR_JMX_RESOURCE, DEF_MONITOR_JMX_RESOURCE);
     }
 
     /**
      * シJMXのリソースデータを取得するかどうかを設定する。
-     * @param collectJmxResources JMXのリソースデータを取得するかどうか
+     * @param monitorJmxResource JMXのリソースデータを取得するかどうか
      */
-    public void setCollectJmxResources(final boolean collectJmxResources)
+    public void setMonitorJmxResource(final boolean monitorJmxResource)
     {
-        CONFIGUTIL.setBoolean(COLLECT_JMX_RESOURCES, collectJmxResources);
+        CONFIGUTIL.setBoolean(MONITOR_JMX_RESOURCE, monitorJmxResource);
     }
 
     /**

@@ -91,7 +91,7 @@ public class JavelinConfig extends JavelinConfigBase
 
     private static int collectionTraceMax__;
 
-    private static boolean collectJmxResources__;
+    private static boolean monitorJmxResource__;
 
     private static boolean collectSystemResources__;
 
@@ -363,7 +363,7 @@ public class JavelinConfig extends JavelinConfigBase
         collectionLeakDetectDepth__ = super.getCollectionLeakDetectDepth();
         collectionSizeThreshold__ = super.getCollectionSizeThreshold();
         collectionTraceMax__ = super.getCollectionTraceMax();
-        collectJmxResources__ = super.getCollectJmxResources();
+        monitorJmxResource__ = super.isMonitorJmxResource();
         collectSystemResources__ = super.getCollectSystemResources();
         detach__ = super.getDetach();
         endCalleeName__ = super.getEndCalleeName();
@@ -2703,18 +2703,18 @@ public class JavelinConfig extends JavelinConfigBase
      * {@inheritDoc}
      */
     @Override
-    public boolean getCollectJmxResources()
+    public boolean isMonitorJmxResource()
     {
-        return collectJmxResources__;
+        return monitorJmxResource__;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void setCollectJmxResources(final boolean collectJmxResources)
+    public void setMonitorJmxResource(final boolean monitorJmxResource)
     {
-        collectJmxResources__ = collectJmxResources;
+        monitorJmxResource__ = monitorJmxResource;
     }
 
     /**

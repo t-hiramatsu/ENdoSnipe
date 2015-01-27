@@ -259,7 +259,7 @@ public class ResourceCollector implements TelegramConstants
 
 		// JMXのリソースデータを取得するかどうか
 		JavelinConfig config = new JavelinConfig();
-		if (config.getCollectJmxResources())
+		if (config.isMonitorJmxResource())
 		{
 			try
 			{
@@ -269,8 +269,8 @@ public class ResourceCollector implements TelegramConstants
 			{
 				SystemLogger.getInstance().warn(e);
 			}
-			JMXManager.getInstance().initCompleted();
 		}
+        JMXManager.getInstance().initCompleted();
 
         multiResourceMap.put(ITEMNAME_JAVAPROCESS_COLLECTION_LIST_COUNT, new ListCountGetter());
         multiResourceMap.put(ITEMNAME_JAVAPROCESS_COLLECTION_QUEUE_COUNT, new QueueCountGetter());
