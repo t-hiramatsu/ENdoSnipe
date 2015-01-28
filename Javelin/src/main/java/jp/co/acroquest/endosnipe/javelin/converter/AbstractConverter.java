@@ -52,28 +52,28 @@ import jp.co.smg.endosnipe.javassist.NotFoundException;
 public abstract class AbstractConverter implements Converter
 {
     /** コンストラクタ用のメソッド識別子 */
-    private static final String           CONSTRUCTOR_IDENTIFIER = "<CONSTRUCTOR>";
+    private static final String CONSTRUCTOR_IDENTIFIER = "<CONSTRUCTOR>";
 
     /** クラスファイルのバッファ */
-    private byte[]                        classfileBuffer_;
+    private byte[] classfileBuffer_;
 
     /** コード埋め込み後のクラスファイルのバッファ */
-    private byte[]                        newClassfileBuffer_;
+    private byte[] newClassfileBuffer_;
 
     /** クラス名 */
-    private String                        className_;
+    private String className_;
 
     /** Includeの設定 */
-    private IncludeConversionConfig       includeConfig_;
+    private IncludeConversionConfig includeConfig_;
 
     /** Excludeの設定リスト */
     private List<ExcludeConversionConfig> excludeConfigList_;
 
     /** CtClass */
-    private CtClass                       ctClass_;
+    private CtClass ctClass_;
 
     /** ClassPool */
-    private ClassPool                     pool_;
+    private ClassPool pool_;
 
     /**
      * {@inheritDoc}
@@ -81,7 +81,7 @@ public abstract class AbstractConverter implements Converter
     public byte[] convert(final String className, final byte[] classfileBuffer,
             final ClassPool pool, final CtClass ctClass,
             final IncludeConversionConfig includeConfig,
-            final List<ExcludeConversionConfig> excludeConfigList)
+        final List<ExcludeConversionConfig> excludeConfigList)
     {
         if (classfileBuffer != null)
         {
@@ -104,6 +104,15 @@ public abstract class AbstractConverter implements Converter
         try
         {
             convertImpl();
+        }
+        catch (CannotCompileException ex)
+        {
+            String key = "javelin.converter.AbstractConverter.CannotConvertMethod";
+
+            String warningMessage =
+                JavelinMessages.getMessage(key, this.getClass().getName(), simpleName(),
+                                           ex.getMessage());
+            SystemLogger.getInstance().warn(warningMessage.toString());
         }
         catch (Exception ex)
         {
@@ -254,7 +263,7 @@ public abstract class AbstractConverter implements Converter
      */
     public void setNewClassfileBuffer(final byte[] newClassfileBuffer)
     {
-        if(newClassfileBuffer != null)
+        if (newClassfileBuffer != null)
         {
             this.newClassfileBuffer_ = newClassfileBuffer.clone();
         }
@@ -331,7 +340,7 @@ public abstract class AbstractConverter implements Converter
      * @param message メッセージ。
      */
     protected void logModifiedMethod(final String converterName, final CtMember ctMember,
-            final String message)
+        final String message)
     {
         // 処理結果をログに出力する。
         String methodName = ctMember.getName();
