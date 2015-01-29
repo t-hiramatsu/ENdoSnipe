@@ -820,6 +820,7 @@ public class JavelinTransformer implements ClassFileTransformer
         int methodStallThreshold = config.getMethodStallThreshold();
         int methodStallTraceDepth = config.getMethodStallTraceDepth();
         boolean httpStatusError = config.isHttpStatusError();
+        boolean monitorJmxResource = config.isMonitorJmxResource();
 
         // Javelinの設定値を標準出力する
         String version = ResourceBundle.getBundle("version").getString("version");
@@ -931,6 +932,7 @@ public class JavelinTransformer implements ClassFileTransformer
         System.out.println("\tjavelin.method.stall.threshold       : " + methodStallThreshold);
         System.out.println("\tjavelin.method.stall.traceDepth      : " + methodStallTraceDepth);
         System.out.println("\tjavelin.httpStatusError              : " + httpStatusError);
+        System.out.println("\tjavelin.jmx.resource.monitor         : " + monitorJmxResource);
         System.out.println(SYS_PROP_END);
     }
 

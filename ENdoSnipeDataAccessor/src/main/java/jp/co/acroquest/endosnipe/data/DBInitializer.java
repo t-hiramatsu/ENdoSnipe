@@ -107,9 +107,8 @@ public class DBInitializer
         }
         catch (SQLException ex)
         {
-            // 初期化されていない場合に例外が発生するため、
-            // INFO以上での出力とする。
-            if (LOGGER.isInfoEnabled())
+            // 初期化されていない場合に例外が発生するため、DEBUG以上での出力とする。
+            if (LOGGER.isDebugEnabled())
             {
                 LOGGER.log(LogMessageCodes.DB_ACCESS_ERROR, ex, ex.getMessage());
             }

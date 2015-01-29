@@ -45,44 +45,60 @@ import jp.co.acroquest.endosnipe.javelin.conf.JavelinMessages;
  */
 public class AttachUtil
 {
+
     /** JVMへの参照 */
-    private static Object       vm__       = null;
+    private static Object vm__ = null;
 
     /** heapHistoメソッド */
-    private static Method       heapHistoMethod__;
+    private static Method heapHistoMethod__;
 
     /** detachMethodメソッド */
-    private static Method       detachMethod__;
+    private static Method detachMethod__;
 
     /** attachMethodメソッド */
     private static Method attachMethod__;
 
     /** ヒープヒストグラム取得時に、全てのオブジェクトを対象として指定するパラメータ。 */
-    private static final String HISTO_ALL  = "-all";
+    private static final String HISTO_ALL = "-all";
 
     /** ヒープヒストグラム取得時に、生存しているオブジェクトのみを対象として指定するパラメータ。 */
     private static final String HISTO_LIVE = "-live";
 
+    /** ヒープ取得を行うクラス名*/
+    private static final String GET_HEAP_CLASS_NAME = "sun.tools.attach.HotSpotVirtualMachine";
+
+    /** ヒープ取得を行うメソッド名 */
+    private static final String GET_HEAP_METHOD_NAME = "heapHisto";
+
+    /** 初期化時のエラーメッセージキー */
+    private static final String INIT_ERROR_MESSAGE_KEY =
+        "javelin.common.AttachUtil.CannotFindMethod";
     static
     {
         try
         {
-            Class<?> clazz = Class.forName("sun.tools.attach.HotSpotVirtualMachine");
-            heapHistoMethod__ = clazz.getMethod("heapHisto", new Class[]{String.class});
+            Class<?> clazz = Class.forName(GET_HEAP_CLASS_NAME);
+            heapHistoMethod__ = clazz.getMethod(GET_HEAP_METHOD_NAME, new Class[]{String.class});
             attachMethod__ = clazz.getMethod("attach", new Class[]{String.class});
             detachMethod__ = clazz.getMethod("detach", new Class[]{});
         }
         catch (ClassNotFoundException ex)
         {
-            SystemLogger.getInstance().warn(ex);
+            String message =
+                JavelinMessages.getMessage(INIT_ERROR_MESSAGE_KEY, GET_HEAP_CLASS_NAME,
+                                           GET_HEAP_METHOD_NAME, ex.getMessage());
+            SystemLogger.getInstance().warn(message);
         }
         catch (NoSuchMethodException ex)
         {
-            SystemLogger.getInstance().warn(ex);
+            String message =
+                JavelinMessages.getMessage(INIT_ERROR_MESSAGE_KEY, GET_HEAP_CLASS_NAME,
+                                           GET_HEAP_METHOD_NAME, ex.getMessage());
+            SystemLogger.getInstance().warn(message);
         }
 
     }
-    
+
     /**
      * インスタンス化を避けるためのコンストラクタ。
      */
@@ -95,6 +111,10 @@ public class AttachUtil
      */
     public static void attach()
     {
+        if (attachMethod__ == null)
+        {
+            return;
+        }
         RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
         String vmId = runtimeMXBean.getName();
 
