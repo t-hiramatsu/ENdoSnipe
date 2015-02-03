@@ -86,7 +86,7 @@ public class PoolMonitor
         AtomicInteger sequence = sequenceMap__.get(className);
         if (sequence == null)
         {
-            sequence = new AtomicInteger(1);
+            sequence = new AtomicInteger(0);
             sequenceMap__.put(className, sequence);
         }
         int next = sequence.addAndGet(1);
