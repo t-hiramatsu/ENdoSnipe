@@ -93,7 +93,7 @@ public class PoolMonitor
         String key = className + "_" + next;
 
         poolMap__.put(key, new WeakReference<MonitoredPool>(pool));
-        nameMap__.put(key, objectID);
+        nameMap__.put(objectID, key);
         pool.setObjectId(key);
 
         CommonEvent event = createEvent(objectID);
