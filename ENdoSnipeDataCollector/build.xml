@@ -294,6 +294,7 @@
         <copy file="${doc.dir}/linux/INSTALL.txt" tofile="${service-temp-release}/DataCollector/INSTALL.utf8.txt" />
         <fixcrlf srcdir="${service-temp-release}/DataCollector" includes="*.euc.txt" outputencoding="EUC-JP" eol="unix" />
         <fixcrlf srcdir="${service-temp-release}/DataCollector" includes="*.utf8.txt" outputencoding="UTF-8" eol="unix" />
+        <fixcrlf srcdir="${scripts.dir}/linux" includes="endosnipe-dc*" eol="unix" />
 
         <tar destfile="${dist}/${distname}-${version}.tar.gz" compression="gzip">
             <tarfileset prefix="${unix-base.dir}/bin" dir="${scripts.dir}/linux" mode="755">
