@@ -223,6 +223,12 @@ public class ConfigurationReader
     /** Javelinログを分割保存する場合の閾値を表す接頭辞 */
     private static final String LOG_SPLIT_THRESHOLD = "javelin.log.split.threshold";
 
+    /** 同一SQL判定を行うフラグを表す接頭辞 */
+    private static final String JUDGE_SIMILAR_SQL = "resource.judege.similar.sql";
+
+    /** 同一SQL判定の類似度を表す接頭辞 */
+    private static final String JUDGE_SQL_SIMILARITY = "resource.judege.sql.similarity";
+
     /** データベース名で使用できる文字を、正規表現で表したもの */
     private static final String DATABASE_NAME_USABLE_PATTERN = "[A-Za-z0-9#$%@=\\+\\-_~\\.]*";
 
@@ -304,8 +310,10 @@ public class ConfigurationReader
     /** 使用言語の設定項目 */
     public static final String LANGUAGE = "language";
 
+    /** バッチサイズ */
     public static final String BATCH_SIZE = "insert.batch.size";
 
+    /** キャッシュサイズ */
     public static final String ITEMID_CACHE_SIZE = "itemid.cache.size";
 
     /** クラスタ名（ElasticSearch)の設定項目名 */
@@ -896,6 +904,14 @@ public class ConfigurationReader
         else if (ES_AVAILABLE.equals(key))
         {
             config.setEsAvailable(Boolean.parseBoolean(value));
+        }
+        else if (JUDGE_SIMILAR_SQL.equals(key))
+        {
+            config.setJudgeSimilarSql(Boolean.parseBoolean(value));
+        }
+        else if (JUDGE_SQL_SIMILARITY.equals(key))
+        {
+            config.setJudgeSqlSimilarity(Float.parseFloat(value));
         }
     }
 
