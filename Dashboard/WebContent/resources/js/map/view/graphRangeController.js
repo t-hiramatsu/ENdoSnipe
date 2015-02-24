@@ -195,6 +195,12 @@ ENS.graphRangeController.prototype._callbackGetNames = function(names) {
 		$selector.append($option);
 	}
 	
+	var queries = ENS.Utility.getHashAndQuery();
+	var hash = queries["hash"];
+	if (hash.length > 0) {
+		$selector.val(hash[0]);
+	}
+	
 	var instance = this;
 	$selector.change(function(){
 		var view = window.resourceDashboardListView;
@@ -372,12 +378,15 @@ ENS.graphRangeController.prototype._createChangeModeIcon = function(){
 	$editMode.css("width", "16px");
 	$editMode.css("margin", "2px 20px 0px 30px");
 	
+	
 	if($("#dashboardMode").val() == ENS.dashboard.mode.OPERATE){
 		$editMode.attr("title", "Edit Mode");
 		$editMode.attr("src", contextPath+"/resources/images/map/editModeIcon.png");
 		$editMode.click(function(){
+			var $selector = $("#"+ENS.graphRange.ID_DASHBOARD_NAME);
+			var dashboardName = $selector.val();
 			$("#dashboardMode").val(ENS.dashboard.mode.EDIT);
-			$("#dashboardListForm").attr("action", "/ENdoSnipe/dashboard/dashboardList");
+			$("#dashboardListForm").attr("action", "/ENdoSnipe/dashboard/dashboardList#" + dashboardName);
 			saveDisplayState();
 			$("#dashboardListForm").submit(); 
 		});
@@ -386,8 +395,10 @@ ENS.graphRangeController.prototype._createChangeModeIcon = function(){
 		$editMode.attr("title", "Operate Mode");
 		$editMode.attr("src", contextPath+"/resources/images/map/operateModeIcon.png");
 		$editMode.click(function(){
+			var $selector = $("#"+ENS.graphRange.ID_DASHBOARD_NAME);
+			var dashboardName = $selector.val();
 			$("#dashboardMode").val(ENS.dashboard.mode.OPERATE);
-			$("#dashboardListForm").attr("action", "/ENdoSnipe/dashboard/dashboardList");
+			$("#dashboardListForm").attr("action", "/ENdoSnipe/dashboard/dashboardList#" + dashboardName);
 			saveDisplayState();
 			$("#dashboardListForm").submit(); 
 		});
