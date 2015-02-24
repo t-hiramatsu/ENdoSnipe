@@ -56,6 +56,7 @@ import jp.co.acroquest.endosnipe.collector.processor.AlarmData;
 import jp.co.acroquest.endosnipe.collector.processor.AlarmProcessor;
 import jp.co.acroquest.endosnipe.collector.processor.AlarmThresholdProcessor;
 import jp.co.acroquest.endosnipe.collector.processor.AlarmType;
+import jp.co.acroquest.endosnipe.collector.processor.SimilarSqlProcessor;
 import jp.co.acroquest.endosnipe.collector.request.CommunicationClientRepository;
 import jp.co.acroquest.endosnipe.collector.util.CollectorTelegramUtil;
 import jp.co.acroquest.endosnipe.collector.util.ElasticSearchUtil;
@@ -156,6 +157,9 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
      */
     private JavelinConnectionData connectionData_ = null;
 
+    /** 同一SQL判定を行う処理 */
+    private SimilarSqlProcessor similarSqlProcessor = null;
+
     /** 閾値判定処理を行う定義を保持したマップ */
     private final Map<String, AlarmProcessor> processorMap_ =
         new ConcurrentHashMap<String, AlarmProcessor>();
@@ -210,6 +214,7 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
         summarySignalStateManager.setDataBaseName(dataBase);
         summarySignalStateManager.setSummarySignalDefinitionMap(summarySignalDefinitionMap);
         summarySignalStateManager.createAllSummarySignalMapValue();
+        similarSqlProcessor = new SimilarSqlProcessor(config);
     }
 
     /**
@@ -364,6 +369,10 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             // 計測値データの場合
             ResourceData resourceData = ((JavelinMeasurementData)data).getResourceData();
             String database = data.getDatabaseName();
+            if (config_.isJudgeSimilarSql())
+            {
+                similarSqlProcessor.convertSameSql(resourceData);
+            }
 
             if (resourceData != null && resourceData.getMeasurementMap() != null)
             {
@@ -1156,7 +1165,6 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             SignalDefinitionDto signalDefinition = signalDefinitionEntry.getValue();
             String itemName = signalDefinition.getMatchingPattern();
             long signalId = signalDefinition.getSignalId();
-
 
             //現在のアラーム通知状況を取得
             AlarmData currentAlarmData = signalStateManager.getAlarmData(signalId);
