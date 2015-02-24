@@ -109,6 +109,12 @@ public class DataCollectorConfig
     /** 計測データの最大蓄積期間 */
     private String measurementLogStoragePeriod_ = DEF_MEASUREMENT_LOG_STORAGE_PERIOD;
 
+    /** 同一SQL判定フラグ */
+    private boolean judgeSimilarSql_ = DEF_JUDGE_SIMILAR_SQL;
+
+    /** 同一SQL判定を行う類似度 */
+    private float judgeSqlSimilarity_ = DEF_JUDGE_SQL_SIMILARITY;
+
     /** Agent毎の設定を保持するリスト */
     private final List<AgentSetting> agentSttingList_ = new ArrayList<AgentSetting>();
 
@@ -171,6 +177,12 @@ public class DataCollectorConfig
 
     /** 計測データの最大蓄積期間のデフォルト値 */
     private static final String DEF_MEASUREMENT_LOG_STORAGE_PERIOD = "7d";
+
+    /** 同一SQL判定フラグの初期値 */
+    private static final boolean DEF_JUDGE_SIMILAR_SQL = false;
+
+    /** 同一SQL判定フラグの初期値 */
+    private static final float DEF_JUDGE_SQL_SIMILARITY = 0.7f;
 
     //--------------------
     // SMTP settings(default)
@@ -967,6 +979,42 @@ public class DataCollectorConfig
     public void setMeasurementLogStoragePeriod(final String measurementLogStoragePeriod)
     {
         this.measurementLogStoragePeriod_ = measurementLogStoragePeriod;
+    }
+
+    /**
+     * 同一SQL判定フラグを取得する。
+     * @return 同一SQL判定フラグ
+     */
+    public boolean isJudgeSimilarSql()
+    {
+        return judgeSimilarSql_;
+    }
+
+    /**
+     * 同一SQL判定フラグを設定する。
+     * @param judgeSimilarSql 同一SQL判定フラグ
+     */
+    public void setJudgeSimilarSql(final boolean judgeSimilarSql)
+    {
+        this.judgeSimilarSql_ = judgeSimilarSql;
+    }
+
+    /**
+     * 同一SQL判定を行う類似度を取得する。
+     * @return 同一SQL判定を行う類似度
+     */
+    public float getJudgeSqlSimilarity()
+    {
+        return judgeSqlSimilarity_;
+    }
+
+    /**
+     * 同一SQL判定を行う類似度を設定する。
+     * @param judgeSqlSimilarity 同一SQL判定を行う類似度
+     */
+    public void setJudgeSqlSimilarity(final float judgeSqlSimilarity)
+    {
+        this.judgeSqlSimilarity_ = judgeSqlSimilarity;
     }
 
     /**
