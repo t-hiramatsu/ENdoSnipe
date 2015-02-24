@@ -57,8 +57,17 @@ ENS.ResourceDashboardListView = wgp.TreeView
 				// ツリー情報をサーバから読み込む
 				this.onLoad();
 				
+				var queries = ENS.Utility.getHashAndQuery();
+				var hash = queries["hash"];
+				var initModel = null;
+				if (hash.length > 0) {
+					initModel = this.collection.where({data : hash[0]})[0];
+				}
+				if (initModel == null) {
+					initModel = this.collection.models[0];
+				}
+				
 				// 初期状態ではツリーの先頭のDashboardを表示する
-				var initModel = this.collection.models[0];
 				this.showModel(initModel);
 				
 				// 初期表示のDashboardのID

@@ -208,9 +208,7 @@ public class ReportController
     {
         DashboardReportDefinitionDto dto =
                 JSON.decode(reportDefinition, DashboardReportDefinitionDto.class);
-        List<DashboardInfo> infoList = dashboardService_.getByName(dto.getDashboardName());
-
-        DashboardInfo dashboardInfo = infoList.get(0);
+        DashboardInfo dashboardInfo = dashboardService_.getByName(dto.getDashboardName());
 
         // リソースIDの一覧を取得する
         List<String> resourceIdList = getResourceIdList(dashboardInfo);

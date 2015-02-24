@@ -70,3 +70,26 @@ ENS.Utility.makeAnchor2 = function(cellValue, options, rowObject) {
 			+ '\');">' + linkName + '</a>';
 
 };
+
+ENS.Utility.getHashAndQuery = function() {
+	var result = {};
+	
+	var hash = location.hash.slice(1);
+	var query = {};
+	if (!hash) {
+		result["hash"] = [];
+		result["query"] = query;
+		return result;
+	}
+	var params = hash.split("?");
+	result["hash"] = params[0].split("/");
+	if (params.length !== 1) {
+		var queries = params[1].split("&");
+		_.each(queries, function(value, key){
+			var keyValue = value.split("=");
+			query[keyValue[0]] = keyValue[1];
+		});
+	}
+	result["query"] = query;
+	return result;
+}

@@ -46,7 +46,7 @@ public interface DashboardInfoDao
      * @param name ダッシュボード名
      * @return ダッシュボード情報
      */
-    List<DashboardInfo> selectByName(final String name);
+    DashboardInfo selectByName(final String name);
 
     /**
      * ダッシュボードの名前の一覧を取得する

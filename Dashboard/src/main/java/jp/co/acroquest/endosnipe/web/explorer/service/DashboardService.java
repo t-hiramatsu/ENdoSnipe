@@ -122,7 +122,7 @@ public class DashboardService
     public ResponseDto insert(final DashboardInfo dashboardInfo)
     {
         ResponseDto responseDto = new ResponseDto();
-        if (getByName(dashboardInfo.name).size() > 0)
+        if (getByName(dashboardInfo.name) != null)
         {
             String errorMessage = MessageUtil.getMessage("WEWD0160", new Object[] {});
             responseDto.setMessage(errorMessage);
@@ -279,7 +279,7 @@ public class DashboardService
      * @param name ダッシュボード名
      * @return 取得結果
      */
-    public List<DashboardInfo> getByName(final String name)
+    public DashboardInfo getByName(final String name)
     {
         try
         {
@@ -297,7 +297,7 @@ public class DashboardService
             {
                 LOGGER.log(LogMessageCodes.SQL_EXCEPTION, pEx, pEx.getMessage());
             }
-            return new ArrayList<DashboardInfo>();
+            return null;
         }
     }
 

@@ -155,8 +155,8 @@ public class TemplateCreator
         dashboardInfo.name = name;
 
         //既にDBに存在する場合は更新、無い場合は新規作成
-        List<DashboardInfo> existDashboard = dashboardService_.getByName(name);
-        if (existDashboard.size() == 0)
+        DashboardInfo existDashboard = dashboardService_.getByName(name);
+        if (existDashboard == null)
         {
             dashboardService_.insert(dashboardInfo);
         }
