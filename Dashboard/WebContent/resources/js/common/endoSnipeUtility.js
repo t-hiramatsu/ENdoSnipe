@@ -92,4 +92,45 @@ ENS.Utility.getHashAndQuery = function() {
 	}
 	result["query"] = query;
 	return result;
-}
+};
+
+ENS.Utility.createFilterParameter = function(value) {
+    var escape = "\\";
+    if (!value) {
+        value = "";
+    }
+    // escapse characters : #$&()*+,./:;=>[]^|~"%'<?@\`{}
+    value = value.replace(/\\/g, escape + "\\");
+    value = value.replace(/#/g, escape + "#");
+    value = value.replace(/\$/g, escape + "$");
+    value = value.replace(/\&/g, escape + "&");
+    value = value.replace(/\(/g, escape + "(");
+    value = value.replace(/\)/g, escape + ")");
+    value = value.replace(/\*/g, escape + "*");
+    value = value.replace(/\+/g, escape + "+");
+    value = value.replace(/,/g, escape + ",");
+    value = value.replace(/\./g, escape + ".");
+    value = value.replace(/\//g, escape + "/");
+    value = value.replace(/:/g, escape + ":");
+    value = value.replace(/;/g, escape + ";");
+    value = value.replace(/=/g, escape + "=");
+    value = value.replace(/>/g, escape + ">");
+    value = value.replace(/\[/g, escape + "[");
+    value = value.replace(/\]/g, escape + "]");
+    value = value.replace(/\^/g, escape + "^");
+    value = value.replace(/\|/g, escape + "|");
+    value = value.replace(/~/g, escape + "~");
+    value = value.replace(/\!/g, escape + "!");
+    value = value.replace(/ /g, escape + " ");
+    value = value.replace(/"/g, escape + "\"");
+    value = value.replace(/%/g, escape + "%");
+    value = value.replace(/'/g, escape + "\'");
+    value = value.replace(/</g, escape + "<");
+    value = value.replace(/\?/g, escape + "?");
+    value = value.replace(/@/g, escape + "@");
+    value = value.replace(/`/g, escape + "`");
+    value = value.replace(/{/g, escape + "{");
+    value = value.replace(/}/g, escape + "}");
+
+    return value;
+};

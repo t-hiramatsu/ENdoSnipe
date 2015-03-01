@@ -41,6 +41,9 @@ import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import jp.co.acroquest.endosnipe.web.explorer.config.DataBaseConfig;
 import jp.co.acroquest.endosnipe.web.explorer.listener.collector.AlarmThreadDumpNotifyListener;
 import jp.co.acroquest.endosnipe.web.explorer.listener.collector.CollectorListener;
+import jp.co.acroquest.endosnipe.web.explorer.listener.collector.ControlGetPropertyListener;
+import jp.co.acroquest.endosnipe.web.explorer.listener.collector.ControlUpdatePropertyListener;
+import jp.co.acroquest.endosnipe.web.explorer.listener.collector.ProfileStatusListener;
 import jp.co.acroquest.endosnipe.web.explorer.listener.collector.SignalStateChangeListener;
 import jp.co.acroquest.endosnipe.web.explorer.listener.collector.SummarySignalStateChangeListener;
 import jp.co.acroquest.endosnipe.web.explorer.listener.collector.TreeStateAddListener;
@@ -129,6 +132,9 @@ public class JavelinNotifyListener implements TelegramListener
                 client.addTelegramListener(new TreeStateAddListener());
                 client.addTelegramListener(new TreeStateDeleteListener());
                 client.addTelegramListener(new AlarmThreadDumpNotifyListener());
+                client.addTelegramListener(new ProfileStatusListener());
+                client.addTelegramListener(new ControlGetPropertyListener());
+                client.addTelegramListener(new ControlUpdatePropertyListener());
 
                 ConnectNotifyData connectNotify = new ConnectNotifyData();
                 connectNotify.setKind(ConnectNotifyData.KIND_CONTROLLER);

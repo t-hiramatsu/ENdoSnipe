@@ -30,6 +30,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import jp.co.acroquest.endosnipe.communicator.TelegramListener;
+import jp.co.acroquest.endosnipe.communicator.entity.Body;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
 import jp.co.acroquest.endosnipe.communicator.entity.TelegramConstants;
 import jp.co.acroquest.endosnipe.javelin.MBeanManager;
@@ -49,7 +50,7 @@ public class GetRequestTelegramListener implements TelegramListener, TelegramCon
     public Telegram receiveTelegram(final Telegram telegram)
     {
         if (telegram.getObjHeader().getByteTelegramKind() == BYTE_TELEGRAM_KIND_GET
-                && telegram.getObjHeader().getByteRequestKind() == BYTE_REQUEST_KIND_REQUEST)
+            && telegram.getObjHeader().getByteRequestKind() == BYTE_REQUEST_KIND_REQUEST)
         {
             Component[] objComponentArr = MBeanManager.getAllComponents();
             List<Invocation> invocationList = new ArrayList<Invocation>();
@@ -61,8 +62,25 @@ public class GetRequestTelegramListener implements TelegramListener, TelegramCon
             }
 
             Telegram objTelegram =
-                    JavelinTelegramCreator.create(invocationList, BYTE_TELEGRAM_KIND_GET,
-                                                  BYTE_REQUEST_KIND_RESPONSE);
+                JavelinTelegramCreator.create(invocationList, BYTE_TELEGRAM_KIND_GET,
+                                              BYTE_REQUEST_KIND_RESPONSE);
+            Body[] bodies = telegram.getObjBody();
+            if (bodies.length > 0)
+            {
+                String agentName = bodies[0].getStrItemName();
+                Body agentNameBody = new Body();
+                agentNameBody.setStrItemName(agentName);
+                agentNameBody.setStrObjName("agentName");
+                
+                Body[] oldBodies = objTelegram.getObjBody();
+                Body[] newBodies = new Body[oldBodies.length + 1];
+                for (int index = 0; index < oldBodies.length; index++) {
+                    newBodies[index] = oldBodies[index];
+                }
+                newBodies[newBodies.length - 1] = agentNameBody;
+                objTelegram.setObjBody(newBodies);
+            }
+            
             return objTelegram;
         }
         return null;

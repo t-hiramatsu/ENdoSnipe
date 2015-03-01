@@ -35,6 +35,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Timer;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.regex.Pattern;
 
 import jp.co.acroquest.endosnipe.collector.config.AgentSetting;
 import jp.co.acroquest.endosnipe.collector.config.DataCollectorConfig;
@@ -130,6 +131,9 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
     private static Map<String, Set<Integer>> javelinSeqMap__ = new HashMap<String, Set<Integer>>();
 
     private static final int AGENTINDEX = 4;
+
+    /** エージェント名の分割パターン */
+    private static final Pattern AGENT_SPLIT_PATTERN = Pattern.compile("/");
 
     /**
      * {@link ENdoSnipeDataCollector} の設定を行います。<br />
@@ -589,44 +593,56 @@ public class ENdoSnipeDataCollector implements CommunicationClientRepository, Lo
      */
     public static void sendJavelinClientTelegram(final Telegram telegram)
     {
-        for (JavelinClient client : clientList__)
-        {
-            Header objHeader = telegram.getObjHeader();
+        Header objHeader = telegram.getObjHeader();
 
-            if (objHeader.getByteTelegramKind() == BYTE_TELEGRAM_KIND_GET_DUMP
-                && objHeader.getByteRequestKind() == BYTE_REQUEST_KIND_REQUEST)
+        if (objHeader.getByteTelegramKind() == BYTE_TELEGRAM_KIND_GET_DUMP
+            && objHeader.getByteRequestKind() == BYTE_REQUEST_KIND_REQUEST
+            || objHeader.getByteTelegramKind() == BYTE_TELEGRAM_KIND_GET
+            && objHeader.getByteRequestKind() == BYTE_REQUEST_KIND_REQUEST)
+        {
+            sendTelegramToAgent(telegram);
+        }
+        else
+        {
+            for (JavelinClient client : clientList__)
             {
-                Body[] bodies = telegram.getObjBody();
-                if (bodies.length == 2)
-                {
-                    String agentName = bodies[1].getStrItemName();
-                    if (agentName.split("/").length < AGENTINDEX)
-                    {
-                        client.getTelegramSender().sendTelegram(telegram);
-                    }
-                    else
-                    {
-                        String[] agentSplit = agentName.split("/");
-                        agentName = "/" + agentSplit[1];
-                        for (int index = 2; index < AGENTINDEX; index++)
-                        {
-                            agentName += "/" + agentSplit[index];
-                        }
-                        //send ThreadDump for only related agent
-                        if (agentName.equals(client.getAgentName()))
-                        {
-                            client.getTelegramSender().sendTelegram(telegram);
-                        }
-                    }
-                }
-                else
+                client.getTelegramSender().sendTelegram(telegram);
+            }
+        }
+    }
+
+    /**
+     * Send telegram to agent
+     * @param telegram to send to agent
+     */
+    public static void sendTelegramToAgent(final Telegram telegram)
+    {
+        Body[] bodies = telegram.getObjBody();
+        String agentName = bodies[bodies.length - 1].getStrItemName();
+        if (agentName != null)
+        {
+            for (JavelinClient client : clientList__)
+            {
+                String[] agentSplit = AGENT_SPLIT_PATTERN.split(agentName);
+                if (agentSplit.length < AGENTINDEX)
                 {
                     client.getTelegramSender().sendTelegram(telegram);
                 }
-            }
-            else
-            {
-                client.getTelegramSender().sendTelegram(telegram);
+                else
+                {
+                    StringBuilder builder = new StringBuilder();
+                    for (int index = 1; index < AGENTINDEX; index++)
+                    {
+                        builder.append("/");
+                        builder.append(agentSplit[index]);
+                    }
+                    agentName = builder.toString();
+                    //send telegram for only related agent
+                    if (agentName.equals(client.getAgentName()))
+                    {
+                        client.getTelegramSender().sendTelegram(telegram);
+                    }
+                }
             }
         }
     }

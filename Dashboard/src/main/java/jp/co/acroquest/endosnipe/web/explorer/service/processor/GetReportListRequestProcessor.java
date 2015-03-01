@@ -60,7 +60,7 @@ public class GetReportListRequestProcessor implements EventProcessor
     private String reportDir_ = DEFAULT_REPORT_DIR;
 
     /** レポート出力先ディレクトリのデフォルト値。 */
-    private static final String DEFAULT_REPORT_DIR = "C:/SMGWorks/VM/ENdoSnipe/report";
+    private static final String DEFAULT_REPORT_DIR = "/opt/ENdoSnipe/report";
 
     /** レポート出力ファイルの測定開始日を示す文字列の一文字目の位置 */
     private static final int FIRST_CHARACTER_POSITION_OF_START_DATE = 0;

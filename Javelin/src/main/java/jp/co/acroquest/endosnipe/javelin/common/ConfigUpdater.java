@@ -51,11 +51,11 @@ public class ConfigUpdater
     private static final Set<String> LOGLEVELS = new HashSet<String>();
 
     /** イベントレベルとして許容する文字列 */
-    private static final Set<String>                EVENTLEVELS      = new HashSet<String>();
+    private static final Set<String> EVENTLEVELS = new HashSet<String>();
 
     /** 更新後のMap */
     private static Map<String, ConfigUpdateRequest> updateLaterMap__ =
-                                                       new HashMap<String, ConfigUpdateRequest>();
+        new HashMap<String, ConfigUpdateRequest>();
 
     static
     {
@@ -90,14 +90,14 @@ public class ConfigUpdater
 
         JavelinConfig config = new JavelinConfig();
         // 呼び出し情報をアラームとして出力する際の閾値
-        properties.put(JavelinConfig.ALARMTHRESHOLD_KEY, 
-                       String.valueOf(config.getAlarmThreshold()));
+        properties
+            .put(JavelinConfig.ALARMTHRESHOLD_KEY, String.valueOf(config.getAlarmThreshold()));
         // 警告を発生させる際のCPU時間の閾値
         properties.put(JavelinConfig.ALARM_CPUTHRESHOLD,
                        String.valueOf(config.getAlarmCpuThreashold()));
         // 例外をアラーム通知するかのフラグ
-        properties.put(JavelinConfig.ALARM_EXCEPTION_KEY, 
-                       String.valueOf(config.isAlarmException()));
+        properties
+            .put(JavelinConfig.ALARM_EXCEPTION_KEY, String.valueOf(config.isAlarmException()));
         // HTTPステータスエラーを通知するかのフラグ
         properties.put(JavelinConfig.HTTP_STATUS_ERROR_KEY,
                        String.valueOf(config.isHttpStatusError()));
@@ -205,26 +205,27 @@ public class ConfigUpdater
                        String.valueOf(config.getThreadDumpThreadNum()));
         // フルスレッドダンプ出力のCPU使用率の閾値
         properties.put(JavelinConfig.THREAD_DUMP_CPU, String.valueOf(config.getThreadDumpCpu()));
-        
-        properties.put(JavelinConfig.THREAD_DUMP_CPU_SYS,
-                       String.valueOf(config.getThreadDumpCpuSys()));
 
-        properties.put(JavelinConfig.THREAD_DUMP_CPU_USER,
-                       String.valueOf(config.getThreadDumpCpuUser()));
-            
-        Map<String, Double> thresholdMap = config.getThreadDumpResourceTreshold();
-        for (Map.Entry<String, Double> entry : thresholdMap.entrySet())
-        {
-            String itemName = entry.getKey();
-            double threshold = entry.getValue().doubleValue();
-            properties.put(JavelinConfig.THREAD_DUMP_THRESHOLD + itemName,
-                           String.valueOf(threshold));
-        }
+        // スレッドダンプの閾値はスレッド数、CPU使用率のみにする。
+        //        properties.put(JavelinConfig.THREAD_DUMP_CPU_SYS,
+        //                       String.valueOf(config.getThreadDumpCpuSys()));
+        //
+        //        properties.put(JavelinConfig.THREAD_DUMP_CPU_USER,
+        //                       String.valueOf(config.getThreadDumpCpuUser()));
+        //            
+        //        Map<String, Double> thresholdMap = config.getThreadDumpResourceTreshold();
+        //        for (Map.Entry<String, Double> entry : thresholdMap.entrySet())
+        //        {
+        //            String itemName = entry.getKey();
+        //            double threshold = entry.getValue().doubleValue();
+        //            properties.put(JavelinConfig.THREAD_DUMP_THRESHOLD + itemName,
+        //                           String.valueOf(threshold));
+        //        }
         // フルGCを検出するかどうか
         properties.put(JavelinConfig.FULLGC_MONITOR, String.valueOf(config.isFullGCMonitor()));
         // フルGC検出のGC時間の閾値
-        properties.put(JavelinConfig.FULLGC_THREASHOLD, 
-                       String.valueOf(config.getFullGCThreshold()));
+        properties
+            .put(JavelinConfig.FULLGC_THREASHOLD, String.valueOf(config.getFullGCThreshold()));
         // Java6以降でデッドロック監視を行うかどうか
         properties.put(JavelinConfig.THREAD_DEADLOCK_MONITOR,
                        String.valueOf(config.isDeadLockMonitor()));
@@ -257,7 +258,7 @@ public class ConfigUpdater
         properties.put(JavelinConfig.LOG_JVN_FILE, String.valueOf(config.isLogJvnFile()));
         // システムのリソースデータを取得するかどうか。
         properties.put(JavelinConfig.COLLECT_SYSTEM_RESOURCES,
-                       String.valueOf(config.getCollectSystemResources())); 
+                       String.valueOf(config.getCollectSystemResources()));
         // フルスレッドダンプ出力のCPU使用率の閾値
         properties.put(JavelinConfig.RESOURCE_THREAD_RUNNABLE,
                        String.valueOf(config.isResourceThreadRunnable()));
@@ -1517,12 +1518,12 @@ public class ConfigUpdater
                     removeList.add(entry.getKey());
                 }
             }
-            
+
             for (String key : removeList)
             {
                 updateLaterMap__.remove(key);
             }
         }
-        
+
     }
 }

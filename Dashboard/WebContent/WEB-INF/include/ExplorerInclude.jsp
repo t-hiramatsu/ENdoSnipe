@@ -121,8 +121,17 @@
 </script>
 <%-- Performance Doctor --%>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/map/view/perfDoctorView.js">
-	
+	src="<%=request.getContextPath()%>/resources/js/map/view/perfDoctorView.js">	
+</script>
+
+<%-- Profiler --%>
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/resources/js/map/view/profilerView.js">
+</script>
+
+<%-- Controller --%>
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/resources/js/map/view/controllerView.js">
 </script>
 
 <%-- ThreadDump --%>
