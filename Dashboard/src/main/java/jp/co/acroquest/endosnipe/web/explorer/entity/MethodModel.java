@@ -678,8 +678,8 @@ public class MethodModel implements Comparable<MethodModel>
         dto.setMethodName(methodName_);
         dto.setCallCount(callCount_);
         dto.setMinimum(minimum_);
-        dto.setMaximum(cpuMaximum_);
-        dto.setTotal(cpuTotal_);
+        dto.setMaximum(maximum_);
+        dto.setTotal(total_);
         dto.setAverage(getAverage());
         dto.setCpuMinimum(cpuMinimum_);
         dto.setCpuMaximum(cpuMaximum_);
