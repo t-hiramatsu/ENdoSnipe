@@ -79,7 +79,7 @@ public class SimilarSqlProcessor
 
     /** パラメータ同士の計算式パターン */
     private static final Pattern PATTERN_EXP = Pattern.compile("(\\(" + PARAM + "\\)|" + PARAM
-        + ")\\s*[\\+\\-\\*/%]\\s*(\\(" + PARAM + "\\)|" + PARAM + ")");
+        + ")\\s*[\\+\\-\\*/%,]\\s*(\\(" + PARAM + "\\)|" + PARAM + ")");
 
     /** 連続するパラメータパターン */
     private static final Pattern PATTERN_SEQ_PARAM = Pattern.compile(PARAM + "(" + PARAM + ")+");
