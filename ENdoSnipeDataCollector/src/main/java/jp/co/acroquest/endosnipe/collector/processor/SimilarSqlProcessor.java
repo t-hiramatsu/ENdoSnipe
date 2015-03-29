@@ -33,6 +33,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import jp.co.acroquest.endosnipe.collector.JavelinDataLogger;
 import jp.co.acroquest.endosnipe.collector.config.DataCollectorConfig;
@@ -40,11 +42,9 @@ import jp.co.acroquest.endosnipe.common.entity.MeasurementData;
 import jp.co.acroquest.endosnipe.common.entity.ResourceData;
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
 
-import org.apache.lucene.search.spell.LevensteinDistance;
-
 /**
  * 同一SQL判定を行い、類似したSQLがある場合には、同一SQLと見なし、処理を行うように変換します。<br />
- * 同一かどうかは、レーベンシュタイン距離が閾値以上のSQLにて判定します。
+ * 同一かどうかは、パラメータを除いたSQLにて判定します。
  * @author fujii
  *
  */
@@ -62,6 +62,27 @@ public class SimilarSqlProcessor
     /** ロガー */
     private static final ENdoSnipeLogger LOGGER = ENdoSnipeLogger
         .getLogger(JavelinDataLogger.class);
+
+    /** SQL判定時パラメータ置き換え用定数 */
+    private static final String PARAM = "__PARAM__";
+
+    /** 数値・数値計算パターン */
+    private static final Pattern PATTERN_NUM = Pattern.compile("(^|\\(|\\)|\\s|;|,|<|>|=)"
+        + "(\\+|\\-)?[0-9]+(\\s?[\\.\\+\\-\\*/%]\\s*[0-9]+)*" + "($|\\(|\\)|\\s|;|,|<|>|=)");
+
+    /** 計算式整形用パターン */
+    private static final Pattern PATTERN_EXP_SPACE = Pattern.compile("([\\+\\-\\*/%\\(^])\\s*"
+        + PARAM + "\\s*([\\+\\-\\*/%\\)$])");
+
+    /** 括弧つきパラメータパターン */
+    private static final Pattern PATTERN_PAREN = Pattern.compile("[\\+\\-]?\\(" + PARAM + "\\)");
+
+    /** パラメータ同士の計算式パターン */
+    private static final Pattern PATTERN_EXP = Pattern.compile("(\\(" + PARAM + "\\)|" + PARAM
+        + ")\\s*[\\+\\-\\*/%,]\\s*(\\(" + PARAM + "\\)|" + PARAM + ")");
+
+    /** 連続するパラメータパターン */
+    private static final Pattern PATTERN_SEQ_PARAM = Pattern.compile(PARAM + "(" + PARAM + ")+");
 
     /**
      * コンストラクタです。
@@ -175,14 +196,20 @@ public class SimilarSqlProcessor
         }
         for (String targetSql : sqlSet_)
         {
-            LevensteinDistance distanceAlgorithm = new LevensteinDistance();
-            float distance = distanceAlgorithm.getDistance(sql, targetSql);
-            if (distance > config_.getJudgeSqlSimilarity())
+            if (isSameSqlWithoutParameter(sql, targetSql))
             {
-                LOGGER.log(FIND_SIMILAR_SQL, sql, targetSql, distance);
+                LOGGER.log(FIND_SIMILAR_SQL, sql, targetSql, 0);
                 similarSql = targetSql;
                 break;
             }
+            //            LevensteinDistance distanceAlgorithm = new LevensteinDistance();
+            //            float distance = distanceAlgorithm.getDistance(sql, targetSql);
+            //            if (distance > config_.getJudgeSqlSimilarity())
+            //            {
+            //                LOGGER.log(FIND_SIMILAR_SQL, sql, targetSql, distance);
+            //                similarSql = targetSql;
+            //                break;
+            //            }
         }
         if (similarSql == null)
         {
@@ -207,4 +234,87 @@ public class SimilarSqlProcessor
             + itemName.substring(position + baseSql.length());
     }
 
+    /**
+     * SQLがパラメータを除いて等しいことを判定する。
+     * @param sql 比較するSQL
+     * @param targetSql 比較するSQL
+     * @return SQLがパラメータを除いて等しければtrue
+     */
+    private boolean isSameSqlWithoutParameter(String sql, String targetSql)
+    {
+        sql = replaceParam(sql);
+        targetSql = replaceParam(targetSql);
+        if (sql != null && targetSql != null && sql.equals(targetSql))
+        {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * パラメータを定数に置き換えたSQLを作成する。
+     * @param sql 置き換え前SQL
+     * @return パラメータ置き換え後SQL
+     */
+    private String replaceParam(String sql)
+    {
+        // trim
+        sql = sql.trim();
+        sql = sql.replaceAll("\\s\\s+", " ");
+        sql = sql.replaceAll("\\(\\s", "(");
+        sql = sql.replaceAll("\\s\\)", ")");
+
+        // 文字列中のエスケープを置き換え
+        sql = sql.replaceAll("''", PARAM);
+        // 文字列を置き換え
+        sql = sql.replaceAll("'.*?'", PARAM);
+
+        // 数値および括弧を含まない数値計算を置き換え
+        Matcher m = PATTERN_NUM.matcher(sql);
+        while (m.find())
+        {
+            sql = m.replaceAll("$1" + PARAM + "$4");
+            m = PATTERN_NUM.matcher(sql);
+        }
+
+        // 式中のスペースを削除
+        Matcher matcherExpSpace = PATTERN_EXP_SPACE.matcher(sql);
+        if (matcherExpSpace.find())
+        {
+            sql = matcherExpSpace.replaceAll("$1" + PARAM + "$2");
+        }
+
+        // 不要な括弧を削除
+        Matcher matcherParen = PATTERN_PAREN.matcher(sql);
+        while (matcherParen.find())
+        {
+            sql = matcherParen.replaceAll(PARAM);
+            matcherParen = PATTERN_PAREN.matcher(sql);
+        }
+
+        // パラメータ同士の演算を置き換え
+        Matcher matcherExp = PATTERN_EXP.matcher(sql);
+        while (matcherExp.find())
+        {
+            sql = matcherExp.replaceAll(PARAM);
+            matcherExp = PATTERN_EXP.matcher(sql);
+        }
+
+        // 不要な括弧の削除
+        matcherParen = PATTERN_PAREN.matcher(sql);
+        while (matcherParen.find())
+        {
+            sql = matcherParen.replaceAll(PARAM);
+            matcherParen = PATTERN_PAREN.matcher(sql);
+        }
+
+        Matcher matcherSeqParam = PATTERN_SEQ_PARAM.matcher(sql);
+        while (matcherSeqParam.find())
+        {
+            sql = matcherSeqParam.replaceAll(PARAM);
+            matcherSeqParam = PATTERN_SEQ_PARAM.matcher(sql);
+        }
+
+        return sql;
+    }
 }
