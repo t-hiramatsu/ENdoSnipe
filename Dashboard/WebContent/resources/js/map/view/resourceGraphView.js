@@ -173,14 +173,14 @@ ENS.ResourceGraphElementView = wgp.DygraphElementView
 						+ "' style='z-index: -10;'><img " + "src='"
 						+ contextPath
 						+ "/resources/images/maximum_button.png' "
-						+ "style='width: 20px; height: 28px'></img></div>";
+						+ "style='width: 23px; height: 23px'></img></div>";
 
 				this.normalButtonImg = "<div id ='" + this.normalButton
 						+ "' class = '" + this.normalButton
 						+ "' style='z-index: -10;'><img " + "src='"
 						+ contextPath
 						+ "/resources/images/normalization_button.png' "
-						+ "style='width: 20px; height: 28px'></img></div>";
+						+ "style='width: 23px; height: 23px'></img></div>";
 			},
 			render : function() {
 				var instance = this;

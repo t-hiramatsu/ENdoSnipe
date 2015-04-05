@@ -39,7 +39,7 @@ ENS.nodeInfoParentView = {
 		// 最大化グラフの縦のマージン
 		maxGraphVerticalMargin : 310,
 		// グラフタイトル横のボタン用スペースの大きさ
-		titleButtonSpace : 88
+		titleButtonSpace : 85
 	}
 
 };
