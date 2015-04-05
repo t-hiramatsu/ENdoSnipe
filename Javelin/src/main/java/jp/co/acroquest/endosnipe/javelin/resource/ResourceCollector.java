@@ -228,6 +228,7 @@ public class ResourceCollector implements TelegramConstants
 
 		resourceMap.put(ITEMNAME_JAVAPROCESS_THREAD_TOTAL_COUNT, new ThreadCountGetter());
 		resourceMap.put(ITEMNAME_JAVAPROCESS_GC_TIME_TOTAL, new GCTotalTimeGetter());
+        resourceMap.put(ITEMNAME_HTTPSESSION_NUM, new HttpSessionNumberGetter());
 
 		resourceMap.put(ITEMNAME_CONVERTEDMETHOD, new ConvertedMethodCountGetter());
 		resourceMap.put(ITEMNAME_EXCLUDEDMETHOD, new ExcludedMethodCountGetter());
