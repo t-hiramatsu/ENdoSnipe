@@ -150,3 +150,9 @@
 	src="<%=request.getContextPath()%>/resources/js/map/view/sqlPlanView.js">
 	
 </script>
+
+<%-- Javelin File download View --%>
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/resources/js/map/view/jvnFileDownloadView.js">
+	
+</script>
