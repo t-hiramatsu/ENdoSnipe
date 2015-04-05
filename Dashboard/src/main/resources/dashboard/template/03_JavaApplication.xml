@@ -4,7 +4,7 @@
 	<height>1000</height>
 	<background>
 		<objectType>POLYGON</objectType>
-		<fill>#000000</fill>
+		<fill>#FFFFFF</fill>
 	</background>
 	<resources>
 		<resource>
@@ -15,8 +15,8 @@
 			<h>30</h>
 			<property>
 				<border>
-					<fill>#444444</fill>
-					<stroke>#000000</stroke>
+					<fill>#8390a2</fill>
+					<stroke>#8390a2</stroke>
 					<strokeWidth>2</strokeWidth>
 					<strokeDasharray></strokeDasharray>
 				</border>

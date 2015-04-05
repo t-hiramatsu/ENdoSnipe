@@ -55,12 +55,12 @@
 
 			var viewArea1 = {
 					width : 1200,
-					height : 62,
+					height : 80,
 					rowspan : 1,
 					colspan : 1,
 					css : {
 						"overflow" : "hidden",
-						"padding-top" : "10px",
+						"padding-top" : "5px",
 						"z-index" : "30"
 					}
 				};
@@ -88,7 +88,7 @@
 			perspectiveView.dropView("persArea_drop_0_0", "range_area", "DashboardView");
 			perspectiveView.dropView("persArea_drop_1_0", "contents_area", "DashboardView");
 			
-			$("#persArea_drop_0_0").resizable("disable");
+			$("#persArea_drop_0_0").addClass("ui-resizable-disabled");
 
 			// リソースリスト・ダッシュボードリスト・レポート出力ダイアログ用の領域を別に用意する。
 			var treeArea = $("<div id='tree_area'></div>");
@@ -114,12 +114,12 @@
 			
 			var viewArea2 = {
 					width : 900,
-					height : 67,
+					height : 80,
 					rowspan : 1,
 					colspan : 1,
 					css : {
 						"overflow" : "hidden",
-						"padding-top" : "10px",
+						"padding-top" : "5px",
 						"padding-left" : "10px",
 						"z-index" : "30"
 					}
@@ -127,7 +127,7 @@
 			
 			var viewArea3 = {
 				width : 900,
-				height : 733,
+				height : 720,
 				rowspan : 1,
 				colspan : 1
 			};
@@ -150,8 +150,8 @@
 			perspectiveView.dropView("persArea_drop_0_1", "range_area", "DashboardView");
 			perspectiveView.dropView("persArea_drop_1_0", "contents_area", "DashboardView");
 			
-			$("#persArea_drop_0_0").resizable("disable");
-			$("#persArea_drop_0_1").resizable("disable");
+			$("#persArea_drop_0_0").addClass("ui-resizable-disabled");
+			$("#persArea_drop_0_1").addClass("ui-resizable-disabled");
 		}
 
 		// リソースツリーの生成
