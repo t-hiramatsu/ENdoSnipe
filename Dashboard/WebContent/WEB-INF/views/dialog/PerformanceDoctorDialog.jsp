@@ -16,7 +16,7 @@
 			<div id="performanceDoctorPatternValue" class="dialogValue">
 
 				<table id="performanceDoctorDetailResult"
-					style='width: 1150px; height: 770px; font-size: 14px; background-color: black;'
+					style='width: 1150px; height: 770px; font-size: 14px;'
 					border=1 cellpadding=2 cellspacing=0>
 					<tr>
 						<td style='width: 120px;'><b>Time</b><br /></td>
