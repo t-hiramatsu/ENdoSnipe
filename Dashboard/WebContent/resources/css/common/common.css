@@ -2,54 +2,13 @@
 
 /* 共通定義個所 */
 body {
-	background: no-repeat 0 0,
-		-moz-linear-gradient(left top, #EEEEEE, #222222);
-	background: no-repeat 0 0,
-		-webkit-gradient(linear, left top, right bottom, from(#EEEEEE),
-		to(#222222) );
-	/*background-repeat : */
-}
 
-/* jQueryを上書き */
-.ui-widget-content {
-	background: #000000 !important;
 }
 
 /* wgpの設定を上書き。 */
 .perspactive_drop_Area_all {
 	top: 5px;
 	border: none;
-}
-
-/* 半透明処理 */
-#persArea_drop_0_0 {
-	background-color: #000;
-	opacity: 0.9;
-}
-
-#persArea_drop_0_1 {
-	background-color: #000;
-	opacity: 0.90;
-}
-
-#tree_area {
-	background: none;
-}
-
-#tree_area a {
-	color: #FFFFFF;
-}
-
-#list_area {
-	background: none;
-}
-
-#list_area a {
-	color: #FFFFFF;
-}
-
-#contents_area {
-	background-color: #000;
 }
 
 /* 半透明にしない部分の定義 */
@@ -61,34 +20,8 @@ body {
 	opacity: 1.0;
 }
 
-/* 左ペインの定義 */
-/* jstree 定義 */
-.jstree a {
-	color: #FFFFFF;
-}
-
-.jstree .jstree-clicked {
-	color: #000000;
-}
-
-.jstree .jstree-hovered {
-	color: #000000;
-}
-
-/* 右ペインの定義 */
-/* slider定義共通 */
-.ui-slider dt span {
-	background-color: #000000;
-}
-
-.ui-slider li,.ui-slider dd {
-	color: #FFFFFF;
-}
-
 /* ヘッダ表示定義 */
 .contentHeader {
-	background: -moz-linear-gradient(-45deg, #696969 0%, #333333 100%)
-		repeat scroll 0 0 transparent;
 	border: 7px outset #333333;
 	margin: 10px 0px 0px 10px;
 	overflow: auto;
@@ -108,6 +41,14 @@ body {
 	background-image: url("../images/ENdoSnipe_logo.png");
 }
 
+.ui-widget-header {
+	color: #FFFFFF !important;
+}
+
+.ui-widget {
+  font-size: 1.0em;
+}
+
 .ui-tabs-panel.ui-widget-content.ui-corner-bottom {
 	padding: 0px 0px 0px 0px;
 }
@@ -124,13 +65,11 @@ body {
 
 /* グラフの背景色とラベルのタイトルのフォントカラーを設定する */
 .graphbox {
-	background-color: #FFFFFF;
-	color: #666666;
 	align: center;
-	border-bottom: 3px double #d0e4f7;
-	border-top: 3px double #d0e4f7;
-	border-right: 3px double #d0e4f7;
-	border-left: 3px double #d0e4f7;
+	border-bottom: 10px solid #e1e5f1;
+	border-top: 3px solid #e1e5f1;
+	border-right: 3px solid #e1e5f1;
+	border-left: 3px solid #e1e5f1;
 }
 
 .graphbox h2 {
@@ -139,12 +78,7 @@ body {
 	font-size: 12px;
 	padding: 5px;
 	margin-bottom: 5px;
-	background: #ff00f0;
-	color: #000;
 	font-family: Verdana;
-	background: -moz-linear-gradient(-45deg, rgba(255, 255, 255, 1) 0%,
-		rgba(241, 241, 241, 1) 50%, rgba(225, 225, 225, 1) 51%,
-		rgba(246, 246, 246, 1) 100% );
 }
 
 
@@ -162,28 +96,6 @@ select.dialogValue {
 	font-size: 0.7em;
 }
 
-/** datepickerのセレクトボックスのオプション */
-#ui-datepicker-div>select option {
-	background: #FFFFFF;
-}
-
-#ui-datepicker-div {
-	background-color: #333333;
-}
-
-.ui-dialog {
-	background: no-repeat 0 0,
-		-moz-linear-gradient(left top, #999999, #222222);
-	background: no-repeat 0 0,
-		-webkit-linear-gradient(left top, #999999, #222222);
-}
-
-/** ツールチップのオプション */
-.tooltip {
-	color: #333333;
-	background-color: #FFFFFF;
-}
-
 option.tooltip span {
 	display: none;
 	padding: 5px;
@@ -194,7 +106,7 @@ option.tooltip:HOVER span {
 	display: inline;
 	position: absolute;
 	border: 1px solid #24140E;
-	border-radius: 3px;
+	border-radius: 0px;
 	background: -moz-linear-gradient(top, #dddddd, #ffffff);
 	background: -webkit-linear-gradient(left top, left bottom, #dddddd, #ffffff);
 	color: #333333;
@@ -252,27 +164,12 @@ div#contents_area_content {
 .dygraph-title {
 	Align: center;
 	margin: 0;
-	padding: 5px;
+	padding: 3px;
 	margin-bottom: 5px;
 	background: #ff00f0;
 	/* width: 85%; */
-	color: #FFFFFF;
 	font-family: Verdana;
-	background: #666666; /* Old browsers */
-	background: -moz-linear-gradient(-45deg, #666666 0%, #333333 50%, #333333 51%,
-		#666666 100%);
-	background: -webkit-gradient(linear, left top, right bottom, color-stop(0%, #666666),
-		color-stop(24%, #333333), color-stop(50%, #222222),
-		color-stop(79%, #333333), color-stop(100%, #666666) );
-	/* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(-45deg, #666666 0%, #333333 24%, #222222 50%,
-		#333333 79%, #666666 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(-45deg, #666666 0%, #333333 24%, #222222 50%, #333333
-		79%, #666666 100%); /* Opera 11.10+ */
-	background: -ms-linear-gradient(-45deg, #666666 0%, #333333 24%, #222222 50%,
-		#333333 79%, #666666 100%); /* IE10+ */
-	background: linear-gradient(135deg, #666666 0%, #333333 24%, #222222 50%, #333333
-		79%, #666666 100%); /* W3C */
+	background: #e1e5f1;
 	filter: progid :       DXImageTransform.Microsoft.gradient ( 
 		              
 		   startColorstr =       '#666666', endColorstr =       '#87bcea',
@@ -301,7 +198,6 @@ td.ui-state-highlight .ui-icon {
 }
 
 tr.ui-state-hover {
-	border-color: #666666 !important;
 	border-bottom-style: solid !important;
 	border-bottom-width: 1px !important;
 	border-top-width: 0px !important;

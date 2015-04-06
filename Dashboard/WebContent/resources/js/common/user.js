@@ -39,7 +39,7 @@ ENS.nodeInfoParentView = {
 		// 最大化グラフの縦のマージン
 		maxGraphVerticalMargin : 310,
 		// グラフタイトル横のボタン用スペースの大きさ
-		titleButtonSpace : 88
+		titleButtonSpace : 85
 	}
 
 };
@@ -78,6 +78,10 @@ ENS.nodeThreadDumpParentElem = {
 		maxLineNum : 20
 	}
 };
+ENS.jvnFileDownloadElem = {
+	viewClassName : "ENS.jvnFileDwonloadView",
+	viewAttribute : {}
+};
 ENS.nodeSqlPlanElem = {
 	viewClassName : "ENS.sqlPlanView",
 	viewAttribute : {}
@@ -111,6 +115,13 @@ ENS.nodeThreadDumpParentView = {
 	collection : [ ENS.nodeThreadDumpParentElem ]
 };
 
+ENS.downloadParentView = {
+	viewClassName : "wgp.MultiAreaView",
+	rootView : appView,
+	tabTitle : "Download",
+	collection : [ENS.jvnFileDownloadElem]
+};
+
 ENS.schedulingReportParentElem = {
 		viewClassName : "ENS.schedulingReportView",
 		viewAttribute : {
@@ -137,7 +148,7 @@ ENS.nodeTabView = {
 	viewClassName : "wgp.TabView",
 	rootView : appView,
 	collection : [ ENS.nodeInfoField, ENS.nodePerfDoctorParentView,
-			ENS.schedulingReportParentView, ENS.nodeThreadDumpParentView, ENS.nodeProfilerParentView, ENS.nodeControllerParentView ]
+			ENS.schedulingReportParentView, ENS.nodeThreadDumpParentView, ENS.nodeProfilerParentView, ENS.nodeControllerParentView, ENS.downloadParentView ]
 };
 
 ENS.sqlPlanTabView = {

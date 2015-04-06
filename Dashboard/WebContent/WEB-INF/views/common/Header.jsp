@@ -11,9 +11,9 @@
 			<td style="float: left;"><img
 				src="<%=request.getContextPath()%>/resources/images/ENdoSnipe_logo.png" />
 			</td>
-			<td style="float: right;"><a id="header_button_explorer"
-				href="<%=request.getContextPath()%>/">Explorer</a> <a
-				id="header_button_dashboard"
+			<td style="float: right;"><a class="top-btn"
+				id="header_button_explorer" href="<%=request.getContextPath()%>/">Explorer</a>
+				<a class="top-btn" id="header_button_dashboard"
 				href="<%=request.getContextPath()%>/dashboard/dashboardList">Dashboard</a>
 			</td>
 		</tr>
