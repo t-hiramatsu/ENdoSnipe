@@ -85,7 +85,7 @@
 			$('#persArea_bar_1_0').hide();
 			$('#persArea_bar_2_0').hide();
 
-			perspectiveView.dropView("persArea_drop_0_0", "range_area", "DashboardView");
+			perspectiveView.dropView("persArea_drop_0_0", "range_area", "");
 			perspectiveView.dropView("persArea_drop_1_0", "contents_area", "DashboardView");
 			
 			$("#persArea_drop_0_0").addClass("ui-resizable-disabled");
