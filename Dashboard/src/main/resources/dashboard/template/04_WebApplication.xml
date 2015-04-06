@@ -42,6 +42,7 @@
 				<target>/${ClusterName}/.*/process/response/servlet/.*/count</target>
 			</property>
 		</resource>
+		<!-- 2 -->
 		<resource>
 			<objectName>ENS.MultipleResourceGraphElementView</objectName>
 			<x>740</x>
@@ -54,10 +55,23 @@
 				<target>/${ClusterName}/.*/process/response/servlet/.*/max</target>
 			</property>
 		</resource>
-		<!-- 2 -->
+		<!-- 3 -->
 		<resource>
 			<objectName>ENS.MultipleResourceGraphElementView</objectName>
 			<x>20</x>
+			<y>305</y>
+			<w>700</w>
+			<h>220</h>
+			<property>
+				<resourceId></resourceId>
+				<name>Http Session(Count)</name>
+				<target>/${ClusterName}/.*/process/httpsession/instance/.*</target>
+			</property>
+		</resource>
+		<!-- 4 -->
+		<resource>
+			<objectName>ENS.MultipleResourceGraphElementView</objectName>
+			<x>740</x>
 			<y>305</y>
 			<w>700</w>
 			<h>220</h>
@@ -67,19 +81,7 @@
 				<target>/${ClusterName}/.*/process/response/servlet/.*/average</target>
 			</property>
 		</resource>
-		<resource>
-			<objectName>ENS.MultipleResourceGraphElementView</objectName>
-			<x>740</x>
-			<y>305</y>
-			<w>700</w>
-			<h>220</h>
-			<property>
-				<resourceId></resourceId>
-				<name>Response Time(Min):msec</name>
-				<target>/${ClusterName}/.*/process/response/servlet/.*/min</target>
-			</property>
-		</resource>
-		<!-- 3 -->
+		<!-- 5 -->
 		<resource>
 			<objectName>ENS.MultipleResourceGraphElementView</objectName>
 			<x>20</x>
@@ -88,15 +90,29 @@
 			<h>220</h>
 			<property>
 				<resourceId></resourceId>
-				<name>Stalled Count</name>
-				<target>/${ClusterName}/.*/process/response/servlet/.*/stalled</target>
+				<name>Response Time(Min):msec</name>
+				<target>/${ClusterName}/.*/process/response/servlet/.*/min</target>
 			</property>
 		</resource>
+		<!-- 6 -->
 		<resource>
 			<objectName>ENS.MultipleResourceGraphElementView</objectName>
 			<x>740</x>
 			<y>545</y>
-			<w>700</w>
+			<w>340</w>
+			<h>220</h>
+			<property>
+				<resourceId></resourceId>
+				<name>Stalled Count</name>
+				<target>/${ClusterName}/.*/process/response/servlet/.*/stalled</target>
+			</property>
+		</resource>
+		<!-- 7 -->
+		<resource>
+			<objectName>ENS.MultipleResourceGraphElementView</objectName>
+			<x>1090</x>
+			<y>545</y>
+			<w>350</w>
 			<h>220</h>
 			<property>
 				<resourceId></resourceId>
