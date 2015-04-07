@@ -64,7 +64,7 @@
 			<h>220</h>
 			<property>
 				<resourceId></resourceId>
-				<name>Http Session(Count)</name>
+				<name>Http Session Count</name>
 				<target>/${ClusterName}/.*/process/httpsession/instance/.*</target>
 			</property>
 		</resource>
