@@ -28,11 +28,11 @@ import java.lang.instrument.IllegalClassFormatException;
 
 import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
 import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
+import jp.co.acroquest.endosnipe.javassist.CannotCompileException;
+import jp.co.acroquest.endosnipe.javassist.NotFoundException;
 import jp.co.acroquest.endosnipe.javelin.StatsJavelinRecorder;
 import jp.co.acroquest.endosnipe.javelin.converter.AbstractConverter;
 import jp.co.acroquest.endosnipe.javelin.jdbc.instrument.JdbcJavelinTransformer;
-import jp.co.smg.endosnipe.javassist.CannotCompileException;
-import jp.co.smg.endosnipe.javassist.NotFoundException;
 
 /**
  * JDBCJavelin用コンバータ

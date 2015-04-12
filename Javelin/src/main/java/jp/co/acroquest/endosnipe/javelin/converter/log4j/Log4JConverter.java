@@ -27,12 +27,12 @@ package jp.co.acroquest.endosnipe.javelin.converter.log4j;
 
 import java.io.IOException;
 
+import jp.co.acroquest.endosnipe.javassist.CannotCompileException;
+import jp.co.acroquest.endosnipe.javassist.CtClass;
+import jp.co.acroquest.endosnipe.javassist.CtMethod;
+import jp.co.acroquest.endosnipe.javassist.NotFoundException;
 import jp.co.acroquest.endosnipe.javelin.converter.AbstractConverter;
 import jp.co.acroquest.endosnipe.javelin.converter.log4j.monitor.Log4JMonitor;
-import jp.co.smg.endosnipe.javassist.CannotCompileException;
-import jp.co.smg.endosnipe.javassist.CtClass;
-import jp.co.smg.endosnipe.javassist.CtMethod;
-import jp.co.smg.endosnipe.javassist.NotFoundException;
 
 /**
  * Log4Jのログ出力時、スタックトレースを出力するコンバータ

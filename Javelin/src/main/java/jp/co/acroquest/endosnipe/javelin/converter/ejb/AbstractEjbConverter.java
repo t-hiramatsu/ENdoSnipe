@@ -31,13 +31,13 @@ import java.util.List;
 import java.util.Set;
 
 import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
+import jp.co.acroquest.endosnipe.javassist.CannotCompileException;
+import jp.co.acroquest.endosnipe.javassist.CtBehavior;
+import jp.co.acroquest.endosnipe.javassist.CtClass;
+import jp.co.acroquest.endosnipe.javassist.CtMethod;
+import jp.co.acroquest.endosnipe.javassist.NotFoundException;
 import jp.co.acroquest.endosnipe.javelin.converter.AbstractConverter;
 import jp.co.acroquest.endosnipe.javelin.converter.util.ConvertedMethodCounter;
-import jp.co.smg.endosnipe.javassist.CannotCompileException;
-import jp.co.smg.endosnipe.javassist.CtBehavior;
-import jp.co.smg.endosnipe.javassist.CtClass;
-import jp.co.smg.endosnipe.javassist.CtMethod;
-import jp.co.smg.endosnipe.javassist.NotFoundException;
 
 /**
  * EJBのセッションBeanを監視するためのコンバータ。EJB2以前とEJB3以降の共通処理を本クラスに記述する。

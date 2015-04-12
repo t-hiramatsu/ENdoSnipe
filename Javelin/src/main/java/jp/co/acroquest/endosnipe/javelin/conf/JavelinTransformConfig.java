@@ -34,9 +34,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 
+import jp.co.acroquest.endosnipe.javassist.ClassPool;
+import jp.co.acroquest.endosnipe.javassist.CtClass;
 import jp.co.acroquest.endosnipe.javelin.common.JavassistUtil;
-import jp.co.smg.endosnipe.javassist.ClassPool;
-import jp.co.smg.endosnipe.javassist.CtClass;
 
 /**
  * Javelinのコード埋め込み設定。

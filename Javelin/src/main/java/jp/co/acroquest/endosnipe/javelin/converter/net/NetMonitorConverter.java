@@ -27,13 +27,13 @@ package jp.co.acroquest.endosnipe.javelin.converter.net;
 
 import java.io.IOException;
 
+import jp.co.acroquest.endosnipe.javassist.CannotCompileException;
+import jp.co.acroquest.endosnipe.javassist.CtClass;
+import jp.co.acroquest.endosnipe.javassist.CtMethod;
+import jp.co.acroquest.endosnipe.javassist.NotFoundException;
 import jp.co.acroquest.endosnipe.javelin.converter.AbstractConverter;
 import jp.co.acroquest.endosnipe.javelin.converter.net.monitor.InputStreamMonitor;
 import jp.co.acroquest.endosnipe.javelin.converter.net.monitor.OutputStreamMonitor;
-import jp.co.smg.endosnipe.javassist.CannotCompileException;
-import jp.co.smg.endosnipe.javassist.CtClass;
-import jp.co.smg.endosnipe.javassist.CtMethod;
-import jp.co.smg.endosnipe.javassist.NotFoundException;
 
 /**
  * NetWorkの入出力量を監視するためのコンバータ
