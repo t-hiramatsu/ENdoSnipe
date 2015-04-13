@@ -25,7 +25,7 @@
  ******************************************************************************/
 package jp.co.acroquest.endosnipe.javelin.converter.ejb;
 
-import jp.co.smg.endosnipe.javassist.CtMethod;
+import jp.co.acroquest.endosnipe.javassist.CtMethod;
 
 /**
  * EJB2.0以前に対応したEJBコンバータ。

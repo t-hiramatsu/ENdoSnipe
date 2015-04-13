@@ -53,6 +53,9 @@ import jp.co.acroquest.endosnipe.common.config.ConfigPreprocessor;
 import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
 import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
 import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
+import jp.co.acroquest.endosnipe.javassist.ClassPool;
+import jp.co.acroquest.endosnipe.javassist.CtClass;
+import jp.co.acroquest.endosnipe.javassist.LoaderClassPath;
 import jp.co.acroquest.endosnipe.javelin.common.AttachUtil;
 import jp.co.acroquest.endosnipe.javelin.common.JavassistUtil;
 import jp.co.acroquest.endosnipe.javelin.conf.ExcludeConversionConfig;
@@ -67,9 +70,6 @@ import jp.co.acroquest.endosnipe.javelin.converter.thread.monitor.MethodStallMon
 import jp.co.acroquest.endosnipe.javelin.converter.thread.monitor.ThreadDumpMonitor;
 import jp.co.acroquest.endosnipe.javelin.converter.thread.monitor.ThreadMonitor;
 import jp.co.acroquest.endosnipe.javelin.util.ThreadUtil;
-import jp.co.smg.endosnipe.javassist.ClassPool;
-import jp.co.smg.endosnipe.javassist.CtClass;
-import jp.co.smg.endosnipe.javassist.LoaderClassPath;
 
 /**
  * Java Instrumentation APIにより、javaagentとしてクラスの変換を行うクラスです。<br />
@@ -201,7 +201,7 @@ public class JavelinTransformer implements ClassFileTransformer
                 || className.startsWith("javassist.")
                 || className.startsWith("org.seasar.javelin")
                 || className.startsWith("jp.co.acroquest.endosnipe.javelin")
-                || className.startsWith("jp.co.smg.endosnipe.javassist"))
+                || className.startsWith("jp.co.acroquest.endosnipe.javassist"))
         {
             return false;
         }

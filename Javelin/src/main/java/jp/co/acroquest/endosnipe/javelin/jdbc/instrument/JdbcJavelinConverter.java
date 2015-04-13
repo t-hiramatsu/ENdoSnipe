@@ -27,19 +27,19 @@ package jp.co.acroquest.endosnipe.javelin.jdbc.instrument;
 
 import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
 import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
+import jp.co.acroquest.endosnipe.javassist.CannotCompileException;
+import jp.co.acroquest.endosnipe.javassist.ClassPool;
+import jp.co.acroquest.endosnipe.javassist.CtBehavior;
+import jp.co.acroquest.endosnipe.javassist.CtClass;
+import jp.co.acroquest.endosnipe.javassist.CtField;
+import jp.co.acroquest.endosnipe.javassist.CtMethod;
+import jp.co.acroquest.endosnipe.javassist.Modifier;
+import jp.co.acroquest.endosnipe.javassist.NotFoundException;
 import jp.co.acroquest.endosnipe.javelin.jdbc.common.JdbcJavelinMessages;
 import jp.co.acroquest.endosnipe.javelin.jdbc.stats.DBProcessor;
 import jp.co.acroquest.endosnipe.javelin.jdbc.stats.JdbcJavelinConnection;
 import jp.co.acroquest.endosnipe.javelin.jdbc.stats.JdbcJavelinRecorder;
 import jp.co.acroquest.endosnipe.javelin.jdbc.stats.LightweightJdbcJavelinRecorder;
-import jp.co.smg.endosnipe.javassist.CannotCompileException;
-import jp.co.smg.endosnipe.javassist.ClassPool;
-import jp.co.smg.endosnipe.javassist.CtBehavior;
-import jp.co.smg.endosnipe.javassist.CtClass;
-import jp.co.smg.endosnipe.javassist.CtField;
-import jp.co.smg.endosnipe.javassist.CtMethod;
-import jp.co.smg.endosnipe.javassist.Modifier;
-import jp.co.smg.endosnipe.javassist.NotFoundException;
 
 /**
  * JdbcJavelinの変換用クラス

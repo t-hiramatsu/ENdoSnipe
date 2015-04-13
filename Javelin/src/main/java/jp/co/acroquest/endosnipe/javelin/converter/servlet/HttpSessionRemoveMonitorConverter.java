@@ -28,12 +28,12 @@ package jp.co.acroquest.endosnipe.javelin.converter.servlet;
 import java.io.IOException;
 import java.util.List;
 
+import jp.co.acroquest.endosnipe.javassist.CannotCompileException;
+import jp.co.acroquest.endosnipe.javassist.CtBehavior;
+import jp.co.acroquest.endosnipe.javassist.Modifier;
+import jp.co.acroquest.endosnipe.javassist.NotFoundException;
 import jp.co.acroquest.endosnipe.javelin.converter.AbstractConverter;
 import jp.co.acroquest.endosnipe.javelin.converter.reference.monitor.ReferenceMonitor;
-import jp.co.smg.endosnipe.javassist.CannotCompileException;
-import jp.co.smg.endosnipe.javassist.CtBehavior;
-import jp.co.smg.endosnipe.javassist.Modifier;
-import jp.co.smg.endosnipe.javassist.NotFoundException;
 
 /**
  * HttpSession継承クラスをモニタリングするコードを埋め込むコンバータ

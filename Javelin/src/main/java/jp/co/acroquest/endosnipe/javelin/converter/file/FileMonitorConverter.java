@@ -27,12 +27,12 @@ package jp.co.acroquest.endosnipe.javelin.converter.file;
 
 import java.io.IOException;
 
+import jp.co.acroquest.endosnipe.javassist.CannotCompileException;
+import jp.co.acroquest.endosnipe.javassist.CtClass;
+import jp.co.acroquest.endosnipe.javassist.CtMethod;
 import jp.co.acroquest.endosnipe.javelin.converter.AbstractConverter;
 import jp.co.acroquest.endosnipe.javelin.converter.file.monitor.FileInputStreamMonitor;
 import jp.co.acroquest.endosnipe.javelin.converter.file.monitor.FileOutputStreamMonitor;
-import jp.co.smg.endosnipe.javassist.CannotCompileException;
-import jp.co.smg.endosnipe.javassist.CtClass;
-import jp.co.smg.endosnipe.javassist.CtMethod;
 
 /**
  * ファイルの入出力データを送信するためのコンバータ

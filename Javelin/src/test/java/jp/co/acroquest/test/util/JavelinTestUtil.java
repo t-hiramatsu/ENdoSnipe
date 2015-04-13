@@ -42,6 +42,8 @@ import java.util.Set;
 import jp.co.acroquest.endosnipe.common.config.ConfigPreprocessor;
 import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
 import jp.co.acroquest.endosnipe.common.config.JavelinConfigUtil;
+import jp.co.acroquest.endosnipe.javassist.ClassPool;
+import jp.co.acroquest.endosnipe.javassist.CtClass;
 import jp.co.acroquest.endosnipe.javelin.CallTreeNode;
 import jp.co.acroquest.endosnipe.javelin.CallTreeRecorder;
 import jp.co.acroquest.endosnipe.javelin.conf.ExcludeConversionConfig;
@@ -54,8 +56,6 @@ import jp.co.acroquest.endosnipe.javelin.resource.ResourceGetter;
 import jp.co.acroquest.endosnipe.javelin.resource.proc.ProcParser;
 import jp.co.acroquest.endosnipe.javelin.testutil.PrivateAccessor;
 import jp.co.dgic.testing.common.virtualmock.MockObjectManager;
-import jp.co.smg.endosnipe.javassist.ClassPool;
-import jp.co.smg.endosnipe.javassist.CtClass;
 import junit.framework.Assert;
 
 /**

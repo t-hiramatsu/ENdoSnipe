@@ -27,19 +27,18 @@ package jp.co.acroquest.endosnipe.javelin.converter.javelin;
 
 import java.util.ArrayList;
 
-import jp.co.dgic.testing.common.virtualmock.MockObjectManager;
-import jp.co.dgic.testing.framework.DJUnitTestCase;
 import jp.co.acroquest.endosnipe.common.config.JavelinConfig;
 import jp.co.acroquest.endosnipe.common.logger.SystemLogger;
-import jp.co.smg.endosnipe.javassist.ClassPool;
-import jp.co.smg.endosnipe.javassist.CtClass;
+import jp.co.acroquest.endosnipe.javassist.ClassPool;
+import jp.co.acroquest.endosnipe.javassist.CtClass;
 import jp.co.acroquest.endosnipe.javelin.StatsJavelinRecorder;
 import jp.co.acroquest.endosnipe.javelin.conf.ExcludeConversionConfig;
 import jp.co.acroquest.endosnipe.javelin.conf.IncludeConversionConfig;
 import jp.co.acroquest.endosnipe.javelin.converter.Converter;
-import jp.co.acroquest.endosnipe.javelin.converter.javelin.JavelinBridgeConverter;
 import jp.co.acroquest.endosnipe.javelin.event.CommonEvent;
 import jp.co.acroquest.test.util.JavelinTestUtil;
+import jp.co.dgic.testing.common.virtualmock.MockObjectManager;
+import jp.co.dgic.testing.framework.DJUnitTestCase;
 
 /**
  * S2JaelinBridgeコンバータのテストクラス
