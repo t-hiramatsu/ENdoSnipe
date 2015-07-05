@@ -1,9 +1,9 @@
 ENS.graphLabel = {};
 
 // グラフラベルの横幅
-ENS.graphLabel.LABEL_WIDTH = 200;
+ENS.graphLabel.LABEL_WIDTH = 500;
 // カーソルとグラフラベルのトップオフセット
-ENS.graphLabel.LABEL_TOP_OFFSET = 30;
+ENS.graphLabel.LABEL_TOP_OFFSET = 5;
 // カーソルとグラフラベルのサイドオフセット
 ENS.graphLabel.LABEL_LEFT_OFFSET = 10;
 // 最大系列表示文字数
