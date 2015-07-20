@@ -12,6 +12,9 @@
  */
 package jp.co.acroquest.endosnipe.web.explorer.service;
 
+import static jp.co.acroquest.endosnipe.web.explorer.util.CsvUtil.CSV_DELIMITER;
+import static jp.co.acroquest.endosnipe.web.explorer.util.CsvUtil.CSV_LINE;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,8 +22,12 @@ import jp.co.acroquest.endosnipe.communicator.CommunicationClient;
 import jp.co.acroquest.endosnipe.communicator.TelegramCreator;
 import jp.co.acroquest.endosnipe.communicator.TelegramCreator.UpdateInvocationParam;
 import jp.co.acroquest.endosnipe.communicator.entity.Telegram;
+import jp.co.acroquest.endosnipe.web.explorer.dto.MethodModelDto;
+import jp.co.acroquest.endosnipe.web.explorer.entity.ClassModel;
 import jp.co.acroquest.endosnipe.web.explorer.entity.InvocationInfo;
+import jp.co.acroquest.endosnipe.web.explorer.entity.MethodModel;
 import jp.co.acroquest.endosnipe.web.explorer.manager.ConnectionClient;
+import jp.co.acroquest.endosnipe.web.explorer.util.CsvUtil;
 
 import org.springframework.stereotype.Service;
 
@@ -102,4 +109,127 @@ public class ProfilerService
             communicationClient.sendTelegram(telegram);
         }
     }
+
+    /**
+     * ProfilerデータからCSVのデータを作成する。
+     * @param classModels Profilerのデータ
+     * @return CSVデータ
+     */
+    public String createCsvData(final ClassModel[] classModels)
+    {
+        StringBuilder builder = new StringBuilder();
+        appendCsvHeader(builder);
+        if (classModels == null)
+        {
+            return builder.toString();
+        }
+
+        for (ClassModel classModel : classModels)
+        {
+            for (MethodModel methodModel : classModel.getMethods())
+            {
+                MethodModelDto methodModelDto = methodModel.convertToDto();
+                appendCsvLine(builder, methodModelDto);
+            }
+        }
+        return builder.toString();
+    }
+
+    /**
+     * CSVヘッダを設定する。
+     * @param builder {@link StringBuilder}
+     */
+    private void appendCsvHeader(final StringBuilder builder)
+    {
+        builder.append("Response");
+        builder.append(CSV_DELIMITER);
+        builder.append("Target");
+        builder.append(CSV_DELIMITER);
+        builder.append("Class Name");
+        builder.append(CSV_DELIMITER);
+        builder.append("Method Name");
+        builder.append(CSV_DELIMITER);
+        builder.append("TAT Threshold");
+        builder.append(CSV_DELIMITER);
+        builder.append("CPU Threshold");
+        builder.append(CSV_DELIMITER);
+        builder.append("Call Count");
+        builder.append(CSV_DELIMITER);
+        builder.append("TotalTime");
+        builder.append(CSV_DELIMITER);
+        builder.append("AverageTime");
+        builder.append(CSV_DELIMITER);
+        builder.append("MaximumTime");
+        builder.append(CSV_DELIMITER);
+        builder.append("MinimumTime");
+        builder.append(CSV_DELIMITER);
+        builder.append("TotalCPUTime");
+        builder.append(CSV_DELIMITER);
+        builder.append("AverageCPUTime");
+        builder.append(CSV_DELIMITER);
+        builder.append("MaximumCPUTime");
+        builder.append(CSV_DELIMITER);
+        builder.append("MinimumCPUTime");
+        builder.append(CSV_DELIMITER);
+        builder.append("TotalUserTime");
+        builder.append(CSV_DELIMITER);
+        builder.append("AverageUserTime");
+        builder.append(CSV_DELIMITER);
+        builder.append("MaximumUserTime");
+        builder.append(CSV_DELIMITER);
+        builder.append("MinimumUserTime");
+        builder.append(CSV_DELIMITER);
+        builder.append("ThrowableCount");
+        builder.append(CSV_LINE);
+    }
+
+    /**
+     * メソッドデータからCSVの行データを設定する。
+     * @param methodModelDto メソッドデータ
+     * @param builder {@link StringBuilder}
+     */
+    private void appendCsvLine(final StringBuilder builder, final MethodModelDto methodModelDto)
+    {
+        builder.append(methodModelDto.getTransactionGraph());
+        builder.append(CSV_DELIMITER);
+        builder.append(methodModelDto.getTarget());
+        builder.append(CSV_DELIMITER);
+        builder.append(CsvUtil.escaped(methodModelDto.getClassName()));
+        builder.append(CSV_DELIMITER);
+        builder.append(CsvUtil.escaped(methodModelDto.getMethodName()));
+        builder.append(CSV_DELIMITER);
+        builder.append(methodModelDto.getAlarmThreshold());
+        builder.append(CSV_DELIMITER);
+        builder.append(methodModelDto.getAlarmCpuThreshold());
+        builder.append(CSV_DELIMITER);
+        builder.append(methodModelDto.getCallCount());
+        builder.append(CSV_DELIMITER);
+        builder.append(methodModelDto.getTotal());
+        builder.append(CSV_DELIMITER);
+        builder.append(methodModelDto.getAverage());
+        builder.append(CSV_DELIMITER);
+        builder.append(methodModelDto.getMaximum());
+        builder.append(CSV_DELIMITER);
+        builder.append(methodModelDto.getMinimum());
+        builder.append(CSV_DELIMITER);
+        builder.append(methodModelDto.getCpuTotal());
+        builder.append(CSV_DELIMITER);
+        builder.append(methodModelDto.getCpuAverage());
+        builder.append(CSV_DELIMITER);
+        builder.append(methodModelDto.getCpuMaximum());
+        builder.append(CSV_DELIMITER);
+        builder.append(methodModelDto.getCpuMinimum());
+        builder.append(CSV_DELIMITER);
+        builder.append(methodModelDto.getUserTotal());
+        builder.append(CSV_DELIMITER);
+        builder.append(methodModelDto.getUserAverage());
+        builder.append(CSV_DELIMITER);
+        builder.append(methodModelDto.getUserMaximum());
+        builder.append(CSV_DELIMITER);
+        builder.append(methodModelDto.getUserMinimum());
+        builder.append(CSV_DELIMITER);
+        builder.append(methodModelDto.getThrowableCount());
+        builder.append(CSV_LINE);
+    }
+
 }
