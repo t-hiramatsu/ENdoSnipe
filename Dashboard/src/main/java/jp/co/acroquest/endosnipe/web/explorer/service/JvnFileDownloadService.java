@@ -17,6 +17,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
@@ -26,6 +28,7 @@ import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
 import jp.co.acroquest.endosnipe.data.dao.JavelinLogDao;
 import jp.co.acroquest.endosnipe.data.entity.JavelinLog;
 import jp.co.acroquest.endosnipe.web.explorer.constants.LogMessageCodes;
+import jp.co.acroquest.endosnipe.web.explorer.dto.JvnFileSearchResultDto;
 import jp.co.acroquest.endosnipe.web.explorer.manager.DatabaseManager;
 
 import org.springframework.stereotype.Service;
@@ -42,6 +45,9 @@ public class JvnFileDownloadService
     private static final ENdoSnipeLogger LOGGER =
             ENdoSnipeLogger.getLogger(JvnFileDownloadService.class);
 
+    /** 日付のフォーマット。 */
+    private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm";
+
     /**JVNログ日付パターン */
     private static final String DATE_PATTERN = "yyyyMMddHHmmss";
 
@@ -54,19 +60,20 @@ public class JvnFileDownloadService
     }
 
     /**
-     * 指定したファイルをJVNログファイルのzip圧縮形式にする。
-     * @param zipFile ファイル
-     * @param start 開始時刻
-     * @param end 終了時刻
-     * @return
+     * 指定したログIDに該当するJVNログファイルを取得してzip圧縮形式にする。
+     * @param outputStream 出力ストリーム
+     * @param logIdList ログIDのリスト
      */
-    public void writeFile(final OutputStream outputStream, final Timestamp start,
-            final Timestamp end)
+    public void writeFile(final OutputStream outputStream, final List<Long> logIdList)
     {
+        DatabaseManager dbMmanager = DatabaseManager.getInstance();
+        String dbName = dbMmanager.getDataBaseName(1);
+
         try
         {
             ZipOutputStream zipOutputStream = new ZipOutputStream(outputStream);
-            List<JavelinLog> javelinLogList = this.getJavelinLog(start, end);
+            List<JavelinLog> javelinLogList =
+                    JavelinLogDao.selectJavelinLogByLogIdList(dbName, logIdList, true);
             for (JavelinLog javelinLog : javelinLogList)
             {
                 String fileName = javelinLog.logFileName;
@@ -92,6 +99,10 @@ public class JvnFileDownloadService
             zipOutputStream.closeEntry();
             zipOutputStream.close();
         }
+        catch (SQLException ex)
+        {
+            LOGGER.log(LogMessageCodes.SQL_EXCEPTION, ex, ex.getMessage());
+        }
         catch (IOException ex)
         {
             LOGGER.log(LogMessageCodes.IO_ERROR, ex, ex.getMessage());
@@ -99,27 +110,44 @@ public class JvnFileDownloadService
     }
 
     /**
-     * 指定した開始時刻～終了時刻に該当するJVNログを全て取得する。
+     * 指定した開始時刻～終了時刻、アイテム名に該当するJVNログを全て取得する。
      * @param start 開始時刻
      * @param end 終了時刻
+     * @param name アイテム名
      * @return JVNログファイルのリスト
      */
-    private List<JavelinLog> getJavelinLog(final Timestamp start, final Timestamp end)
+    public List<JvnFileSearchResultDto> getJavelinLog(final Timestamp start, final Timestamp end,
+            final String name)
     {
-
+        List<JvnFileSearchResultDto> resultList = new ArrayList<JvnFileSearchResultDto>();
         DatabaseManager dbMmanager = DatabaseManager.getInstance();
         String dbName = dbMmanager.getDataBaseName(1);
 
-        List<JavelinLog> javelinLogList = new ArrayList<JavelinLog>();
         try
         {
-            javelinLogList = JavelinLogDao.selectByTermWithLog(dbName, start, end);
+            DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
+            List<JavelinLog> javelinLogList =
+                    JavelinLogDao.selectByTermAndName(dbName, start, end, name, true);
+
+            for (JavelinLog jevelinLog : javelinLogList)
+            {
+                JvnFileSearchResultDto resultDto = new JvnFileSearchResultDto();
+                resultDto.setLogId(jevelinLog.logId);
+                resultDto.setLogFileName(jevelinLog.logFileName);
+                resultDto.setStartTime(dateFormat.format(jevelinLog.startTime));
+                resultDto.setEndTime(dateFormat.format(jevelinLog.endTime));
+                resultDto.setCalleeClass(jevelinLog.callerClass);
+                resultDto.setCalleeName(jevelinLog.calleeName);
+                resultDto.setElapsedTime(jevelinLog.elapsedTime);
+                resultDto.setThreadName(jevelinLog.threadName);
+                resultList.add(resultDto);
+            }
         }
         catch (SQLException ex)
         {
             LOGGER.log(LogMessageCodes.SQL_EXCEPTION, ex, ex.getMessage());
         }
 
-        return javelinLogList;
+        return resultList;
     }
 }
