@@ -45,6 +45,8 @@ ENS.URL.JVN_LOG_NOTIFY_POSTFIX_ID = "/JvnLog_Notify";
 ENS.URL.PROFILER_POSTFIX_ID = "/profiler";
 ENS.URL.CONTROLLER_POSTFIX_ID = "/property";
 
+ENS.URL.JVNFILEDOWNLOAD_SEARCH = "/jvnFileDownload/search";
+
 ENS.common = {};
 ENS.common.dualslider = {};
 ENS.common.dualslider.scaleUnitStrings = 'hours';// for many hours

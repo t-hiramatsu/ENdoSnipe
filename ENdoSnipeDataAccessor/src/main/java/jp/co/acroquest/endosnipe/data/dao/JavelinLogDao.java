@@ -881,6 +881,74 @@ public class JavelinLogDao extends AbstractDao implements LogMessageCodes, Table
     }
 
     /**
+     * ログIDを複数指定して Javelin ログを取得します。
+     * @param database データベース名
+     * @param logIdList ログ IDのリスト
+     * @param outputLog Javelinログを出力する場合<code>true</code>
+     * @return {@link JavelinLog} のリスト
+     * @throws SQLException SQL 実行時に例外が発生した場合
+     */
+    public static List<JavelinLog> selectJavelinLogByLogIdList(final String database,
+        List<Long> logIdList, boolean outputLog) throws SQLException
+    {
+        List<JavelinLog> result = new ArrayList<JavelinLog>();
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try
+        {
+
+            conn = getConnection(database, true);
+            String sql =
+                "select LOG_ID, SESSION_ID, SEQUENCE_ID, JAVELIN_LOG, LOG_FILE_NAME, "
+                    + "START_TIME, END_TIME, SESSION_DESC, LOG_TYPE, "
+                    + "CALLEE_NAME, CALLEE_SIGNATURE, CALLEE_CLASS, "
+                    + "CALLEE_FIELD_TYPE, CALLEE_OBJECTID, CALLER_NAME, "
+                    + "CALLER_SIGNATURE, CALLER_CLASS, CALLER_OBJECTID, "
+                    + "EVENT_LEVEL, ELAPSED_TIME, MODIFIER, THREAD_NAME, "
+                    + "THREAD_CLASS, THREAD_OBJECTID, MEASUREMENT_ITEM_NAME from " + JAVELIN_LOG;
+            StringBuilder whereCondition = new StringBuilder();
+
+            int logIdListSize = logIdList.size();
+            for (int logInIndex = 0; logInIndex < logIdListSize; logInIndex++)
+            {
+                whereCondition.append("?");
+                if (logInIndex + 1 < logIdListSize)
+                {
+                    whereCondition.append(",");
+                }
+            }
+            sql = sql + " where LOG_ID IN (" + whereCondition.toString() + ")";
+            
+
+            pstmt = conn.prepareStatement(sql);
+            PreparedStatement delegated = getDelegatingStatement(pstmt);
+
+            for(int logIdIndex = 0; logIdIndex < logIdListSize; logIdIndex++){
+                int parameterIndex = logIdIndex + 1;
+                delegated.setLong(parameterIndex, logIdList.get(logIdIndex));
+            }
+            rs = delegated.executeQuery();
+
+            // 結果をリストに１つずつ格納する
+            while (rs.next() == true)
+            {
+                JavelinLog log = new JavelinLog();
+                setJavelinLogFromResultSet(log, rs, outputLog);
+                result.add(log);
+            }
+        }
+        finally
+        {
+            SQLUtil.closeResultSet(rs);
+            SQLUtil.closeStatement(pstmt);
+            SQLUtil.closeConnection(conn);
+        }
+
+        return result;
+    }
+
+    /**
      * 時刻を指定して、それより古いレコードを削除します。
      * 削除期限時刻のキーとしては、セッション終了時刻を基準とします。
      * 
