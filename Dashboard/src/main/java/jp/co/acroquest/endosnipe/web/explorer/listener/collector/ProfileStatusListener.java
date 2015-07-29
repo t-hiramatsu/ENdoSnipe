@@ -30,6 +30,7 @@ import jp.co.acroquest.endosnipe.web.explorer.entity.MethodModel;
 import jp.co.acroquest.endosnipe.web.explorer.entity.StructureModel;
 import jp.co.acroquest.endosnipe.web.explorer.manager.EventManager;
 import jp.co.acroquest.endosnipe.web.explorer.manager.ProfileSender;
+import jp.co.acroquest.endosnipe.web.explorer.manager.ProfilerManager;
 
 import org.wgp.manager.WgpDataManager;
 
@@ -85,6 +86,8 @@ public class ProfileStatusListener extends AbstractTelegramListener
         }
 
         profileSender.send(classModels, agentName);
+        ProfilerManager manager = ProfilerManager.getInstance();
+        manager.setProfilerData(agentName, classModels);
         return null;
     }
 

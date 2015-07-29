@@ -73,6 +73,22 @@ ENS.profilerView = wgp.AbstractView
 					ajaxHandler.requestServerAsync(settings);
 				});
 
+				$("#downloadButton").on("click", function() {
+					var iframe =  $('iframe[id="profilerIframe"]')[0].contentDocument;
+					var $iframeBody = $(iframe.documentElement).children("body");
+					
+					var $oldForm = $iframeBody.filter("form");
+					if ($oldForm.size() > 0) {
+						$oldForm.remove();
+					}
+
+					ENS.tree.agentName = instance.treeSettings.treeId;
+					var $form = $('<form name="profileForm" method="POST"/>')
+					$form.attr('action', ENS.tree.PROFILER_DOWNLOAD);
+					$form.append($('<input type="hidden" name="agentName" value="' + ENS.tree.agentName +'"/>'));
+					$iframeBody.append($form);
+					$form.submit();
+				});
 				this.id = argument.id;
 			},
 			render : function() {
@@ -88,6 +104,9 @@ ENS.profilerView = wgp.AbstractView
 				$("#profilerDiv")
 						.append(
 								"<input type='button' id='updateButton' value='update'>");
+				$("#profilerDiv")
+				.append(
+						"<input type='button' id='downloadButton' value='download'>");
 				$("#profilerDiv").append('<table id="profilerTable"></table>');
 				$("#profilerDiv").append('<div id="profilerPager"></table>');
 				var height = "auto";
@@ -140,6 +159,11 @@ ENS.profilerView = wgp.AbstractView
 					defaultSearch : 'cn'
 				});
 				$("#profilerDiv").css('font-size', '0.8em');
+				
+				// Add iframe to download.
+				var $iframe= $("<iframe id='profilerIframe'><body /></iframe>");
+				$iframe.hide();
+				$("#" + this.id).append($iframe);
 			},
 			_parseModel : function(model) {
 				var tableData = model.attributes;
@@ -180,7 +204,7 @@ ENS.profilerView = wgp.AbstractView
 				var onEditKeyDown = function(e) {
 					if (cellValueBefore != e.target.value) {
 						var key = e.charCode || e.keyCode;
-						if (key == 13)//enter
+						if (key == 13)// enter
 						{ 
 							var rowId = e.target.id.split("_")[0];
 							rowId = $('#profilerTable').getDataIDs()[parseInt(rowId) -1];

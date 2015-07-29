@@ -25,10 +25,8 @@
  ******************************************************************************/
 package jp.co.acroquest.endosnipe.web.explorer.manager;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 import jp.co.acroquest.endosnipe.web.explorer.entity.ClassModel;
 import jp.co.acroquest.endosnipe.web.explorer.entity.MethodModel;
@@ -65,6 +63,7 @@ public class ProfileSender
     /**
      * プロファイル情報をクライアントに送信する。
      * @param profileData プロファイル情報
+     * @param agentName エージェント名
      */
     public void send(final ClassModel[] profileData, final String agentName)
     {
@@ -83,6 +82,7 @@ public class ProfileSender
      * @param profileData 送信するデータ元
      * @param dataManager WGPオブジェクト
      * @param inbound クライアント
+     * @param agentName エージェント名
      */
     private void sendWgpData(final ClassModel[] profileData, final WgpDataManager dataManager,
             final WgpMessageInbound inbound, final String agentName)
@@ -96,59 +96,8 @@ public class ProfileSender
                 String objectId =
                         classModel.getFullClassName() + "##" + methodModel.getMethodName();
                 dataManager.setData(dataGroupId, objectId, methodModel.convertToDto());
-                //                if (dataManager.getData(dataGroupId, objectId) == null)
-                //                {
-                //                    dataManager.setData(dataGroupId, objectId, methodModel.convertToDto());
-                //                }
-                //                else
-                //                {
-                //                    dataManager.updateData(dataGroupId, objectId, methodModel.convertToDto());
-                //                }
             }
         }
-
-        //        MeasurementValueDto dto = new MeasurementValueDto();
-        //        dto.setMeasurementItemId(123);
-        //        dto.setMeasurementItemName("aaa");
-        //        dto.setMeasurementTime(1000);
-        //        dto.setMeasurementValue("aaa");
-        //        MeasurementValueDto dto2 = new MeasurementValueDto();
-        //        dto2.setMeasurementItemId(123);
-        //        dto2.setMeasurementItemName("aaa");
-        //        dto2.setMeasurementTime(1000);
-        //        dto2.setMeasurementValue("aaa");
-        //        List<MeasurementValueDto> dtoes = new ArrayList<MeasurementValueDto>();
-        //        dtoes.add(dto);
-        //        dtoes.add(dto2);
-        //        idBuilder.setLength(idBuilder.length() - 2);
-        //        Map map = new HashMap();
-        //        map.put("dto", dto);
-        //        map.put("dto2", dto2);
-        //        dataManager.setData("profiler", idBuilder.toString(), dtoes);
     }
 
-    /**
-     * 計測対象が含まれている監視対象グループを全て取得する。
-     *
-     * @param listeners
-     *            監視対象リスナ
-     * @param itemName
-     *            計測項目名
-     * @return 計測対象が含まれている監視対象グループのリスト
-     */
-    private List<String> searchObservateGroupIdList(final Set<String> listeners,
-            final String itemName)
-    {
-        List<String> groupIdList = new ArrayList<String>();
-        for (String groupId : listeners)
-        {
-            // 正規表現で一致する場合、または完全一致する場合
-            if (itemName.matches(groupId) || itemName.equals(groupId))
-            {
-                groupIdList.add(groupId);
-
-            }
-        }
-        return groupIdList;
-    }
 }

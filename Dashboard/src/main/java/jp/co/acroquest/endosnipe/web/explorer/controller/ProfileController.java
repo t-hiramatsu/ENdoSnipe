@@ -12,16 +12,20 @@
  */
 package jp.co.acroquest.endosnipe.web.explorer.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
-import jp.co.acroquest.endosnipe.web.explorer.config.ConfigurationReader;
+import javax.servlet.http.HttpServletResponse;
+
 import jp.co.acroquest.endosnipe.web.explorer.dto.MethodModelDto;
+import jp.co.acroquest.endosnipe.web.explorer.entity.ClassModel;
 import jp.co.acroquest.endosnipe.web.explorer.entity.InvocationInfo;
+import jp.co.acroquest.endosnipe.web.explorer.manager.ProfilerManager;
 import jp.co.acroquest.endosnipe.web.explorer.service.ProfilerService;
 import net.arnx.jsonic.JSON;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,10 +45,6 @@ public class ProfileController
     /** プロファイラ用サービス */
     @Autowired
     protected ProfilerService profilerService_;
-
-    /** ロガー */
-    private static final ENdoSnipeLogger LOGGER =
-            ENdoSnipeLogger.getLogger(ConfigurationReader.class);
 
     /**
      * デフォルトコンストラクタ
@@ -104,4 +104,32 @@ public class ProfileController
         profilerService_.updateTarget(agentName, invocationList);
     }
 
+    /**
+     * プロファイラデータをダウンロードする。
+     * @param response {@link HttpServletResponse}
+     * @param agentName エージェント名
+     */
+    @RequestMapping(value = "/download", method = RequestMethod.POST)
+    public void download(final HttpServletResponse response,
+            @RequestParam(value = "agentName") final String agentName)
+    {
+        ProfilerManager manager = ProfilerManager.getInstance();
+        ClassModel[] classModels = manager.getProfilerData(agentName);
+
+        String result = profilerService_.createCsvData(classModels);
+
+        //レスポンス設定           
+        response.setContentType("application/octet-stream");
+        response.setCharacterEncoding("Windows-31j");
+        response.setHeader("Content-Disposition", "filename=\"profile.csv\"");
+
+        try
+        {
+            IOUtils.write(result, response.getOutputStream());
+        }
+        catch (IOException ex)
+        {
+            ex.printStackTrace();
+        }
+    }
 }
