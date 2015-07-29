@@ -212,6 +212,9 @@ ENS.jvnFileDwonloadView = wgp.AbstractView.extend({
 					},
 					onSelectRow : function(id) {
 						instance.reflectSelectState();
+					},
+					onSelectAll : function(aRowids, status) {
+						instance.reflectSelectState();
 					}
 				});
 

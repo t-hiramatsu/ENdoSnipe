@@ -46,6 +46,9 @@ public class JvnFileDownloadController
     /** 日付のフォーマット。 */
     private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm";
 
+    /** ファイルダウンロード用の日付のフォーマット。 */
+    private static final String FILE_DATE_FORMAT = "yyyyMMddHHmmss";
+
     /**
      * connection with threadDumpService
      */
@@ -113,7 +116,7 @@ public class JvnFileDownloadController
         {
             logIdList.add(Long.valueOf(logIdStr));
         }
-        DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
+        DateFormat dateFormat = new SimpleDateFormat(FILE_DATE_FORMAT);
         String fileName = "jvn_" + dateFormat.format(new Date()) + ".zip";
         res.setContentType("application/zip;charset=UTF8");
         res.setHeader("Content-Disposition", "attachment; filename=" + fileName);
