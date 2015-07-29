@@ -45,11 +45,11 @@ public class JvnFileDownloadService
     private static final ENdoSnipeLogger LOGGER =
             ENdoSnipeLogger.getLogger(JvnFileDownloadService.class);
 
+    /** buffered size */
+    private static final int BUFFERED_SIZE = 1024;
+
     /** 日付のフォーマット。 */
     private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm";
-
-    /**JVNログ日付パターン */
-    private static final String DATE_PATTERN = "yyyyMMddHHmmss";
 
     /**
      * コンストラクタ
@@ -69,9 +69,10 @@ public class JvnFileDownloadService
         DatabaseManager dbMmanager = DatabaseManager.getInstance();
         String dbName = dbMmanager.getDataBaseName(1);
 
+        ZipOutputStream zipOutputStream = null;
         try
         {
-            ZipOutputStream zipOutputStream = new ZipOutputStream(outputStream);
+            zipOutputStream = new ZipOutputStream(outputStream);
             List<JavelinLog> javelinLogList =
                     JavelinLogDao.selectJavelinLogByLogIdList(dbName, logIdList, true);
             for (JavelinLog javelinLog : javelinLogList)
@@ -87,17 +88,14 @@ public class JvnFileDownloadService
                 ZipEntry zipEntry = new ZipEntry(fileName);
                 zipOutputStream.putNextEntry(zipEntry);
 
-                byte[] dataBlock = new byte[1024];
-                int count = inputStream.read(dataBlock, 0, 1024);
+                byte[] dataBlock = new byte[BUFFERED_SIZE];
+                int count = inputStream.read(dataBlock, 0, BUFFERED_SIZE);
                 while (count != -1)
                 {
                     zipOutputStream.write(dataBlock, 0, count);
-                    count = inputStream.read(dataBlock, 0, 1024);
+                    count = inputStream.read(dataBlock, 0, BUFFERED_SIZE);
                 }
             }
-
-            zipOutputStream.closeEntry();
-            zipOutputStream.close();
         }
         catch (SQLException ex)
         {
@@ -107,10 +105,25 @@ public class JvnFileDownloadService
         {
             LOGGER.log(LogMessageCodes.IO_ERROR, ex, ex.getMessage());
         }
+        finally
+        {
+            if (zipOutputStream != null)
+            {
+                try
+                {
+                    zipOutputStream.closeEntry();
+                    zipOutputStream.close();
+                }
+                catch (IOException ex)
+                {
+                    LOGGER.log(LogMessageCodes.IO_ERROR, ex, ex.getMessage());
+                }
+            }
+        }
     }
 
     /**
-     * 指定した開始時刻～終了時刻、アイテム名に該当するJVNログを全て取得する。
+     * 指定した開始時刻～終了時刻、エージェント名に該当するJVNログを全て取得する。
      * @param start 開始時刻
      * @param end 終了時刻
      * @param name アイテム名
