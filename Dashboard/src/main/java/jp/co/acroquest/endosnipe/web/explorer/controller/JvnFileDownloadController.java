@@ -46,6 +46,9 @@ public class JvnFileDownloadController
     /** 日付のフォーマット。 */
     private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm";
 
+    /** ファイルダウンロード用の日付のフォーマット。 */
+    private static final String FILE_DATE_FORMAT = "yyyyMMddHHmmss";
+
     /**
      * connection with threadDumpService
      */
@@ -66,6 +69,8 @@ public class JvnFileDownloadController
      * @param end 終了時刻
      * @param agentName エージェント名
      * @param res レスポンス
+     * @return Jvnファイル一覧
+     * @throws Exception 例外が発生した場合
      */
     @ResponseBody
     @RequestMapping(value = "/search", method = RequestMethod.POST)
@@ -94,6 +99,12 @@ public class JvnFileDownloadController
         return this.jvnFileDownloadService_.getJavelinLog(startTime, endTime, agentName);
     }
 
+    /**
+     * Jvnファイルをダウンロードする。
+     * @param logIds ログID（JSON）
+     * @param res レスポンス
+     * @throws Exception 例外が発生した場合
+     */
     @RequestMapping(value = "/download", method = RequestMethod.POST)
     public void download(@RequestParam(value = "logIds") final String logIds,
             final HttpServletResponse res)
@@ -105,9 +116,9 @@ public class JvnFileDownloadController
         {
             logIdList.add(Long.valueOf(logIdStr));
         }
-        DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
+        DateFormat dateFormat = new SimpleDateFormat(FILE_DATE_FORMAT);
         String fileName = "jvn_" + dateFormat.format(new Date()) + ".zip";
-        res.setContentType("application/octet-stream;charset=UTF8");
+        res.setContentType("application/zip;charset=UTF8");
         res.setHeader("Content-Disposition", "attachment; filename=" + fileName);
         res.setHeader("Content-Transfer-Encoding", "binary");
 

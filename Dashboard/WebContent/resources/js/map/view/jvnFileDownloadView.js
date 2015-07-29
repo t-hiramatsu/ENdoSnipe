@@ -189,7 +189,7 @@ ENS.jvnFileDwonloadView = wgp.AbstractView.extend({
 			            	width: parseInt(instance.tableWidth * 0.19)
 			            }
 		            ],
-					colNames : ["log id","log file name", "start time", "end time", "callee class", "callee name", "elapsed_time", "thread name"],
+					colNames : ["log id","log file name", "Start Time", "End Time", "Caller Class", "Callee Method", "Processing Time", "Thread Name"],
 					caption : "Download of " + instance.treeSettings.id,
 					pager : "jvnFileDownloadPager",
 					rowNum : 10000,
@@ -211,6 +211,9 @@ ENS.jvnFileDwonloadView = wgp.AbstractView.extend({
 						instance.reflectSelectState();
 					},
 					onSelectRow : function(id) {
+						instance.reflectSelectState();
+					},
+					onSelectAll : function(aRowids, status) {
 						instance.reflectSelectState();
 					}
 				});
