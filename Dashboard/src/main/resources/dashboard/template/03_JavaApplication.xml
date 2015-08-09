@@ -39,7 +39,7 @@
 			<property>
 				<resourceId></resourceId>
 				<name>Access Count</name>
-				<target>/${ClusterName}/.*/process/response/java/.*/count</target>
+				<target>/${ClusterName}/.*/process/response/method/.*/count</target>
 			</property>
 		</resource>
 		<resource>
@@ -51,7 +51,7 @@
 			<property>
 				<resourceId></resourceId>
 				<name>Response Time(Max):msec</name>
-				<target>/${ClusterName}/.*/process/response/java/.*/max</target>
+				<target>/${ClusterName}/.*/process/response/method/.*/max</target>
 			</property>
 		</resource>
 		<!-- 2 -->
@@ -64,7 +64,7 @@
 			<property>
 				<resourceId></resourceId>
 				<name>Response Time(Average):msec</name>
-				<target>/${ClusterName}/.*/process/response/java/.*/average</target>
+				<target>/${ClusterName}/.*/process/response/method/.*/average</target>
 			</property>
 		</resource>
 		<resource>
@@ -76,7 +76,7 @@
 			<property>
 				<resourceId></resourceId>
 				<name>Response Time(Min):msec</name>
-				<target>/${ClusterName}/.*/process/response/java/.*/min</target>
+				<target>/${ClusterName}/.*/process/response/method/.*/min</target>
 			</property>
 		</resource>
 		<!-- 3 -->
@@ -89,7 +89,7 @@
 			<property>
 				<resourceId></resourceId>
 				<name>Stalled Count</name>
-				<target>/${ClusterName}/.*/process/response/java/.*/stalled</target>
+				<target>/${ClusterName}/.*/process/response/method/.*/stalled</target>
 			</property>
 		</resource>
 		<resource>
@@ -101,7 +101,7 @@
 			<property>
 				<resourceId></resourceId>
 				<name>Event</name>
-				<target>/${ClusterName}/.*/process/response/java/.*/event/.*</target>
+				<target>/${ClusterName}/.*/process/response/method/.*/event/.*</target>
 			</property>
 		</resource>
 	</resources>
