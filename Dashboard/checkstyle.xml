@@ -5,13 +5,15 @@
     This configuration file was written by the eclipse-cs plugin configuration editor
 -->
 <!--
-    Checkstyle-Configuration: Acroquest Technology Checkstyle Rule
-    Description: for Checkstyle 5.1
+    Checkstyle-Configuration: endosnipe-checkstyle
+    Description: none
 -->
 <module name="Checker">
-  <property name="charset" value="UTF-8"/>
   <property name="severity" value="warning"/>
+  <property name="charset" value="UTF-8"/>
   <module name="TreeWalker">
+    <property name="severity" value="ignore"/>
+    <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
     <module name="ArrayTypeStyle"/>
     <module name="AvoidInlineConditionals"/>
     <module name="AvoidNestedBlocks"/>
@@ -26,7 +28,6 @@
       <property name="severity" value="ignore"/>
       <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
     </module>
-    <!-- <module name="DoubleCheckedLocking"/> -->
     <module name="EmptyForIteratorPad"/>
     <module name="EmptyStatement"/>
     <module name="EqualsHashCode"/>
