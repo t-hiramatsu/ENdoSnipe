@@ -72,6 +72,7 @@ import jp.co.acroquest.endosnipe.common.logger.ENdoSnipeLogger;
 import jp.co.acroquest.endosnipe.common.parser.JavelinLogAccessor;
 import jp.co.acroquest.endosnipe.common.util.ResourceDataUtil;
 import jp.co.acroquest.endosnipe.common.util.StreamUtil;
+import jp.co.acroquest.endosnipe.communicator.TelegramCreator;
 import jp.co.acroquest.endosnipe.communicator.accessor.ResourceNotifyAccessor;
 import jp.co.acroquest.endosnipe.communicator.entity.Body;
 import jp.co.acroquest.endosnipe.communicator.entity.Header;
@@ -360,6 +361,11 @@ public class JavelinDataLogger implements Runnable, LogMessageCodes
             JavelinLogData logData = (JavelinLogData)data;
             String database = data.getDatabaseName();
             logJavelinLogData(database, logData);
+
+            // Javelinに状態取得電文を送信する
+            Telegram getTelegram = TelegramCreator.createProfileGetTelegram(logData.getAgentName());
+            this.clientRepository_.getTelegramSender(logData.getClientId())
+                .sendTelegram(getTelegram);
 
             // Javelinログの判定処理
             alarmJavelinLogData(database, logData);

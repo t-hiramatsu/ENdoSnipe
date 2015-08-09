@@ -21,6 +21,8 @@ import javax.servlet.http.HttpServletResponse;
 import jp.co.acroquest.endosnipe.web.explorer.dto.MethodModelDto;
 import jp.co.acroquest.endosnipe.web.explorer.entity.ClassModel;
 import jp.co.acroquest.endosnipe.web.explorer.entity.InvocationInfo;
+import jp.co.acroquest.endosnipe.web.explorer.manager.EventManager;
+import jp.co.acroquest.endosnipe.web.explorer.manager.ProfileSender;
 import jp.co.acroquest.endosnipe.web.explorer.manager.ProfilerManager;
 import jp.co.acroquest.endosnipe.web.explorer.service.ProfilerService;
 import net.arnx.jsonic.JSON;
@@ -32,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.wgp.manager.WgpDataManager;
 
 /**
  * プロファイラ機能のコントローラクラス
@@ -63,7 +66,15 @@ public class ProfileController
     @ResponseBody
     public void reload(@RequestParam(value = "agentName") final String agentName)
     {
-        profilerService_.getStatus(agentName);
+        EventManager eventManager = EventManager.getInstance();
+        WgpDataManager dataManager = eventManager.getWgpDataManager();
+        ProfileSender profileSender = eventManager.getProfileSender();
+        if (dataManager == null || profileSender == null)
+        {
+            return;
+        }
+        ProfilerManager manager = ProfilerManager.getInstance();
+        profileSender.send(manager.getProfilerData(agentName), agentName);
     }
 
     /**
