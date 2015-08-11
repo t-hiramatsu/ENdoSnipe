@@ -75,6 +75,7 @@ public class ProfileController
         }
         ProfilerManager manager = ProfilerManager.getInstance();
         profileSender.send(manager.getProfilerData(agentName), agentName);
+        profilerService_.getStatus(agentName);
     }
 
     /**
