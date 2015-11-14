@@ -33,7 +33,16 @@ ENS.profilerView = wgp.AbstractView
 						url : ENS.tree.PROFILER_RELOAD
 					};
 					var ajaxHandler = new wgp.AjaxHandler();
-					ajaxHandler.requestServerAsync(settings);
+					var result = ajaxHandler.requestServerSync(settings);
+					var models = JSON.parse(result);
+					var tableViewData = [];
+					_.each(models, function(model, index) {
+						tableViewData.push(instance._parseModel(model));
+					});
+
+					$("#profilerTable").clearGridData().setGridParam({
+						data : tableViewData
+					}).trigger("reloadGrid");
 				});
 
 				$("#resetButton").on("click", function() {
